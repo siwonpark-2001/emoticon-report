@@ -13,6 +13,7 @@ def generate_html_report(
     kakao_data: list[dict],
     kakao_trending: list[dict] = None,
     trending_chars: list[dict] = None,
+    instagram_data: list[dict] = None,
     youtube_dashboard: list[dict] = None,
     output_dir: str = "reports",
 ) -> str:
@@ -21,16 +22,17 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], youtube_dashboard or [], now))
+        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], instagram_data or [], youtube_dashboard or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], instagram_data: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
     kakao_section = _build_kakao_tabbed(kakao_data, kakao_trending)
     trend_section = _build_trend_section(trending_chars)
+    instagram_section = _build_instagram_section(instagram_data)
     youtube_section = _build_youtube_dashboard(youtube_dashboard)
 
     return f"""<!DOCTYPE html>
@@ -153,6 +155,21 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
   .trend-card.in-kakao .rise-bar-fill{{background:var(--kakao-dark);}}
   .no-data{{color:#ccc;font-size:13px;}}
 
+  /* ── 인스타그램 ── */
+  .badge-insta{{background:linear-gradient(90deg,#833AB4,#F77737);color:white;}}
+  .insta-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}}
+  .insta-card{{background:var(--card);border-radius:12px;padding:16px 18px;
+    box-shadow:0 1px 8px rgba(0,0,0,.06);
+    border-top:3px solid transparent;
+    border-image:linear-gradient(90deg,#833AB4,#F77737) 1;}}
+  .insta-tag{{font-size:17px;font-weight:800;margin-bottom:8px;}}
+  .insta-count{{font-size:22px;font-weight:800;background:linear-gradient(90deg,#833AB4,#F77737);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}}
+  .insta-label{{font-size:11px;color:var(--sub);margin-top:2px;}}
+  .insta-growth{{font-size:13px;font-weight:700;margin-top:6px;}}
+  .insta-growth.up{{color:var(--up);}} .insta-growth.down{{color:var(--down);}}
+  .insta-growth.new{{color:var(--sub);}}
+
   /* ── 유튜브 대시보드 ── */
   .badge-yt{{background:#FF0000;color:white;}}
   .yt-dashboard{{display:flex;flex-direction:column;gap:10px;}}
@@ -194,6 +211,13 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
     이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 연관어</span>
   </div>
   {trend_section}
+
+  <!-- 인스타그램 캐릭터 트렌드 -->
+  <div class="section-title">
+    <span class="badge badge-insta">INSTAGRAM</span>
+    인스타그램 캐릭터 언급량 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 해시태그 게시물 수 · 주간 증가량</span>
+  </div>
+  {instagram_section}
 
   <!-- 유튜브 캐릭터 화제성 대시보드 -->
   <div class="section-title">
@@ -414,6 +438,37 @@ def _build_trend_section(chars: list[dict]) -> str:
         </div>""")
 
     return f'<div class="trend-grid">{"".join(cards)}</div>'
+
+
+def _build_instagram_section(data: list[dict]) -> str:
+    from instagram_scraper import _fmt
+    if not data:
+        return '<p class="empty-msg">인스타그램 데이터를 수집하지 못했습니다.</p>'
+
+    cards = []
+    for item in data:
+        tag = item["tag"]
+        count = item.get("count", 0)
+        growth = item.get("growth")
+
+        if growth is None:
+            growth_html = '<div class="insta-growth new">첫 수집</div>'
+        elif growth > 0:
+            growth_html = f'<div class="insta-growth up">▲ 주간 +{_fmt(growth)}</div>'
+        elif growth < 0:
+            growth_html = f'<div class="insta-growth down">▼ 주간 {_fmt(abs(growth))}</div>'
+        else:
+            growth_html = '<div class="insta-growth new">변동 없음</div>'
+
+        cards.append(f"""
+        <div class="insta-card">
+          <div class="insta-tag">#{tag}</div>
+          <div class="insta-count">{_fmt(count) if count else "—"}</div>
+          <div class="insta-label">게시물 수</div>
+          {growth_html}
+        </div>""")
+
+    return f'<div class="insta-grid">{"".join(cards)}</div>'
 
 
 def _build_youtube_dashboard(dashboard: list[dict]) -> str:
