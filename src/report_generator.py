@@ -190,8 +190,8 @@ def _build_kakao_rows(data: list[dict]) -> str:
         else:
             change_html = '<span class="change same">—</span>'
 
-        # 4주 미니 차트
-        chart_html = _build_mini_chart(item.get("rank_history", []))
+        # 4주 미니 차트 (데이터 있을 때만)
+        chart_td = f"<td>{_build_mini_chart(item.get('rank_history', []))}</td>" if any(item.get("rank_history") for item in data) else ""
 
         rows.append(f"""
         <tr class="{rank_class}">
@@ -203,15 +203,18 @@ def _build_kakao_rows(data: list[dict]) -> str:
           </td>
           <td>{interest_html}</td>
           <td>{change_html}</td>
-          <td>{chart_html}</td>
+          {chart_td}
           <td><a class="ext-link" href="{item['url']}" target="_blank" style="color:#0066cc;text-decoration:none;font-size:12px;">이모티콘샵 ↗</a></td>
         </tr>""")
+
+    has_history = any(item.get("rank_history") for item in data)
+    chart_th = "<th>4주 추이</th>" if has_history else ""
 
     return f"""
     <table class="kakao-table">
       <thead><tr>
         <th>순위</th><th>썸네일</th><th>이모티콘</th>
-        <th>관심 수</th><th>변동</th><th>4주 추이</th><th>링크</th>
+        <th>관심 수</th><th>변동</th>{chart_th}<th>링크</th>
       </tr></thead>
       <tbody>{"".join(rows)}</tbody>
     </table>"""

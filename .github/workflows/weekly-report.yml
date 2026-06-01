@@ -2,8 +2,8 @@ name: 주간 이모티콘 트렌드 리포트
 
 on:
   schedule:
-    # 매주 월요일 오전 9시 KST (UTC 00:00)
-    - cron: '0 0 * * 1'
+    # 매주 월요일 오전 10시 KST (UTC 01:00)
+    - cron: '0 1 * * 1'
   workflow_dispatch:  # 수동 실행 버튼
 
 jobs:
