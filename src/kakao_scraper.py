@@ -138,35 +138,29 @@ def _attach_rank_history(results: list[dict], history: dict) -> list[dict]:
     return results
 
 
-def fetch_kakao_hot_items() -> list[dict]:
+def fetch_kakao_trending_new(limit: int = 30) -> list[dict]:
     """
-    카카오 홈 API의 HORIZONTAL 카드에서 '요즘 뜨는 핫템' 수집
-    - 카드 타입 HORIZONTAL 중 items가 가장 많은 카드 = 이번 주 핫템
+    카카오 '요즘 뜨는' — 최신 출시 이모티콘 중 주목받는 것들
+    /api/items/new 엔드포인트 사용
     """
     try:
-        resp = requests.get("https://e.kakao.com/api/home", headers=HEADERS, timeout=10)
+        resp = requests.get(
+            "https://e.kakao.com/api/items/new",
+            headers=HEADERS,
+            params={"miniOnly": "false", "page": 0, "size": limit},
+            timeout=10,
+        )
         resp.raise_for_status()
-        cards = resp.json().get("cards", [])
-
-        # HORIZONTAL 카드 중 items 수가 가장 많은 것 선택
-        best_card = None
-        for card in cards:
-            if card.get("cardType") == "HORIZONTAL":
-                items = card.get("items", [])
-                if not best_card or len(items) > len(best_card.get("items", [])):
-                    best_card = card
-
-        if not best_card:
-            return []
+        items = resp.json().get("items", [])
 
         results = []
-        for rank, item in enumerate(best_card.get("items", []), 1):
+        for rank, item in enumerate(items[:limit], 1):
             slug = item.get("slug", "")
             badges = []
-            if item.get("isBig"):   badges.append("빅")
-            if item.get("isSound"): badges.append("사운드")
-            if item.get("isMini"):  badges.append("미니")
-            if item.get("isNew"):   badges.append("NEW")
+            if item.get("isBig"):    badges.append("빅")
+            if item.get("isSound"):  badges.append("사운드")
+            if item.get("isMini"):   badges.append("미니")
+            if item.get("isNew"):    badges.append("NEW")
 
             results.append({
                 "rank": rank,
@@ -177,20 +171,10 @@ def fetch_kakao_hot_items() -> list[dict]:
                 "url": f"https://e.kakao.com/t/{slug}" if slug else "https://e.kakao.com/",
                 "badges": badges,
             })
-
-        # SHORTCUT에서 '요즘 뜨는' 링크도 가져와서 card title 보완
-        shortcut_label = "요즘 뜨는 핫템"
-        for card in cards:
-            if card.get("cardType") == "SHORTCUT":
-                for sc in card.get("shortcuts", []):
-                    if "뜨는" in sc.get("title", ""):
-                        shortcut_label = sc.get("title", shortcut_label)
-                        break
-
         return results
 
     except Exception as e:
-        print(f"   [Kakao 핫템] 수집 실패: {e}")
+        print(f"   [Kakao 요즘뜨는] 수집 실패: {e}")
         return []
 
 

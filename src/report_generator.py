@@ -234,7 +234,7 @@ def _build_kakao_tabbed(ranking: list[dict], hot: list[dict]) -> str:
 <div class="tab-wrap">
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="tab-ranking">🏆 인기 순위</button>
-    <button class="tab-btn" data-tab="tab-hot">🔥 요즘 뜨는 핫템</button>
+    <button class="tab-btn" data-tab="tab-hot">🔥 요즘 뜨는</button>
   </div>
   <div id="tab-ranking" class="tab-panel active">{ranking_html}</div>
   <div id="tab-hot"     class="tab-panel">{hot_html}</div>

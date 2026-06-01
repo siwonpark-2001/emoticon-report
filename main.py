@@ -10,7 +10,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
-from kakao_scraper import fetch_kakao_ranking, fetch_kakao_hot_items
+from kakao_scraper import fetch_kakao_ranking, fetch_kakao_trending_new
 from trend_scraper import fetch_trending_characters
 from youtube_scraper import fetch_youtube_character_dashboard
 from report_generator import generate_html_report
@@ -27,8 +27,8 @@ def main(open_browser: bool = True):
     print("📦 카카오 이모티콘 순위 수집 중...")
     kakao_data = fetch_kakao_ranking(limit=30)
     print(f"   → {len(kakao_data)}개 수집 완료")
-    print("🔥 카카오 요즘 뜨는 핫템 수집 중...")
-    kakao_hot = fetch_kakao_hot_items()
+    print("🔥 카카오 요즘 뜨는 수집 중...")
+    kakao_hot = fetch_kakao_trending_new(limit=30)
     print(f"   → {len(kakao_hot)}개 수집 완료\n")
 
     # 2. Google Trends 화제 캐릭터 IP 발굴
