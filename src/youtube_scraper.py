@@ -17,20 +17,23 @@ HEADERS = {
 
 # 검색 쿼리 목록 (카카오와 무관한 독립적 캐릭터 탐색)
 SEARCH_QUERIES = [
-    "캐릭터 소개",
-    "귀여운 캐릭터",
-    "신규 캐릭터",
-    "캐릭터 굿즈",
-    "이모티콘 캐릭터",
+    "귀여운 캐릭터 소개",
+    "신규 캐릭터 출시",
+    "캐릭터 굿즈 추천",
+    "이모티콘 캐릭터 인기",
+    "캐릭터 인형 뽑기",
 ]
 
 # 캐릭터 관련 필터 키워드
 CHARACTER_HINTS = [
-    "캐릭터", "이모티콘", "스티커", "굿즈", "인형",
+    "캐릭터", "이모티콘", "굿즈", "인형",
     "토끼", "고양이", "강아지", "곰", "햄스터", "오리", "개구리", "너구리", "펭귄",
-    "냥", "댕", "뽀", "쨩", "롤링", "루피", "무지",
-    "귀여운", "cute", "캐릭", "공개", "신규", "출시", "소개",
+    "루피", "무지", "춘식", "라이언", "어피치",
+    "귀여운", "cute", "소개", "출시", "뽑기",
 ]
+
+# 최소 조회수 기준
+MIN_VIEWS = 10000
 
 
 def fetch_youtube_trending_characters() -> list[dict]:
@@ -47,17 +50,21 @@ def fetch_youtube_trending_characters() -> list[dict]:
                 all_videos.append(v)
         time.sleep(random.uniform(0.5, 1.2))
 
-    # 조회수 높은 순 정렬
-    all_videos.sort(key=lambda x: x.get("views", 0), reverse=True)
-    return all_videos[:12]
+    # 최소 조회수 필터 → 조회수 높은 순 정렬
+    filtered = [v for v in all_videos if v.get("views", 0) >= MIN_VIEWS]
+    if not filtered:
+        filtered = all_videos  # 기준 만족 없으면 전체 사용
+
+    filtered.sort(key=lambda x: x.get("views", 0), reverse=True)
+    return filtered[:12]
 
 
 def _search_youtube(query: str) -> list[dict]:
-    """YouTube 검색 결과 스크래핑 (최근 1주일 필터)"""
+    """YouTube 검색 결과 스크래핑 (이번 달, 조회수순)"""
     try:
-        # sp 파라미터: 최근 1주일 내 업로드된 영상
+        # sp 파라미터: 이번 달 업로드 + 조회수 높은 순
         encoded = quote(query)
-        url = f"https://www.youtube.com/results?search_query={encoded}&sp=EgQIARAB"
+        url = f"https://www.youtube.com/results?search_query={encoded}&sp=EgIQAQ%3D%3D"
 
         resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
