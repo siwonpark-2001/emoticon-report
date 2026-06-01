@@ -59,6 +59,22 @@ def _build_html(kakao_data: list[dict], instagram_data: dict, now: datetime) -> 
   .badge-kakao {{ background: var(--kakao); color: var(--kakao-dark); }}
   .badge-insta {{ background: linear-gradient(90deg, var(--insta-start), var(--insta-end)); color: white; }}
 
+  /* 툴팁 */
+  .tooltip-wrap {{ position: relative; display: inline-flex; align-items: center; gap: 4px; cursor: default; }}
+  .tooltip-wrap .tooltip-box {{
+    display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    background: #333; color: #fff; font-size: 11px; font-weight: 400; white-space: nowrap;
+    padding: 5px 10px; border-radius: 6px; pointer-events: none; z-index: 10;
+  }}
+  .tooltip-wrap .tooltip-box::after {{
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: #333;
+  }}
+  .tooltip-wrap:hover .tooltip-box {{ display: block; }}
+  .tooltip-icon {{ width: 14px; height: 14px; border-radius: 50%; background: var(--kakao-dark);
+    color: var(--kakao); font-size: 10px; font-weight: 700; display: inline-flex;
+    align-items: center; justify-content: center; flex-shrink: 0; }}
+
   /* KAKAO TABLE */
   .kakao-table {{ width: 100%; border-collapse: collapse; background: var(--card);
                  border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,.08); }}
@@ -174,7 +190,7 @@ def _build_kakao_rows(data: list[dict]) -> str:
 
         # 관심 수
         ic = item.get("interest_count", 0)
-        interest_html = f"""<div class="interest" title="해당 작가의 전체 이모티콘 관심수 합계">
+        interest_html = f"""<div class="interest">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           {format_interest(ic)}
         </div>""" if ic else '<span class="no-data">—</span>'
@@ -214,7 +230,7 @@ def _build_kakao_rows(data: list[dict]) -> str:
     <table class="kakao-table">
       <thead><tr>
         <th>순위</th><th>썸네일</th><th>이모티콘</th>
-        <th title="해당 작가의 전체 이모티콘 관심수 합계">작가 관심수 ⓘ</th><th>변동</th>{chart_th}<th>링크</th>
+        <th><span class="tooltip-wrap">작가 관심수<span class="tooltip-icon">i</span><span class="tooltip-box">해당 작가의 전체 이모티콘 관심수 합계</span></span></th><th>변동</th>{chart_th}<th>링크</th>
       </tr></thead>
       <tbody>{"".join(rows)}</tbody>
     </table>"""
