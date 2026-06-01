@@ -27,7 +27,7 @@ def _build_html(kakao_data: list[dict], kakao_hot: list[dict], trending_chars: l
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
-    kakao_section = _build_kakao_tabbed(kakao_data, kakao_hot)
+    kakao_section = _build_kakao_section(kakao_data)
     trend_section = _build_trend_section(trending_chars)
     youtube_section = _build_youtube_dashboard(youtube_dashboard)
 
@@ -181,7 +181,7 @@ def _build_html(kakao_data: list[dict], kakao_hot: list[dict], trending_chars: l
   <!-- 카카오 이모티콘 -->
   <div class="section-title">
     <span class="badge badge-kakao">KAKAO</span>
-    카카오 이모티콘샵
+    카카오 이모티콘샵 인기 순위
   </div>
   {kakao_section}
 
