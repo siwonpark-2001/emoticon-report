@@ -88,11 +88,41 @@ def _write_index(repo: Path, reports_dir: Path):
     with open(latest, "r", encoding="utf-8") as f:
         latest_html = f.read()
 
-    # 아카이브 링크 블록 삽입
+    # 주 1개만 유지 — 같은 주(YYYYWW) 중 가장 최신 파일만 남김
+    weekly_latest = {}
+    for f in report_files:
+        try:
+            name = f.name.replace("emoticon_trend_", "").replace(".html", "")
+            date_part = name.split("_")[0]
+            from datetime import datetime as _dt
+            d = _dt.strptime(date_part, "%Y%m%d")
+            week_key = d.strftime("%Y-W%W")
+            if week_key not in weekly_latest:
+                weekly_latest[week_key] = f
+        except Exception:
+            pass
+
+    # 오래된 파일 삭제 (각 주의 최신 1개만 유지)
+    for f in report_files:
+        try:
+            name = f.name.replace("emoticon_trend_", "").replace(".html", "")
+            date_part = name.split("_")[0]
+            from datetime import datetime as _dt
+            d = _dt.strptime(date_part, "%Y%m%d")
+            week_key = d.strftime("%Y-W%W")
+            if weekly_latest.get(week_key) != f:
+                f.unlink()
+        except Exception:
+            pass
+
+    # 정리 후 다시 로드
+    report_files = sorted(reports_dir.glob("emoticon_trend_*.html"), reverse=True)
+
+    # 아카이브 링크 — 최신 제외 최대 12주치
     archive_links = "\n".join(
         f'<li><a href="reports/{f.name}">'
         f'{_parse_date_from_filename(f.name)}</a></li>'
-        for f in report_files[1:11]  # 최신 제외 최대 10개
+        for f in report_files[1:13]
     )
 
     archive_block = f"""
