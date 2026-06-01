@@ -13,8 +13,6 @@ def generate_html_report(
     kakao_data: list[dict],
     kakao_trending: list[dict] = None,
     trending_chars: list[dict] = None,
-    naver_data: list[dict] = None,
-    instagram_data: list[dict] = None,
     youtube_data: list[dict] = None,
     output_dir: str = "reports",
 ) -> str:
@@ -23,17 +21,16 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], instagram_data or [], youtube_data or [], now))
+        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], youtube_data or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], instagram_data: list[dict], youtube_data: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], youtube_data: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
     kakao_section = _build_kakao_tabbed(kakao_data, kakao_trending)
     trend_section = _build_trend_section(trending_chars)
-    instagram_section = _build_instagram_section(instagram_data)
     youtube_section = _build_youtube_section(youtube_data)
 
     return f"""<!DOCTYPE html>
@@ -236,13 +233,6 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
     이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 연관어</span>
   </div>
   {trend_section}
-
-  <!-- 인스타그램 캐릭터 트렌드 -->
-  <div class="section-title">
-    <span class="badge badge-insta">INSTAGRAM</span>
-    인스타그램 캐릭터 언급량 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 해시태그 게시물 수 · 주간 증가량</span>
-  </div>
-  {instagram_section}
 
   <!-- 유튜브 화제 캐릭터 순위 -->
   <div class="section-title">
