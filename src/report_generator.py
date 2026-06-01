@@ -252,7 +252,8 @@ def _build_mini_chart(history: list[dict]) -> str:
         return '<span class="no-data">—</span>'
     max_rank = max(r for _, r in valid)
     bars = []
-    for week, r in history:
+    for entry in history:
+        week, r = entry["week"], entry["rank"]
         if r is None:
             bars.append('<div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div>')
         else:
