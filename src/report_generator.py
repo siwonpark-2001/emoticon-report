@@ -532,39 +532,29 @@ def _build_youtube_section(data: list[dict]) -> str:
     if not data:
         return '<p class="empty-msg">유튜브 화제 캐릭터를 발굴하지 못했습니다.</p>'
 
+    max_score = max(d.get("score", 1) for d in data) or 1
+
     rows = []
     for i, item in enumerate(data, 1):
         char        = item.get("character", "")
         total_views = item.get("total_views", 0)
-        top_title   = item.get("top_title", "")
-        top_views   = item.get("top_views", 0)
-        top_thumb   = item.get("top_thumb", "")
-        top_url     = item.get("top_url", "#")
-        vid_count   = item.get("video_count", 0)
-
-        thumb_html = (
-            f'<a href="{top_url}" target="_blank">'
-            f'<img src="{top_thumb}" style="width:80px;height:45px;object-fit:cover;border-radius:6px;flex-shrink:0;" loading="lazy"></a>'
-            if top_thumb else ""
-        )
+        title_count = item.get("title_count", 0)
+        score       = item.get("score", 0)
+        bar_w       = int(score / max_score * 100)
 
         rows.append(f"""
-        <div style="background:var(--card);border-radius:12px;padding:14px 18px;
-                    display:grid;grid-template-columns:36px 120px 1fr auto;
-                    align-items:center;gap:16px;box-shadow:0 1px 8px rgba(0,0,0,.06);">
-          <div style="font-size:22px;font-weight:800;color:#FF0000;">#{i}</div>
-          <div style="font-size:18px;font-weight:800;">{char}</div>
-          <div>
-            {thumb_html}
-            <div style="font-size:12px;color:var(--sub);margin-top:4px;
-                        overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;">
-              {top_title}
+        <div style="background:var(--card);border-radius:12px;padding:14px 20px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px;">
+            <div style="font-size:22px;font-weight:800;color:#FF0000;width:36px;">#{i}</div>
+            <div style="font-size:20px;font-weight:800;flex:1;">{char}</div>
+            <div style="text-align:right;">
+              <div style="font-size:18px;font-weight:800;color:#FF0000;">{format_views(total_views)}</div>
+              <div style="font-size:11px;color:var(--sub);">조회수 합 · 영상 {title_count}개</div>
             </div>
           </div>
-          <div style="text-align:right;">
-            <div style="font-size:20px;font-weight:800;color:#FF0000;">{format_views(total_views)}</div>
-            <div style="font-size:11px;color:var(--sub);">상위 5개 조회수 합</div>
-            <div style="font-size:11px;color:var(--sub);">영상 {vid_count}개</div>
+          <div style="background:#f0f0f0;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:#FF0000;height:6px;border-radius:4px;width:{bar_w}%;"></div>
           </div>
         </div>""")
 

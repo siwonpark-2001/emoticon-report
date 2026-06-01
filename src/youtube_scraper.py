@@ -1,8 +1,6 @@
 """
 유튜브 화제 캐릭터 발굴
-1. 유튜브 자동완성 API로 "캐릭터" 관련 급상승 검색어 수집
-2. 추출된 캐릭터 이름으로 영상 조회수 측정
-3. 화제성 순위 산출
+여러 영상 제목에 반복 등장하는 단어 빈도 분석으로 캐릭터 이름 추출
 API 키 불필요
 """
 import re
@@ -10,6 +8,7 @@ import json
 import time
 import random
 import requests
+from collections import Counter, defaultdict
 from urllib.parse import quote
 
 HEADERS = {
@@ -17,160 +16,120 @@ HEADERS = {
     "Accept-Language": "ko-KR,ko;q=0.9",
 }
 
-# 자동완성 시드 키워드
-SEED_QUERIES = [
-    "캐릭터",
-    "귀여운 캐릭터",
-    "캐릭터 굿즈",
-    "캐릭터 인형",
-    "캐릭터 소개",
-    "이모티콘 캐릭터",
+# 캐릭터 이름이 잘 나오는 검색어
+SEARCH_QUERIES = [
+    "귀여운 캐릭터 쇼츠",
+    "캐릭터 굿즈 쇼츠",
+    "캐릭터 인형 쇼츠",
+    "캐릭터 소개 쇼츠",
+    "산리오 캐릭터",
+    "카카오 캐릭터",
+    "인기 캐릭터",
+    "캐릭터 뽑기",
 ]
 
-# 노이즈 단어
-NOISE = {
-    "캐릭터", "귀여운", "굿즈", "인형", "소개", "이모티콘", "스티커",
-    "만들기", "그리기", "그림", "뽑기", "추천", "순위", "모음", "종류",
-    "귀여운것", "cute", "new", "신규", "출시", "레고", "블록",
-    "게임", "스킨", "코스튬", "코스프레",
+# 캐릭터 이름이 아닌 일반 단어 불용어 사전
+STOPWORDS = {
+    # 동사/형용사
+    "귀여운", "귀여워", "귀엽다", "이쁜", "예쁜", "웃긴", "재밌는", "신기한",
+    "만들기", "만들어", "그리기", "그리는", "색칠", "칠하기", "꾸미기",
+    "모음", "모아봤", "정리", "소개", "추천", "리뷰", "언박싱", "하울",
+    "뽑기", "맞추기", "찾기", "보기", "알아", "알기", "배우기",
+    "먹방", "먹기", "만들기", "요리", "레시피", "케이크", "마카롱", "쿠키",
+    "도시락", "간식", "음식",
+    # 일반 명사
+    "캐릭터", "이모티콘", "스티커", "굿즈", "인형", "피규어", "봉제",
+    "쇼츠", "릴스", "영상", "유튜브", "틱톡",
+    "방법", "이유", "종류", "순위", "랭킹", "탑", "베스트",
+    "신상", "신규", "최신", "새로운", "업데이트",
+    "가격", "구매", "구입", "판매", "할인",
+    "이름", "색깔", "색상", "사이즈", "크기",
+    # 수식어
+    "진짜", "완전", "너무", "엄청", "정말", "솔직히",
+    "쉽게", "빠르게", "간단히", "혼자",
+    # 영문 일반어
+    "shorts", "cute", "review", "unboxing", "diy", "how", "make",
+    "best", "top", "new", "vs",
+    # 기타
+    "하는법", "하는방법", "따라하기", "챌린지", "브이로그", "일상",
+    "아이", "아기", "유아", "어린이", "초등",
 }
 
 
 def fetch_youtube_trending_characters() -> list[dict]:
-    """유튜브 자동완성 → 캐릭터 이름 추출 → 화제성 측정"""
+    """유튜브 영상 제목 빈도 분석으로 화제 캐릭터 추출"""
 
-    # 1단계: 자동완성으로 캐릭터 후보 수집
-    print("   유튜브 자동완성으로 캐릭터 후보 수집 중...")
-    candidates = _collect_character_candidates()
-    print(f"   → 캐릭터 후보 {len(candidates)}개")
+    # 1단계: 여러 검색어로 영상 제목 수집
+    print("   유튜브 영상 제목 수집 중...")
+    title_data = []  # [(title, views), ...]
+
+    for query in SEARCH_QUERIES:
+        videos = _search_youtube(query)
+        title_data.extend(videos)
+        time.sleep(random.uniform(0.5, 1.0))
+
+    print(f"   → 영상 {len(title_data)}개 수집")
+
+    if not title_data:
+        return []
+
+    # 2단계: 제목에서 캐릭터 이름 후보 추출
+    word_views = defaultdict(int)   # 단어 → 조회수 합계
+    word_count = Counter()          # 단어 → 등장 영상 수
+
+    for title, views in title_data:
+        words = _extract_words(title)
+        seen_in_title = set()
+        for w in words:
+            if w not in seen_in_title:
+                word_count[w] += 1
+                word_views[w] += views
+                seen_in_title.add(w)
+
+    # 3단계: 2개 이상 제목에 등장한 단어만 캐릭터 후보로
+    candidates = {
+        w for w, cnt in word_count.items()
+        if cnt >= 2
+    }
 
     if not candidates:
         return []
 
-    # 2단계: 각 캐릭터 유튜브 조회수 측정
-    print("   각 캐릭터 유튜브 화제성 측정 중...")
+    # 4단계: 조회수 가중 점수로 정렬
     results = []
-    for char in candidates[:15]:  # 상위 15개만 측정
-        score = _measure_character_buzz(char)
-        time.sleep(random.uniform(0.8, 1.5))
-        if score["total_views"] > 0:
-            results.append(score)
-            print(f"   {char}: {_fmt_views(score['total_views'])}")
+    for word in candidates:
+        results.append({
+            "character":    word,
+            "title_count":  word_count[word],
+            "total_views":  word_views[word],
+            "score":        word_views[word] * word_count[word],
+        })
 
-    # 조회수 합산 기준 정렬
-    results.sort(key=lambda x: x["total_views"], reverse=True)
-    return results[:10]
-
-
-def _collect_character_candidates() -> list[str]:
-    """유튜브 자동완성 API에서 캐릭터 이름 추출"""
-    seen = set()
-    candidates = []
-
-    for seed in SEED_QUERIES:
-        suggestions = _get_autocomplete(seed)
-        for s in suggestions:
-            names = _extract_character_names(s)
-            for name in names:
-                if name not in seen and len(name) >= 2:
-                    seen.add(name)
-                    candidates.append(name)
-        time.sleep(random.uniform(0.3, 0.7))
-
-    return candidates
+    results.sort(key=lambda x: x["score"], reverse=True)
+    return results[:15]
 
 
-def _get_autocomplete(query: str) -> list[str]:
-    """유튜브 자동완성 제안 목록 가져오기"""
+def _search_youtube(query: str) -> list[tuple]:
+    """유튜브 검색 결과에서 (제목, 조회수) 수집"""
     try:
-        url = "https://suggestqueries.google.com/complete/search"
-        params = {
-            "client": "youtube",
-            "q": query,
-            "hl": "ko",
-            "ds": "yt",
-        }
-        resp = requests.get(url, params=params, headers=HEADERS, timeout=8)
-        # 응답: window.google.ac.h([...]) 형태
-        text = resp.text
-        # JSON 배열 추출
-        match = re.search(r'\["([^"]+)"', text)
-        if not match:
-            return []
-        # 전체 제안 목록 파싱
-        start = text.find("[[")
-        end = text.rfind("]]") + 2
-        if start == -1:
-            return []
-        arr = json.loads(text[start:end])
-        return [item[0] for item in arr if isinstance(item, list) and item]
-    except Exception as e:
-        print(f"   [자동완성] '{query}' 실패: {e}")
-        return []
-
-
-def _extract_character_names(suggestion: str) -> list[str]:
-    """자동완성 문구에서 캐릭터 이름 추출"""
-    s = suggestion.strip().lower()
-    results = []
-
-    # 노이즈 단어 제거 후 남은 단어가 캐릭터 이름 후보
-    words = re.split(r"[\s\-\_]+", suggestion.strip())
-    for word in words:
-        w = word.strip()
-        w_lower = w.lower()
-
-        # 노이즈 제거
-        if w_lower in NOISE or len(w) <= 1:
-            continue
-        # 숫자만
-        if re.fullmatch(r"[\d]+", w):
-            continue
-        # 한글 2~8자 또는 영문 2~15자
-        if re.fullmatch(r"[가-힣]{2,8}", w) or re.fullmatch(r"[A-Za-z][a-zA-Z]{1,14}", w):
-            results.append(w)
-
-    return results
-
-
-def _measure_character_buzz(character: str) -> dict:
-    """캐릭터 이름으로 유튜브 검색 → 상위 영상 조회수 합산"""
-    try:
-        query = f"{character} 캐릭터"
         encoded = quote(query)
         url = f"https://www.youtube.com/results?search_query={encoded}"
-
         resp = requests.get(url, headers=HEADERS, timeout=12)
         resp.raise_for_status()
 
         match = re.search(r"var ytInitialData = ({.*?});</script>", resp.text, re.DOTALL)
         if not match:
-            return _empty(character)
+            return []
 
         data = json.loads(match.group(1))
-        videos = _parse_videos(data)
-
-        if not videos:
-            return _empty(character)
-
-        total_views = sum(v["views"] for v in videos[:5])
-        top_video = videos[0] if videos else {}
-
-        return {
-            "character":    character,
-            "total_views":  total_views,
-            "video_count":  len(videos),
-            "top_title":    top_video.get("title", ""),
-            "top_views":    top_video.get("views", 0),
-            "top_thumb":    top_video.get("thumbnail", ""),
-            "top_url":      top_video.get("url", ""),
-        }
-    except Exception:
-        return _empty(character)
+        return _parse_titles(data)
+    except Exception as e:
+        print(f"   [YouTube] '{query}' 실패: {e}")
+        return []
 
 
-def _parse_videos(data: dict) -> list[dict]:
-    videos = []
+def _parse_titles(data: dict) -> list[tuple]:
+    results = []
     try:
         contents = (
             data.get("contents", {})
@@ -185,22 +144,35 @@ def _parse_videos(data: dict) -> list[dict]:
                 if not v:
                     continue
                 title = _get_text(v.get("title", {}))
-                vid   = v.get("videoId", "")
                 views = _parse_views(_get_text(v.get("viewCountText", {})))
-                thumbs = v.get("thumbnail", {}).get("thumbnails", [])
-                thumb  = thumbs[-1].get("url", "") if thumbs else ""
-                if title and vid:
-                    videos.append({
-                        "title":     title,
-                        "views":     views,
-                        "thumbnail": thumb,
-                        "url":       f"https://www.youtube.com/watch?v={vid}",
-                    })
-                if len(videos) >= 10:
-                    break
+                if title:
+                    results.append((title, views))
     except Exception:
         pass
-    return videos
+    return results
+
+
+def _extract_words(title: str) -> list[str]:
+    """제목에서 캐릭터 이름 후보 단어 추출"""
+    results = []
+
+    # 한글 단어 추출 (2~6글자)
+    korean_words = re.findall(r"[가-힣]{2,6}", title)
+    for w in korean_words:
+        if w.lower() not in STOPWORDS and w not in STOPWORDS:
+            results.append(w)
+
+    # 영문 고유명사 (대문자 시작, 2~15자)
+    english_words = re.findall(r"[A-Z][a-zA-Z]{1,14}", title)
+    for w in english_words:
+        if w.lower() not in STOPWORDS:
+            results.append(w)
+
+    # 혼합 단어 (한글+숫자, 예: "마이멜로디2")
+    mixed = re.findall(r"[가-힣]{2,5}\d+", title)
+    results.extend(mixed)
+
+    return results
 
 
 def _get_text(obj: dict) -> str:
@@ -218,17 +190,8 @@ def _parse_views(s: str) -> int:
     return int(nums) if nums else 0
 
 
-def _empty(char: str) -> dict:
-    return {"character": char, "total_views": 0, "video_count": 0,
-            "top_title": "", "top_views": 0, "top_thumb": "", "top_url": ""}
-
-
-def _fmt_views(n: int) -> str:
+def format_views(n: int) -> str:
     if n >= 100000000: return f"{n/100000000:.1f}억"
     if n >= 10000:     return f"{n/10000:.0f}만"
     if n >= 1000:      return f"{n/1000:.1f}천"
     return str(n) if n else "—"
-
-
-def format_views(n: int) -> str:
-    return _fmt_views(n)
