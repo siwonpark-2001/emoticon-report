@@ -2,7 +2,9 @@
 HTML 리포트 생성기
 """
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+KST = timezone(timedelta(hours=9))
 from kakao_scraper import format_interest
 from trend_scraper import format_instagram_count
 
@@ -15,7 +17,7 @@ def generate_html_report(
     output_dir: str = "reports",
 ) -> str:
     os.makedirs(output_dir, exist_ok=True)
-    now = datetime.now()
+    now = datetime.now(KST)
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
