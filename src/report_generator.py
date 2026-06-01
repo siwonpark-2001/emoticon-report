@@ -244,10 +244,10 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
   </div>
   {instagram_section}
 
-  <!-- 유튜브 화제 캐릭터 영상 -->
+  <!-- 유튜브 화제 캐릭터 순위 -->
   <div class="section-title">
     <span class="badge badge-yt">YOUTUBE</span>
-    유튜브 화제 캐릭터 영상 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 이번 주 캐릭터 관련 인기 영상</span>
+    유튜브 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 유튜브 자동완성 기반 자동 발굴 · 조회수 순위</span>
   </div>
   {youtube_section}
 
@@ -527,42 +527,48 @@ def _build_instagram_section(data: list[dict]) -> str:
     return f'<div class="insta-grid">{"".join(cards)}</div>'
 
 
-def _build_youtube_section(videos: list[dict]) -> str:
+def _build_youtube_section(data: list[dict]) -> str:
     from youtube_scraper import format_views
-    if not videos:
-        return '<p class="empty-msg">이번 주 유튜브에서 캐릭터 관련 영상을 찾지 못했습니다.</p>'
+    if not data:
+        return '<p class="empty-msg">유튜브 화제 캐릭터를 발굴하지 못했습니다.</p>'
 
-    cards = []
-    for v in videos:
-        thumb = (
-            f'<img src="{v["thumbnail"]}" alt="{v["title"]}" loading="lazy">'
-            if v.get("thumbnail") else
-            '<div class="yt-thumb-ph">📺</div>'
+    rows = []
+    for i, item in enumerate(data, 1):
+        char        = item.get("character", "")
+        total_views = item.get("total_views", 0)
+        top_title   = item.get("top_title", "")
+        top_views   = item.get("top_views", 0)
+        top_thumb   = item.get("top_thumb", "")
+        top_url     = item.get("top_url", "#")
+        vid_count   = item.get("video_count", 0)
+
+        thumb_html = (
+            f'<a href="{top_url}" target="_blank">'
+            f'<img src="{top_thumb}" style="width:80px;height:45px;object-fit:cover;border-radius:6px;flex-shrink:0;" loading="lazy"></a>'
+            if top_thumb else ""
         )
-        tags = "".join(f'<span class="yt-tag">#{kw}</span>' for kw in v.get("matched_keywords", []))
-        views_str = v.get("views_str") or (format_views(v.get("views", 0)) if v.get("views") else "")
-        published = v.get("published", "")
 
-        cards.append(f"""
-        <div class="yt-card">
-          <a href="{v['url']}" target="_blank">
-            <div class="yt-thumb-wrap">
-              {thumb}
-              <span class="yt-play">▶ YouTube</span>
+        rows.append(f"""
+        <div style="background:var(--card);border-radius:12px;padding:14px 18px;
+                    display:grid;grid-template-columns:36px 120px 1fr auto;
+                    align-items:center;gap:16px;box-shadow:0 1px 8px rgba(0,0,0,.06);">
+          <div style="font-size:22px;font-weight:800;color:#FF0000;">#{i}</div>
+          <div style="font-size:18px;font-weight:800;">{char}</div>
+          <div>
+            {thumb_html}
+            <div style="font-size:12px;color:var(--sub);margin-top:4px;
+                        overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;">
+              {top_title}
             </div>
-            <div class="yt-info">
-              <div class="yt-title">{v['title']}</div>
-              <div class="yt-meta">
-                <span class="yt-channel">{v.get('channel','')}</span>
-                <span class="yt-views">👁 {views_str}</span>
-              </div>
-              {f'<div class="yt-published">{published}</div>' if published else ''}
-              <div class="yt-tags">{tags}</div>
-            </div>
-          </a>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:20px;font-weight:800;color:#FF0000;">{format_views(total_views)}</div>
+            <div style="font-size:11px;color:var(--sub);">상위 5개 조회수 합</div>
+            <div style="font-size:11px;color:var(--sub);">영상 {vid_count}개</div>
+          </div>
         </div>""")
 
-    return f'<div class="yt-grid">{"".join(cards)}</div>'
+    return f'<div style="display:flex;flex-direction:column;gap:10px;">{"".join(rows)}</div>'
 
 
 # github_publisher에서 호출
