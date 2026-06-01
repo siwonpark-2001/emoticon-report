@@ -12,7 +12,7 @@ sys.path.insert(0, str(BASE_DIR / "src"))
 
 from kakao_scraper import fetch_kakao_ranking
 from trend_scraper import fetch_trending_characters
-from youtube_scraper import fetch_youtube_trending_characters
+from youtube_scraper import fetch_youtube_character_dashboard
 from report_generator import generate_html_report
 from github_publisher import _write_index as write_index
 
@@ -28,16 +28,17 @@ def main(open_browser: bool = True):
     kakao_data = fetch_kakao_ranking(limit=30)
     print(f"   → {len(kakao_data)}개 수집 완료\n")
 
-    # 2. Google Trends 화제 캐릭터
-    print("🔍 Google Trends 화제 캐릭터 발굴 중...")
+    # 2. Google Trends 화제 캐릭터 IP 발굴
+    print("🔍 Google Trends 화제 캐릭터 IP 발굴 중...")
     kakao_titles = [d["title"] for d in kakao_data]
     trending_chars = fetch_trending_characters(kakao_titles=kakao_titles)
     print(f"   → {len(trending_chars)}개 발굴 완료\n")
 
-    # 3. 유튜브 급상승 캐릭터 콘텐츠
-    print("📺 유튜브 급상승 캐릭터 영상 수집 중...")
-    youtube_data = fetch_youtube_trending_characters()
-    print(f"   → {len(youtube_data)}개 영상 수집 완료\n")
+    # 3. 유튜브 캐릭터 화제성 대시보드
+    print("📺 유튜브 캐릭터 화제성 측정 중...")
+    extra = [c["keyword"] for c in trending_chars]
+    youtube_dashboard = fetch_youtube_character_dashboard(extra_characters=extra)
+    print(f"   → {len(youtube_dashboard)}개 캐릭터 측정 완료\n")
 
     # 4. HTML 리포트 생성
     reports_dir = BASE_DIR / "reports"
@@ -45,7 +46,7 @@ def main(open_browser: bool = True):
     report_path = generate_html_report(
         kakao_data=kakao_data,
         trending_chars=trending_chars,
-        youtube_data=youtube_data,
+        youtube_dashboard=youtube_dashboard,
         output_dir=str(reports_dir),
     )
     print(f"   → 저장 완료: {report_path}\n")
@@ -54,7 +55,6 @@ def main(open_browser: bool = True):
     write_index(BASE_DIR, reports_dir)
     print("📑 index.html 갱신 완료\n")
 
-    # 6. 브라우저 열기
     if open_browser:
         webbrowser.open(f"file:///{str(BASE_DIR / 'index.html').replace(os.sep, '/')}")
         print("🌐 브라우저에서 리포트를 열었습니다.")

@@ -1,108 +1,99 @@
 """
-Google Trends로 이번 주 화제 캐릭터 자동 발굴
-+ 인스타그램 해시태그 게시물 수 조회
+Google Trends로 이번 주 화제 캐릭터 IP 자동 발굴
+시드 키워드: 캐릭터 관련 광범위 용어 → 연관 급상승어에서 IP 이름 추출
 """
 import re
 import time
-import random
 import requests
 from pytrends.request import TrendReq
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9",
 }
 
-# 검색할 시드 키워드 (이걸 기준으로 연관 급상승어를 뽑음)
-SEED_KEYWORDS = ["이모티콘", "카카오이모티콘", "캐릭터", "스티커"]
+# 캐릭터 IP 발굴용 시드 키워드 (이모티콘 X, 캐릭터 브랜드 연관어가 나오는 것들)
+SEED_KEYWORDS = [
+    "캐릭터 굿즈",
+    "캐릭터 인형",
+    "애니 캐릭터",
+    "이모티콘 캐릭터",
+]
 
-# 걸러낼 일반 단어 (캐릭터 이름이 아닌 것들)
+# 제거할 비-IP 단어들 (설명적 용어, 기능어 등)
 NOISE_WORDS = {
-    "이모티콘", "카카오", "카카오톡", "캐릭터", "스티커", "무료", "다운로드",
-    "만들기", "제작", "신청", "출시", "구매", "가격", "할인", "이벤트",
-    "귀여운", "추천", "인기", "무료이모티콘", "카카오이모티콘",
-    "emoji", "sticker", "character", "kakao",
+    "굿즈", "인형", "캐릭터", "이모티콘", "스티커", "애니", "애니메이션",
+    "만화", "그림", "그리기", "귀여운", "cute", "종류", "추천", "순위",
+    "무료", "다운로드", "만들기", "제작", "신청", "할인", "이벤트",
+    "구매", "가격", "출시", "카카오", "카카오톡", "라인", "네이버",
+    "공백", "장미", "명조", "화이팅", "윈도우", "특수기호", "하트",
+    "디스코드", "충성", "문자", "키", "코드", "기호",
 }
 
 
 def fetch_trending_characters(kakao_titles: list[str] = None) -> list[dict]:
-    """
-    Google Trends 급상승 연관어로 화제 캐릭터 발굴
-    kakao_titles: 카카오 순위 이모티콘 제목들 (중복 표시용)
-    """
-    print("   Google Trends 급상승 연관어 수집 중...")
-    rising_keywords = _get_rising_keywords()
+    """Google Trends 급상승 연관어에서 캐릭터 IP 발굴"""
+    print("   Google Trends 캐릭터 IP 급상승어 수집 중...")
+    rising = _get_rising_character_ips()
 
-    if not rising_keywords:
-        print("   → 급상승 연관어 없음, 실시간 트렌드로 대체 시도...")
-        rising_keywords = _get_realtime_trending()
+    if not rising:
+        print("   → 급상승 연관어 없음, 실시간 트렌드 대체 시도...")
+        rising = _get_realtime_character_trends()
 
-    print(f"   → 캐릭터 후보 {len(rising_keywords)}개 발굴")
+    print(f"   → 캐릭터 IP 후보 {len(rising)}개 발굴")
 
-    # 인스타 해시태그 게시물 수 조회
     results = []
-    for kw in rising_keywords[:15]:
-        ig_count = _fetch_instagram_count(kw["keyword"])
-        time.sleep(random.uniform(0.8, 1.5))
-
+    for kw in rising[:12]:
         in_kakao = _is_in_kakao(kw["keyword"], kakao_titles or [])
         results.append({
             "keyword": kw["keyword"],
-            "rise_score": kw.get("rise_score", 0),    # 급상승 지수
-            "interest": kw.get("interest", 0),         # 관심도 0~100
-            "instagram_count": ig_count,
-            "in_kakao": in_kakao,                       # 카카오 순위에도 있는지
+            "rise_score": kw.get("rise_score", 0),
             "source": kw.get("source", "Google Trends"),
+            "in_kakao": in_kakao,
         })
 
-    # 급상승 지수 + 인스타 게시물 수 합산 점수로 정렬
-    results.sort(key=lambda x: (x["rise_score"] or 0) + (x["instagram_count"] or 0) / 10000, reverse=True)
+    results.sort(key=lambda x: x["rise_score"] or 0, reverse=True)
     return results[:10]
 
 
-def _get_rising_keywords() -> list[dict]:
-    """pytrends로 급상승 연관 검색어 수집"""
+def _get_rising_character_ips() -> list[dict]:
+    """pytrends로 캐릭터 IP 관련 급상승 연관어 수집"""
     try:
         pt = TrendReq(hl="ko", tz=540, timeout=(10, 25), retries=2, backoff_factor=0.5)
         all_rising = []
+        seen = set()
 
-        for seed in SEED_KEYWORDS[:2]:  # 시간 절약을 위해 2개만
+        for seed in SEED_KEYWORDS:
             try:
                 pt.build_payload([seed], timeframe="now 7-d", geo="KR")
                 related = pt.related_queries()
                 rising_df = related.get(seed, {}).get("rising")
+
                 if rising_df is not None and not rising_df.empty:
                     for _, row in rising_df.iterrows():
                         kw = str(row.get("query", "")).strip()
                         val = row.get("value", 0)
-                        if _is_character_keyword(kw):
+                        if kw not in seen and _is_character_ip(kw):
+                            seen.add(kw)
                             all_rising.append({
                                 "keyword": kw,
                                 "rise_score": int(val) if str(val).isdigit() else 0,
-                                "interest": 0,
-                                "source": f"Google Trends ({seed} 연관어)",
+                                "source": f"Google Trends ({seed})",
                             })
                 time.sleep(1.5)
             except Exception as e:
-                print(f"   [pytrends] {seed} 실패: {e}")
+                print(f"   [pytrends] '{seed}' 실패: {e}")
                 continue
 
-        # 중복 제거
-        seen = set()
-        unique = []
-        for item in all_rising:
-            if item["keyword"] not in seen:
-                seen.add(item["keyword"])
-                unique.append(item)
-        return unique
+        return all_rising
 
     except Exception as e:
         print(f"   [pytrends] 전체 실패: {e}")
         return []
 
 
-def _get_realtime_trending() -> list[dict]:
-    """Google 실시간 급상승 검색어 RSS에서 캐릭터 추출"""
+def _get_realtime_character_trends() -> list[dict]:
+    """Google 실시간 급상승에서 캐릭터 IP 추출"""
     try:
         resp = requests.get(
             "https://trends.google.com/trends/trendingsearches/daily/rss?geo=KR",
@@ -112,19 +103,17 @@ def _get_realtime_trending() -> list[dict]:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(resp.text, "xml")
         results = []
-        for item in soup.find_all("item")[:30]:
-            title = item.find("title")
-            traffic = item.find("ht:approx_traffic")
-            if not title:
+        for item in soup.find_all("item")[:50]:
+            title_el = item.find("title")
+            traffic_el = item.find("ht:approx_traffic")
+            if not title_el:
                 continue
-            kw = title.get_text(strip=True)
-            if _is_character_keyword(kw):
-                traffic_str = traffic.get_text(strip=True) if traffic else "0"
-                traffic_num = int(re.sub(r"[^\d]", "", traffic_str) or "0")
+            kw = title_el.get_text(strip=True)
+            if _is_character_ip(kw):
+                traffic = int(re.sub(r"[^\d]", "", traffic_el.get_text()) or "0") if traffic_el else 0
                 results.append({
                     "keyword": kw,
-                    "rise_score": traffic_num // 1000,
-                    "interest": 0,
+                    "rise_score": traffic // 1000,
                     "source": "Google 실시간 급상승",
                 })
         return results
@@ -133,70 +122,65 @@ def _get_realtime_trending() -> list[dict]:
         return []
 
 
-def _is_character_keyword(kw: str) -> bool:
-    """캐릭터 이름일 가능성이 있는 키워드인지 판별"""
-    kw_lower = kw.lower().strip()
+def _is_character_ip(kw: str) -> bool:
+    """
+    실제 캐릭터 IP 이름인지 판별
+    - 노이즈 단어 제거
+    - 고유명사 패턴 (2~8글자 한글/영문, 설명적 단어 아닌 것)
+    """
+    kw = kw.strip()
+    kw_lower = kw.lower()
 
-    # 노이즈 단어 제거
+    # 노이즈 제거
     if kw_lower in NOISE_WORDS:
         return False
 
-    # 너무 짧거나 일반적인 단어
+    # 노이즈 단어가 포함된 복합어 제거 (예: "공백 이모티콘", "장미 이모티콘")
+    for noise in NOISE_WORDS:
+        if kw_lower.endswith(noise) or kw_lower.startswith(noise):
+            return False
+
+    # 너무 짧음
     if len(kw) <= 1:
         return False
 
-    # 숫자만 있는 경우
+    # 숫자만
     if re.fullmatch(r"[\d\s]+", kw):
         return False
 
-    # 캐릭터 관련 긍정 신호
-    positive_signals = [
-        "이", "곰", "토끼", "고양이", "강아지", "펭", "햄스터", "오리", "개구리",
-        "냥", "댕", "뽀", "춘", "루피", "무지", "어피치", "라이언", "콘", "제이지",
-        "죠르디", "펭수", "네오", "프로도", "튜브", "어몽어스", "포켓몬",
+    # 알려진 캐릭터 IP 패턴 (긍정 시그널)
+    known_patterns = [
+        # 카카오
+        "라이언", "어피치", "무지", "콘", "제이지", "튜브", "프로도", "네오",
+        "춘식", "죠르디", "펭수",
+        # 국내 캐릭터
+        "뽀로로", "타요", "로보카", "폴리", "핑크퐁", "아기상어", "포켓몬",
+        "짱구", "도라에몽", "원피스", "나루토", "귀멸", "진격",
+        # 산리오
+        "헬로키티", "마이멜로디", "시나모롤", "쿠로미", "포차코",
+        "폼폼푸린", "산리오", "키티",
+        # 기타
+        "브롤스타즈", "수퍼마리오", "미니언즈", "곰돌이푸", "스티치",
+        "디즈니", "마블", "레고",
     ]
-    if any(sig in kw for sig in positive_signals):
+    if any(p in kw for p in known_patterns):
         return True
 
-    # 2~6글자 한글이면 캐릭터 이름 가능성
-    if re.fullmatch(r"[가-힣a-zA-Z]{2,8}", kw) and kw_lower not in NOISE_WORDS:
+    # 2~6글자 고유명사처럼 보이는 한글 (설명적 단어 아닌 것)
+    if re.fullmatch(r"[가-힣]{2,6}", kw):
+        # 일반 형용사/동사 제외
+        generic = {"귀여운", "예쁜", "웃긴", "슬픈", "화난", "무서운", "귀여움", "인기"}
+        if kw not in generic and kw not in NOISE_WORDS:
+            return True
+
+    # 영문 고유명사 (2~15자)
+    if re.fullmatch(r"[A-Za-z][a-zA-Z\s]{1,14}", kw):
         return True
 
     return False
 
 
-def _fetch_instagram_count(keyword: str) -> int:
-    """인스타그램 해시태그 게시물 수 조회"""
-    # 한글 키워드에서 공백 제거 (해시태그용)
-    tag = keyword.replace(" ", "").replace("#", "")
-    url = f"https://www.instagram.com/explore/tags/{tag}/"
-
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=10)
-        if resp.status_code in (401, 403, 429):
-            return 0
-
-        # meta description에서 게시물 수 파싱
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(resp.text, "html.parser")
-        meta = soup.find("meta", {"name": "description"}) or soup.find("meta", {"property": "og:description"})
-        if meta:
-            content = meta.get("content", "")
-            # "24.3만 게시물" 또는 "243,000 Posts"
-            m = re.search(r"([\d,.]+)\s*만?\s*(?:게시물|Posts?)", content)
-            if m:
-                num_str = m.group(1).replace(",", "")
-                num = float(num_str)
-                if "만" in content[m.start():m.end()]:
-                    num *= 10000
-                return int(num)
-    except Exception:
-        pass
-    return 0
-
-
 def _is_in_kakao(keyword: str, kakao_titles: list[str]) -> bool:
-    """카카오 이모티콘 제목 중에 이 키워드가 포함되는지"""
     kw_lower = keyword.lower().replace(" ", "")
     return any(kw_lower in t.lower().replace(" ", "") for t in kakao_titles)
 

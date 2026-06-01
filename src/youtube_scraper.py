@@ -1,178 +1,94 @@
 """
-유튜브 캐릭터/이모티콘 관련 인기 영상 수집
-YouTube 검색 RSS 피드 활용 (API 키 불필요)
+유튜브 캐릭터 IP 화제성 대시보드
+pytrends gprop='youtube' 로 유튜브 검색 관심도 0~100 측정
 """
-import re
 import time
-import requests
-from bs4 import BeautifulSoup
+from pytrends.request import TrendReq
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept-Language": "ko-KR,ko;q=0.9",
-}
-
-# 검색할 캐릭터/이모티콘 키워드
-SEARCH_QUERIES = [
-    "카카오이모티콘 캐릭터",
-    "이모티콘 캐릭터 귀여운",
-    "카카오프렌즈",
-    "인기 캐릭터",
-]
-
-CHARACTER_HINTS = [
-    "이모티콘", "캐릭터", "스티커", "카카오", "라이언", "어피치", "춘식",
-    "펭수", "죠르디", "루피", "무지", "콘", "제이지", "튜브", "프로도",
-    "토끼", "고양이", "강아지", "곰", "햄스터", "오리", "개구리", "너구리",
-    "뽀로로", "타요", "포켓몬", "짱구", "귀여운", "cute", "chibi", "캐릭터굿즈",
+# 항상 측정할 고정 캐릭터 IP 목록
+FIXED_CHARACTERS = [
+    "라이언", "어피치", "춘식이", "죠르디", "펭수",
+    "뽀로로", "핑크퐁", "포켓몬", "산리오", "짱구",
+    "헬로키티", "시나모롤", "쿠로미",
 ]
 
 
-def fetch_youtube_trending_characters() -> list[dict]:
-    """유튜브 캐릭터 관련 최신 인기 영상 수집"""
-    results = []
-    seen_ids = set()
+def fetch_youtube_character_dashboard(extra_characters: list[str] = None) -> list[dict]:
+    """
+    유튜브 캐릭터 화제성 대시보드
+    고정 캐릭터 + 이번 주 Google Trends에서 발굴한 캐릭터 합산
+    """
+    characters = list(FIXED_CHARACTERS)
 
-    for query in SEARCH_QUERIES:
-        videos = _search_youtube_rss(query)
-        for v in videos:
-            vid = v.get("video_id", "")
-            if vid and vid not in seen_ids:
-                seen_ids.add(vid)
-                results.append(v)
-        time.sleep(0.5)
+    # 이번 주 발굴된 캐릭터 추가 (중복 제거)
+    if extra_characters:
+        for ch in extra_characters:
+            if ch not in characters:
+                characters.append(ch)
 
-    # 조회수 높은 순 정렬
-    results.sort(key=lambda x: x.get("views", 0), reverse=True)
-    return results[:10]
+    characters = characters[:20]  # 최대 20개
 
-
-def _search_youtube_rss(query: str) -> list[dict]:
-    """YouTube 검색 결과 스크래핑 (search_query RSS)"""
-    try:
-        # YouTube 검색 RSS 피드
-        url = "https://www.youtube.com/feeds/videos.xml"
-        # 검색 파라미터로는 채널 RSS만 지원하므로, 검색 API를 직접 호출
-        return _search_youtube_web(query)
-    except Exception:
-        return []
-
-
-def _search_youtube_web(query: str) -> list[dict]:
-    """YouTube 검색 페이지 스크래핑"""
-    try:
-        import json
-        import urllib.parse
-
-        encoded = urllib.parse.quote(query)
-        # 최근 1주일 필터 (sp 파라미터)
-        url = f"https://www.youtube.com/results?search_query={encoded}&sp=EgQIARAB"
-
-        resp = requests.get(url, headers=HEADERS, timeout=15)
-        resp.raise_for_status()
-
-        # ytInitialData JSON 추출
-        match = re.search(r"var ytInitialData = ({.*?});</script>", resp.text, re.DOTALL)
-        if not match:
-            return []
-
-        data = json.loads(match.group(1))
-        return _parse_search_results(data, query)
-
-    except Exception as e:
-        print(f"   [YouTube] '{query}' 검색 실패: {e}")
-        return []
-
-
-def _parse_search_results(data: dict, query: str) -> list[dict]:
-    """ytInitialData에서 영상 목록 추출"""
-    results = []
-    try:
-        contents = (
-            data.get("contents", {})
-                .get("twoColumnSearchResultsRenderer", {})
-                .get("primaryContents", {})
-                .get("sectionListRenderer", {})
-                .get("contents", [])
-        )
-        for section in contents:
-            items = section.get("itemSectionRenderer", {}).get("contents", [])
-            for item in items:
-                v = item.get("videoRenderer", {})
-                if not v:
-                    continue
-                parsed = _parse_video(v, query)
-                if parsed:
-                    results.append(parsed)
-                if len(results) >= 5:
-                    break
-    except Exception:
-        pass
+    print(f"   유튜브 관심도 측정 대상: {len(characters)}개 캐릭터")
+    results = _get_youtube_interest(characters)
+    results.sort(key=lambda x: x["interest"], reverse=True)
     return results
 
 
-def _parse_video(v: dict, query: str) -> dict | None:
+def _get_youtube_interest(characters: list[str]) -> list[dict]:
+    """
+    pytrends gprop='youtube' 로 유튜브 검색 관심도 측정
+    5개씩 묶어서 비교 후 정규화
+    """
     try:
-        title = _get_text(v.get("title", {}))
-        channel = _get_text(v.get("longBylineText", {}) or v.get("shortBylineText", {}))
-        video_id = v.get("videoId", "")
+        pt = TrendReq(hl="ko", tz=540, timeout=(10, 25), retries=2, backoff_factor=0.5)
+        all_scores = {}
 
-        if not title or not video_id:
-            return None
+        # 5개씩 배치 처리
+        batch_size = 5
+        for i in range(0, len(characters), batch_size):
+            batch = characters[i:i + batch_size]
+            try:
+                pt.build_payload(
+                    batch,
+                    timeframe="now 7-d",
+                    geo="KR",
+                    gprop="youtube",
+                )
+                df = pt.interest_over_time()
+                if df is not None and not df.empty:
+                    for ch in batch:
+                        if ch in df.columns:
+                            all_scores[ch] = int(df[ch].mean())
+                time.sleep(1.5)
+            except Exception as e:
+                print(f"   [YouTube 관심도] 배치 실패: {e}")
+                for ch in batch:
+                    all_scores[ch] = 0
+                continue
 
-        # 캐릭터 관련 키워드 매칭
-        combined = (title + " " + channel).lower()
-        matched = [kw for kw in CHARACTER_HINTS if kw.lower() in combined]
-        if not matched:
-            return None
+        # 결과 정리
+        results = []
+        for ch in characters:
+            score = all_scores.get(ch, 0)
+            results.append({
+                "character": ch,
+                "interest": score,
+                "level": _interest_level(score),
+            })
+        return results
 
-        # 썸네일
-        thumbs = v.get("thumbnail", {}).get("thumbnails", [])
-        thumbnail = thumbs[-1].get("url", "") if thumbs else ""
-
-        # 조회수
-        views_text = _get_text(v.get("viewCountText", {}))
-        views = _parse_views(views_text)
-
-        # 업로드 시점
-        published = _get_text(v.get("publishedTimeText", {}))
-
-        return {
-            "title": title,
-            "channel": channel,
-            "video_id": video_id,
-            "views": views,
-            "views_str": views_text,
-            "published": published,
-            "thumbnail": thumbnail,
-            "url": f"https://www.youtube.com/watch?v={video_id}",
-            "matched_keywords": matched[:3],
-            "search_query": query,
-        }
-    except Exception:
-        return None
-
-
-def _get_text(obj: dict) -> str:
-    if not obj:
-        return ""
-    if "simpleText" in obj:
-        return obj["simpleText"]
-    return "".join(r.get("text", "") for r in obj.get("runs", []))
+    except Exception as e:
+        print(f"   [YouTube 대시보드] 전체 실패: {e}")
+        return [{"character": ch, "interest": 0, "level": "데이터 없음"} for ch in characters]
 
 
-def _parse_views(s: str) -> int:
-    if not s:
-        return 0
-    nums = re.sub(r"[^\d]", "", s)
-    return int(nums) if nums else 0
-
-
-def format_views(n: int) -> str:
-    if n >= 100000000:
-        return f"{n/100000000:.1f}억"
-    if n >= 10000:
-        return f"{n/10000:.0f}만"
-    if n >= 1000:
-        return f"{n/1000:.1f}천"
-    return str(n) if n else "—"
+def _interest_level(score: int) -> str:
+    if score >= 75:
+        return "🔥 화제"
+    if score >= 40:
+        return "📈 상승"
+    if score >= 15:
+        return "😐 보통"
+    if score > 0:
+        return "📉 낮음"
+    return "—"
