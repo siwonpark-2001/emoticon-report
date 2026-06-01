@@ -1,0 +1,10 @@
+{
+  "outputDirectory": ".",
+  "buildCommand": null,
+  "installCommand": null,
+  "framework": null,
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/reports/(.*)", "dest": "/reports/$1" }
+  ]
+}
