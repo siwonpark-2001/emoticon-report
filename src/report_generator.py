@@ -21,17 +21,15 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], youtube_data or [], now))
+        f.write(_build_html(kakao_data, kakao_trending or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], youtube_data: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], kakao_trending: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
     kakao_section = _build_kakao_tabbed(kakao_data, kakao_trending)
-    trend_section = _build_trend_section(trending_chars)
-    youtube_section = _build_youtube_section(youtube_data)
 
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -227,19 +225,6 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
   </div>
   {kakao_section}
 
-  <!-- 이번 주 화제 캐릭터 (Google Trends) -->
-  <div class="section-title">
-    <span class="badge badge-trend">TRENDING</span>
-    이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 연관어</span>
-  </div>
-  {trend_section}
-
-  <!-- 유튜브 화제 캐릭터 순위 -->
-  <div class="section-title">
-    <span class="badge badge-yt">YOUTUBE</span>
-    유튜브 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 유튜브 자동완성 기반 자동 발굴 · 조회수 순위</span>
-  </div>
-  {youtube_section}
 
 </main>
 <footer>자동 생성 리포트 · 수집 일시: {now.strftime("%Y-%m-%d %H:%M:%S")} · emoticon-report</footer>
