@@ -14,7 +14,7 @@ sys.path.insert(0, str(BASE_DIR / "src"))
 from kakao_scraper import fetch_kakao_ranking
 from instagram_scraper import analyze_trending_characters
 from report_generator import generate_html_report
-from github_publisher import _write_index
+from github_publisher import _write_index as write_index
 
 
 def main(open_browser: bool = True):
@@ -43,7 +43,7 @@ def main(open_browser: bool = True):
     print(f"   → 저장 완료: {report_path}\n")
 
     # 4. index.html 갱신 (최신 리포트 + 아카이브 링크)
-    _write_index(BASE_DIR, reports_dir)
+    write_index(BASE_DIR, reports_dir)
     print("📑 index.html 갱신 완료\n")
 
     # 5. 브라우저 자동 열기
