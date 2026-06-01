@@ -3,7 +3,6 @@
 """
 import sys
 import os
-import shutil
 import webbrowser
 from datetime import datetime
 from pathlib import Path
@@ -12,7 +11,7 @@ BASE_DIR = Path(__file__).parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
 from kakao_scraper import fetch_kakao_ranking
-from instagram_scraper import analyze_trending_characters
+from trend_scraper import fetch_trending_characters
 from report_generator import generate_html_report
 from github_publisher import _write_index as write_index
 
@@ -28,25 +27,27 @@ def main(open_browser: bool = True):
     kakao_data = fetch_kakao_ranking(limit=30)
     print(f"   → {len(kakao_data)}개 수집 완료\n")
 
-    # 2. 인스타그램 트렌드 수집
-    print("📸 인스타그램 해시태그 분석 중...")
-    instagram_data = analyze_trending_characters()
-    print(f"   → 해시태그 {len(instagram_data['hashtag_stats'])}개 분석")
-    print(f"   → 트렌드 키워드 {len(instagram_data['trending_characters'])}개 발굴\n")
+    # 2. 이번 주 화제 캐릭터 발굴 (Google Trends + 인스타 해시태그)
+    print("🔍 이번 주 화제 캐릭터 발굴 중 (Google Trends)...")
+    kakao_titles = [d["title"] for d in kakao_data]
+    trending_chars = fetch_trending_characters(kakao_titles=kakao_titles)
+    print(f"   → {len(trending_chars)}개 캐릭터 발굴 완료\n")
 
-    # 3. HTML 리포트 생성 (reports/ 폴더에 날짜별 저장)
+    # 3. HTML 리포트 생성
     reports_dir = BASE_DIR / "reports"
     print("📄 HTML 리포트 생성 중...")
     report_path = generate_html_report(
-        kakao_data, instagram_data, output_dir=str(reports_dir)
+        kakao_data=kakao_data,
+        trending_chars=trending_chars,
+        output_dir=str(reports_dir),
     )
     print(f"   → 저장 완료: {report_path}\n")
 
-    # 4. index.html 갱신 (최신 리포트 + 아카이브 링크)
+    # 4. index.html 갱신
     write_index(BASE_DIR, reports_dir)
     print("📑 index.html 갱신 완료\n")
 
-    # 5. 브라우저 자동 열기
+    # 5. 브라우저 열기
     if open_browser:
         webbrowser.open(f"file:///{str(BASE_DIR / 'index.html').replace(os.sep, '/')}")
         print("🌐 브라우저에서 리포트를 열었습니다.")
