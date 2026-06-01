@@ -16,6 +16,7 @@ from trend_scraper import fetch_trending_characters
 from youtube_scraper import fetch_youtube_trending_characters
 from report_generator import generate_html_report
 from github_publisher import _write_index as write_index
+from lark_notifier import send_report_notification
 
 
 def main(open_browser: bool = True):
@@ -56,6 +57,14 @@ def main(open_browser: bool = True):
     # 5. index.html 갱신
     write_index(BASE_DIR, reports_dir)
     print("📑 index.html 갱신 완료\n")
+
+    # 7. Lark 알림
+    print("💬 Lark 알림 발송 중...")
+    send_report_notification(
+        report_url="https://emoticon-report.vercel.app",
+        kakao_count=len(kakao_data),
+        youtube_count=len(youtube_data),
+    )
 
     if open_browser:
         webbrowser.open(f"file:///{str(BASE_DIR / 'index.html').replace(os.sep, '/')}")

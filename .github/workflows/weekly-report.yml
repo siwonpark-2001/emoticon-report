@@ -28,9 +28,9 @@ jobs:
 
       - name: 리포트 생성
         env:
-          INSTAGRAM_SESSION_ID: ${{ secrets.INSTAGRAM_SESSION_ID }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          LARK_WEBHOOK_URL: ${{ secrets.LARK_WEBHOOK_URL }}
         run: python main.py --no-browser
 
       - name: 변경사항 커밋 & 푸시
