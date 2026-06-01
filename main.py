@@ -14,6 +14,7 @@ from kakao_scraper import fetch_kakao_ranking, fetch_kakao_trending
 from trend_scraper import fetch_trending_characters
 from youtube_scraper import fetch_youtube_character_dashboard
 from instagram_scraper import fetch_instagram_character_trends
+from naver_scraper import fetch_naver_trending_characters
 from report_generator import generate_html_report
 from github_publisher import _write_index as write_index
 
@@ -40,7 +41,12 @@ def main(open_browser: bool = True):
     trending_chars = fetch_trending_characters(kakao_titles=kakao_titles)
     print(f"   → {len(trending_chars)}개 발굴 완료\n")
 
-    # 4. 인스타그램 캐릭터 트렌드
+    # 4. 네이버 데이터랩 신흥 캐릭터 발굴
+    print("🔎 네이버 데이터랩 신흥 캐릭터 발굴 중...")
+    naver_data = fetch_naver_trending_characters()
+    print(f"   → {len(naver_data)}개 캐릭터 발굴 완료\n")
+
+    # 5. 인스타그램 캐릭터 트렌드
     print("📸 인스타그램 캐릭터 트렌드 수집 중...")
     instagram_data = fetch_instagram_character_trends()
     print(f"   → {len(instagram_data)}개 캐릭터 완료\n")
@@ -58,6 +64,7 @@ def main(open_browser: bool = True):
         kakao_data=kakao_data,
         kakao_trending=kakao_trending,
         trending_chars=trending_chars,
+        naver_data=naver_data,
         instagram_data=instagram_data,
         youtube_dashboard=youtube_dashboard,
         output_dir=str(reports_dir),

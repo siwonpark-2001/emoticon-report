@@ -13,6 +13,7 @@ def generate_html_report(
     kakao_data: list[dict],
     kakao_trending: list[dict] = None,
     trending_chars: list[dict] = None,
+    naver_data: list[dict] = None,
     instagram_data: list[dict] = None,
     youtube_dashboard: list[dict] = None,
     output_dir: str = "reports",
@@ -22,16 +23,17 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], instagram_data or [], youtube_dashboard or [], now))
+        f.write(_build_html(kakao_data, kakao_trending or [], trending_chars or [], naver_data or [], instagram_data or [], youtube_dashboard or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], instagram_data: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_chars: list[dict], naver_data: list[dict], instagram_data: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
     kakao_section = _build_kakao_tabbed(kakao_data, kakao_trending)
     trend_section = _build_trend_section(trending_chars)
+    naver_section = _build_naver_section(naver_data)
     instagram_section = _build_instagram_section(instagram_data)
     youtube_section = _build_youtube_dashboard(youtube_dashboard)
 
@@ -155,6 +157,21 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
   .trend-card.in-kakao .rise-bar-fill{{background:var(--kakao-dark);}}
   .no-data{{color:#ccc;font-size:13px;}}
 
+  /* ── 네이버 ── */
+  .badge-naver{{background:#03C75A;color:white;}}
+  .naver-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}}
+  .naver-card{{background:var(--card);border-radius:12px;padding:16px 18px;
+    box-shadow:0 1px 8px rgba(0,0,0,.06);border-left:4px solid #03C75A;}}
+  .naver-rank{{font-size:11px;font-weight:700;color:#03C75A;margin-bottom:4px;}}
+  .naver-keyword{{font-size:18px;font-weight:800;margin-bottom:8px;}}
+  .naver-category{{font-size:11px;color:var(--sub);margin-bottom:8px;}}
+  .naver-stats{{display:flex;gap:16px;}}
+  .naver-stat{{display:flex;flex-direction:column;gap:2px;}}
+  .naver-stat-val{{font-size:16px;font-weight:700;color:#03C75A;}}
+  .naver-stat-label{{font-size:10px;color:var(--sub);}}
+  .naver-bar-bg{{background:#f0f0f0;border-radius:4px;height:5px;margin-top:8px;overflow:hidden;}}
+  .naver-bar-fill{{background:#03C75A;border-radius:4px;height:5px;}}
+
   /* ── 인스타그램 ── */
   .badge-insta{{background:linear-gradient(90deg,#833AB4,#F77737);color:white;}}
   .insta-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}}
@@ -211,6 +228,13 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
     이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 연관어</span>
   </div>
   {trend_section}
+
+  <!-- 네이버 신흥 캐릭터 -->
+  <div class="section-title">
+    <span class="badge badge-naver">NAVER</span>
+    이번 주 신흥 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 네이버 쇼핑 급상승 키워드 자동 발굴</span>
+  </div>
+  {naver_section}
 
   <!-- 인스타그램 캐릭터 트렌드 -->
   <div class="section-title">
@@ -438,6 +462,37 @@ def _build_trend_section(chars: list[dict]) -> str:
         </div>""")
 
     return f'<div class="trend-grid">{"".join(cards)}</div>'
+
+
+def _build_naver_section(data: list[dict]) -> str:
+    if not data:
+        return '<p class="empty-msg">네이버 데이터랩 데이터를 수집하지 못했습니다.</p>'
+
+    max_ratio = max((d.get("ratio") or 0 for d in data), default=1) or 1
+    cards = []
+    for i, item in enumerate(data, 1):
+        ratio   = item.get("ratio") or 0
+        s_ratio = item.get("search_ratio") or 0
+        cat     = item.get("category", "")
+        bar_w   = int(ratio / max_ratio * 100)
+
+        cards.append(f"""
+        <div class="naver-card">
+          <div class="naver-rank">#{i} {cat}</div>
+          <div class="naver-keyword">{item["keyword"]}</div>
+          <div class="naver-stats">
+            <div class="naver-stat">
+              <div class="naver-stat-val">{ratio:,}</div>
+              <div class="naver-stat-label">쇼핑 급상승 지수</div>
+            </div>
+            {"<div class='naver-stat'><div class='naver-stat-val'>" + str(s_ratio) + "</div><div class='naver-stat-label'>검색트렌드 점수</div></div>" if s_ratio else ""}
+          </div>
+          <div class="naver-bar-bg">
+            <div class="naver-bar-fill" style="width:{bar_w}%"></div>
+          </div>
+        </div>""")
+
+    return f'<div class="naver-grid">{"".join(cards)}</div>'
 
 
 def _build_instagram_section(data: list[dict]) -> str:
