@@ -66,7 +66,6 @@ def _fetch_trending_videos() -> list[dict]:
                 }
             },
             "browseId": "FEtrending",
-            "params": "4gINGgt5dG1hX2NoYXJ0cw%3D%3D",  # 한국 급상승
         }
         resp = requests.post(url, headers=HEADERS, json=payload, timeout=15)
         resp.raise_for_status()

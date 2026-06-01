@@ -258,10 +258,7 @@ def _build_kakao_section(data: list[dict]) -> str:
             <div class="item-title">{item["title"]}{badge_html}</div>
             <div class="item-artist">{item.get("artist","")}</div>
           </td>
-          <td><span class="tooltip-wrap">작가 관심수
-            <span class="tooltip-icon">i</span>
-            <span class="tooltip-box">해당 작가의 전체 이모티콘 관심수 합계</span>
-          </span><br>{interest_html}</td>
+          <td>{interest_html}</td>
           <td>{change_html}</td>
           {chart_td}
           <td><a class="ext-link" href="{item['url']}" target="_blank">이모티콘샵 ↗</a></td>
@@ -271,7 +268,7 @@ def _build_kakao_section(data: list[dict]) -> str:
     <table class="kakao-table">
       <thead><tr>
         <th>순위</th><th>썸네일</th><th>이모티콘</th>
-        <th>작가 관심수</th><th>변동</th>{chart_th}<th>링크</th>
+        <th><span class="tooltip-wrap">작가 관심수 <span class="tooltip-icon">i</span><span class="tooltip-box">해당 작가의 전체 이모티콘 관심수 합계</span></span></th><th>변동</th>{chart_th}<th>링크</th>
       </tr></thead>
       <tbody>{"".join(rows)}</tbody>
     </table>"""
