@@ -62,14 +62,12 @@ def _build_html(kakao_data: list[dict], instagram_data: dict, now: datetime) -> 
   /* 툴팁 */
   .tooltip-wrap {{ position: relative; display: inline-flex; align-items: center; gap: 4px; cursor: default; }}
   .tooltip-wrap .tooltip-box {{
-    display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-    background: #333; color: #fff; font-size: 11px; font-weight: 400; white-space: nowrap;
-    padding: 5px 10px; border-radius: 6px; pointer-events: none; z-index: 10;
+    display: none; position: fixed; background: #333; color: #fff;
+    font-size: 11px; font-weight: 400; white-space: nowrap;
+    padding: 5px 10px; border-radius: 6px; pointer-events: none; z-index: 9999;
+    margin-top: 6px;
   }}
-  .tooltip-wrap .tooltip-box::after {{
-    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-    border: 5px solid transparent; border-top-color: #333;
-  }}
+  .tooltip-wrap:hover .tooltip-box {{ display: block; }}
   .tooltip-wrap:hover .tooltip-box {{ display: block; }}
   .tooltip-icon {{ width: 14px; height: 14px; border-radius: 50%; background: var(--kakao-dark);
     color: var(--kakao); font-size: 10px; font-weight: 700; display: inline-flex;
@@ -166,6 +164,15 @@ def _build_html(kakao_data: list[dict], instagram_data: dict, now: datetime) -> 
   <div class="trend-list">{character_cards}</div>
 </main>
 <footer>자동 생성 리포트 · 수집 일시: {now.strftime("%Y-%m-%d %H:%M:%S")} · emoticon-report</footer>
+<script>
+  document.querySelectorAll('.tooltip-wrap').forEach(el => {{
+    const box = el.querySelector('.tooltip-box');
+    el.addEventListener('mousemove', e => {{
+      box.style.left = e.clientX + 12 + 'px';
+      box.style.top  = e.clientY + 12 + 'px';
+    }});
+  }});
+</script>
 </body>
 </html>"""
 
