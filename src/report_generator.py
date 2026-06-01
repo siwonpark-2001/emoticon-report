@@ -175,6 +175,7 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
   <div class="week">Weekly Report</div>
   <h1>📊 캐릭터 트렌드 리포트</h1>
   <div class="date">{date_label} 기준</div>
+  <div style="font-size:13px;opacity:.5;margin-top:8px;">매주 월요일 오전 10시 자동 갱신</div>
 </header>
 <main>
 
