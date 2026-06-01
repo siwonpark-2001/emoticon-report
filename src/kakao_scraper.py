@@ -138,6 +138,62 @@ def _attach_rank_history(results: list[dict], history: dict) -> list[dict]:
     return results
 
 
+def fetch_kakao_hot_items() -> list[dict]:
+    """
+    카카오 홈 API의 HORIZONTAL 카드에서 '요즘 뜨는 핫템' 수집
+    - 카드 타입 HORIZONTAL 중 items가 가장 많은 카드 = 이번 주 핫템
+    """
+    try:
+        resp = requests.get("https://e.kakao.com/api/home", headers=HEADERS, timeout=10)
+        resp.raise_for_status()
+        cards = resp.json().get("cards", [])
+
+        # HORIZONTAL 카드 중 items 수가 가장 많은 것 선택
+        best_card = None
+        for card in cards:
+            if card.get("cardType") == "HORIZONTAL":
+                items = card.get("items", [])
+                if not best_card or len(items) > len(best_card.get("items", [])):
+                    best_card = card
+
+        if not best_card:
+            return []
+
+        results = []
+        for rank, item in enumerate(best_card.get("items", []), 1):
+            slug = item.get("slug", "")
+            badges = []
+            if item.get("isBig"):   badges.append("빅")
+            if item.get("isSound"): badges.append("사운드")
+            if item.get("isMini"):  badges.append("미니")
+            if item.get("isNew"):   badges.append("NEW")
+
+            results.append({
+                "rank": rank,
+                "title": item.get("title", ""),
+                "artist": item.get("creatorName", ""),
+                "thumbnail": item.get("stillImageUrl", ""),
+                "slug": slug,
+                "url": f"https://e.kakao.com/t/{slug}" if slug else "https://e.kakao.com/",
+                "badges": badges,
+            })
+
+        # SHORTCUT에서 '요즘 뜨는' 링크도 가져와서 card title 보완
+        shortcut_label = "요즘 뜨는 핫템"
+        for card in cards:
+            if card.get("cardType") == "SHORTCUT":
+                for sc in card.get("shortcuts", []):
+                    if "뜨는" in sc.get("title", ""):
+                        shortcut_label = sc.get("title", shortcut_label)
+                        break
+
+        return results
+
+    except Exception as e:
+        print(f"   [Kakao 핫템] 수집 실패: {e}")
+        return []
+
+
 def format_interest(n: int) -> str:
     """92993 → '9.3만'"""
     if n >= 10000:

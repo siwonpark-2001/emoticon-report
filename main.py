@@ -10,7 +10,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
-from kakao_scraper import fetch_kakao_ranking
+from kakao_scraper import fetch_kakao_ranking, fetch_kakao_hot_items
 from trend_scraper import fetch_trending_characters
 from youtube_scraper import fetch_youtube_character_dashboard
 from report_generator import generate_html_report
@@ -23,10 +23,13 @@ def main(open_browser: bool = True):
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*50}\n")
 
-    # 1. 카카오 이모티콘 순위
+    # 1. 카카오 이모티콘 순위 + 핫템
     print("📦 카카오 이모티콘 순위 수집 중...")
     kakao_data = fetch_kakao_ranking(limit=30)
-    print(f"   → {len(kakao_data)}개 수집 완료\n")
+    print(f"   → {len(kakao_data)}개 수집 완료")
+    print("🔥 카카오 요즘 뜨는 핫템 수집 중...")
+    kakao_hot = fetch_kakao_hot_items()
+    print(f"   → {len(kakao_hot)}개 수집 완료\n")
 
     # 2. Google Trends 화제 캐릭터 IP 발굴
     print("🔍 Google Trends 화제 캐릭터 IP 발굴 중...")
@@ -45,6 +48,7 @@ def main(open_browser: bool = True):
     print("📄 HTML 리포트 생성 중...")
     report_path = generate_html_report(
         kakao_data=kakao_data,
+        kakao_hot=kakao_hot,
         trending_chars=trending_chars,
         youtube_dashboard=youtube_dashboard,
         output_dir=str(reports_dir),

@@ -9,7 +9,8 @@ from trend_scraper import format_instagram_count
 
 def generate_html_report(
     kakao_data: list[dict],
-    trending_chars: list[dict],
+    kakao_hot: list[dict] = None,
+    trending_chars: list[dict] = None,
     youtube_dashboard: list[dict] = None,
     output_dir: str = "reports",
 ) -> str:
@@ -18,15 +19,15 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, trending_chars, youtube_dashboard or [], now))
+        f.write(_build_html(kakao_data, kakao_hot or [], trending_chars or [], youtube_dashboard or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], kakao_hot: list[dict], trending_chars: list[dict], youtube_dashboard: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
-    kakao_section = _build_kakao_section(kakao_data)
+    kakao_section = _build_kakao_tabbed(kakao_data, kakao_hot)
     trend_section = _build_trend_section(trending_chars)
     youtube_section = _build_youtube_dashboard(youtube_dashboard)
 
@@ -98,6 +99,19 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_dash
   .ext-link{{color:#0066cc;text-decoration:none;font-size:12px;}}
   .ext-link:hover{{text-decoration:underline;}}
 
+  /* ── 탭 ── */
+  .tab-wrap{{margin-bottom:0;}}
+  .tab-bar{{display:flex;gap:4px;margin-bottom:-1px;position:relative;z-index:1;}}
+  .tab-btn{{
+    padding:10px 24px;border:none;border-radius:12px 12px 0 0;
+    font-size:14px;font-weight:700;cursor:pointer;
+    background:#e8e8e8;color:var(--sub);transition:all .15s;
+  }}
+  .tab-btn.active{{background:var(--kakao);color:var(--kakao-dark);}}
+  .tab-btn:hover:not(.active){{background:#d8d8d8;}}
+  .tab-panel{{display:none;}}
+  .tab-panel.active{{display:block;}}
+
   /* ── 툴팁 ── */
   .tooltip-wrap{{position:relative;display:inline-flex;align-items:center;gap:4px;cursor:default;}}
   .tooltip-wrap .tooltip-box{{
@@ -164,10 +178,10 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_dash
 </header>
 <main>
 
-  <!-- 카카오 이모티콘 순위 -->
+  <!-- 카카오 이모티콘 -->
   <div class="section-title">
     <span class="badge badge-kakao">KAKAO</span>
-    카카오 이모티콘샵 인기 순위
+    카카오 이모티콘샵
   </div>
   {kakao_section}
 
@@ -188,6 +202,7 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_dash
 </main>
 <footer>자동 생성 리포트 · 수집 일시: {now.strftime("%Y-%m-%d %H:%M:%S")} · emoticon-report</footer>
 <script>
+  // 툴팁
   document.querySelectorAll('.tooltip-wrap').forEach(el => {{
     const box = el.querySelector('.tooltip-box');
     el.addEventListener('mousemove', e => {{
@@ -195,12 +210,72 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_dash
       box.style.top  = e.clientY + 12 + 'px';
     }});
   }});
+  // 탭 전환
+  document.querySelectorAll('.tab-btn').forEach(btn => {{
+    btn.addEventListener('click', () => {{
+      const group = btn.closest('.tab-wrap');
+      group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      group.querySelector('#' + btn.dataset.tab).classList.add('active');
+    }});
+  }});
 </script>
 </body>
 </html>"""
 
 
-# ── 카카오 섹션 ────────────────────────────────────────────────
+# ── 카카오 탭 래퍼 ──────────────────────────────────────────────
+
+def _build_kakao_tabbed(ranking: list[dict], hot: list[dict]) -> str:
+    ranking_html = _build_kakao_section(ranking)
+    hot_html = _build_hot_section(hot)
+    return f"""
+<div class="tab-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="tab-ranking">🏆 인기 순위</button>
+    <button class="tab-btn" data-tab="tab-hot">🔥 요즘 뜨는 핫템</button>
+  </div>
+  <div id="tab-ranking" class="tab-panel active">{ranking_html}</div>
+  <div id="tab-hot"     class="tab-panel">{hot_html}</div>
+</div>"""
+
+
+def _build_hot_section(data: list[dict]) -> str:
+    """요즘 뜨는 핫템 - 썸네일 카드 그리드"""
+    if not data:
+        return '<p class="empty-msg">핫템 데이터를 수집하지 못했습니다.</p>'
+
+    cards = []
+    for item in data:
+        badge_html = "".join(f'<span class="item-badge">{b}</span>' for b in item.get("badges", []))
+        thumb = (
+            f'<img class="thumb" src="{item["thumbnail"]}" alt="{item["title"]}" '
+            f'onerror="this.style.display=\'none\'">'
+            if item.get("thumbnail") else '<div class="thumb-ph">🎭</div>'
+        )
+        cards.append(f"""
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          {thumb}
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              {item["title"]}{badge_html}
+            </div>
+            <div class="item-artist">{item.get("artist","")}</div>
+          </div>
+          <a class="ext-link" href="{item['url']}" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>""")
+
+    # 2열 그리드
+    return f"""
+    <div style="background:var(--kakao);border-radius:0 var(--radius) var(--radius) var(--radius);
+                padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+      {"".join(cards)}
+    </div>"""
+
+
+# ── 카카오 순위 테이블 ──────────────────────────────────────────
 
 def _build_kakao_section(data: list[dict]) -> str:
     if not data:
