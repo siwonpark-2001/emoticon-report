@@ -12,7 +12,7 @@ sys.path.insert(0, str(BASE_DIR / "src"))
 
 from kakao_scraper import fetch_kakao_ranking, fetch_kakao_trending
 from trend_scraper import fetch_trending_characters
-from youtube_scraper import fetch_youtube_character_dashboard
+from youtube_scraper import fetch_youtube_trending_characters
 from instagram_scraper import fetch_instagram_character_trends
 from naver_scraper import fetch_naver_trending_characters
 from report_generator import generate_html_report
@@ -51,11 +51,10 @@ def main(open_browser: bool = True):
     instagram_data = fetch_instagram_character_trends()
     print(f"   → {len(instagram_data)}개 캐릭터 완료\n")
 
-    # 5. 유튜브 캐릭터 화제성 대시보드
-    print("📺 유튜브 캐릭터 화제성 측정 중...")
-    extra = [c["keyword"] for c in trending_chars]
-    youtube_dashboard = fetch_youtube_character_dashboard(extra_characters=extra)
-    print(f"   → {len(youtube_dashboard)}개 캐릭터 측정 완료\n")
+    # 5. 유튜브 화제 캐릭터 영상
+    print("📺 유튜브 화제 캐릭터 영상 수집 중...")
+    youtube_data = fetch_youtube_trending_characters()
+    print(f"   → {len(youtube_data)}개 영상 수집 완료\n")
 
     # 6. HTML 리포트 생성
     reports_dir = BASE_DIR / "reports"
@@ -66,7 +65,7 @@ def main(open_browser: bool = True):
         trending_chars=trending_chars,
         naver_data=naver_data,
         instagram_data=instagram_data,
-        youtube_dashboard=youtube_dashboard,
+        youtube_data=youtube_data,
         output_dir=str(reports_dir),
     )
     print(f"   → 저장 완료: {report_path}\n")
