@@ -233,20 +233,19 @@ def _build_kakao_rows(data: list[dict]) -> str:
             if item.get("thumbnail")
             else '<div class="thumb-placeholder">🎭</div>'
         )
-        price_html = (
-            f'<span class="price-tag">{item["price"]:,}원</span>'
-            if item.get("price")
-            else ""
+        badges = item.get("badges", [])
+        badge_html = " ".join(
+            f'<span style="background:#eee;border-radius:4px;padding:2px 6px;font-size:11px;">{b}</span>'
+            for b in badges
         )
         rows.append(f"""
         <tr class="{rank_class}">
           <td class="rank-num">#{rank}</td>
           <td>{thumb_html}</td>
           <td>
-            <div class="item-title">{item["title"]}</div>
+            <div class="item-title">{item["title"]} {badge_html}</div>
             <div class="item-artist">{item.get("artist", "")}</div>
           </td>
-          <td>{price_html}</td>
           <td><a class="ext-link" href="{item["url"]}" target="_blank">이모티콘샵 ↗</a></td>
         </tr>""")
 
@@ -254,7 +253,7 @@ def _build_kakao_rows(data: list[dict]) -> str:
     <table class="kakao-table">
       <thead>
         <tr>
-          <th>순위</th><th>썸네일</th><th>이모티콘</th><th>가격</th><th>링크</th>
+          <th>순위</th><th>썸네일</th><th>이모티콘</th><th>링크</th>
         </tr>
       </thead>
       <tbody>{"".join(rows)}</tbody>
