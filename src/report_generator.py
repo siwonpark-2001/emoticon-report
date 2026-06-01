@@ -538,19 +538,28 @@ def _build_youtube_section(data: list[dict]) -> str:
     for i, item in enumerate(data, 1):
         char        = item.get("character", "")
         total_views = item.get("total_views", 0)
-        title_count = item.get("title_count", 0)
+        vid_count   = item.get("video_count", 0)
         score       = item.get("score", 0)
+        samples     = item.get("samples", [])
         bar_w       = int(score / max_score * 100)
+
+        sample_html = "".join(
+            f'<div style="font-size:11px;color:var(--sub);margin-top:2px;">📹 {s}</div>'
+            for s in samples[:2]
+        )
 
         rows.append(f"""
         <div style="background:var(--card);border-radius:12px;padding:14px 20px;
                     box-shadow:0 1px 8px rgba(0,0,0,.06);">
-          <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:6px;">
             <div style="font-size:22px;font-weight:800;color:#FF0000;width:36px;">#{i}</div>
-            <div style="font-size:20px;font-weight:800;flex:1;">{char}</div>
-            <div style="text-align:right;">
+            <div style="flex:1;">
+              <div style="font-size:20px;font-weight:800;">{char}</div>
+              {sample_html}
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
               <div style="font-size:18px;font-weight:800;color:#FF0000;">{format_views(total_views)}</div>
-              <div style="font-size:11px;color:var(--sub);">조회수 합 · 영상 {title_count}개</div>
+              <div style="font-size:11px;color:var(--sub);">조회수 합 · 영상 {vid_count}개</div>
             </div>
           </div>
           <div style="background:#f0f0f0;border-radius:4px;height:6px;overflow:hidden;">
