@@ -138,20 +138,25 @@ def _attach_rank_history(results: list[dict], history: dict) -> list[dict]:
     return results
 
 
-def fetch_kakao_trending_new(limit: int = 30) -> list[dict]:
+def fetch_kakao_trending(limit: int = 50) -> list[dict]:
     """
-    카카오 '요즘 뜨는' — 최신 출시 이모티콘 중 주목받는 것들
-    /api/items/new 엔드포인트 사용
+    카카오 '요즘 뜨는' — group/002
+    https://e.kakao.com/api/groups/item/002
     """
     try:
         resp = requests.get(
-            "https://e.kakao.com/api/items/new",
+            "https://e.kakao.com/api/groups/item/002",
             headers=HEADERS,
-            params={"miniOnly": "false", "page": 0, "size": limit},
             timeout=10,
         )
         resp.raise_for_status()
-        items = resp.json().get("items", [])
+        data = resp.json()
+
+        # 응답이 배열이거나 items 키를 가진 객체일 수 있음
+        if isinstance(data, list):
+            items = data
+        else:
+            items = data.get("items") or data.get("data") or []
 
         results = []
         for rank, item in enumerate(items[:limit], 1):
