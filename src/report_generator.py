@@ -36,7 +36,7 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이모티콘 트렌드 리포트 — {date_label}</title>
+<title>캐릭터 트렌드 리포트 — {date_label}</title>
 <style>
   :root {{
     --kakao:#FEE500; --kakao-dark:#3C1E1E;
@@ -172,8 +172,8 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], trending_cha
 </head>
 <body>
 <header>
-  <div class="week">Week {week} Report</div>
-  <h1>📊 이모티콘 트렌드 리포트</h1>
+  <div class="week">Weekly Report</div>
+  <h1>📊 캐릭터 트렌드 리포트</h1>
   <div class="date">{date_label} 기준</div>
 </header>
 <main>
