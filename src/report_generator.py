@@ -5,11 +5,13 @@ import os
 from datetime import datetime
 from kakao_scraper import format_interest
 from trend_scraper import format_instagram_count
+from youtube_scraper import format_views
 
 
 def generate_html_report(
     kakao_data: list[dict],
     trending_chars: list[dict],
+    youtube_data: list[dict] = None,
     output_dir: str = "reports",
 ) -> str:
     os.makedirs(output_dir, exist_ok=True)
@@ -17,16 +19,17 @@ def generate_html_report(
     filename = f"emoticon_trend_{now.strftime('%Y%m%d_%H%M')}.html"
     filepath = os.path.join(output_dir, filename)
     with open(filepath, "w", encoding="utf-8") as f:
-        f.write(_build_html(kakao_data, trending_chars, now))
+        f.write(_build_html(kakao_data, trending_chars, youtube_data or [], now))
     return filepath
 
 
-def _build_html(kakao_data: list[dict], trending_chars: list[dict], now: datetime) -> str:
+def _build_html(kakao_data: list[dict], trending_chars: list[dict], youtube_data: list[dict], now: datetime) -> str:
     week = now.isocalendar()[1]
     date_label = now.strftime("%Y년 %m월 %d일")
 
     kakao_section = _build_kakao_section(kakao_data)
     trend_section = _build_trend_section(trending_chars)
+    youtube_section = _build_youtube_section(youtube_data)
 
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -135,6 +138,29 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], now: datetim
   .trend-card.in-kakao .rise-bar-fill{{background:var(--kakao-dark);}}
   .no-data{{color:#ccc;font-size:13px;}}
 
+  /* ── 유튜브 섹션 ── */
+  --yt:#FF0000;
+  .yt-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}}
+  .yt-card{{background:var(--card);border-radius:var(--radius);overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .15s;}}
+  .yt-card:hover{{transform:translateY(-2px);}}
+  .yt-card a{{text-decoration:none;color:inherit;display:block;}}
+  .yt-thumb-wrap{{position:relative;padding-top:56.25%;background:#000;overflow:hidden;}}
+  .yt-thumb-wrap img{{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}}
+  .yt-thumb-placeholder{{position:absolute;top:0;left:0;width:100%;height:100%;
+    background:#111;display:flex;align-items:center;justify-content:center;font-size:40px;}}
+  .yt-play{{position:absolute;bottom:8px;right:8px;background:rgba(255,0,0,.9);
+    color:white;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:700;}}
+  .yt-info{{padding:14px 16px;}}
+  .yt-title{{font-weight:600;font-size:14px;line-height:1.4;margin-bottom:6px;
+             display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}}
+  .yt-meta{{display:flex;align-items:center;justify-content:space-between;}}
+  .yt-channel{{font-size:12px;color:var(--sub);}}
+  .yt-views{{font-size:12px;font-weight:600;color:#FF0000;}}
+  .yt-keywords{{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}}
+  .yt-kw{{font-size:11px;background:#fff0f0;color:#c62828;border-radius:4px;padding:2px 6px;}}
+  .badge-yt{{background:#FF0000;color:white;}}
+
   .empty-msg{{padding:40px;text-align:center;color:var(--sub);font-size:15px;}}
   footer{{text-align:center;padding:40px 20px;color:var(--sub);font-size:13px;}}
 </style>
@@ -154,12 +180,19 @@ def _build_html(kakao_data: list[dict], trending_chars: list[dict], now: datetim
   </div>
   {kakao_section}
 
-  <!-- 이번 주 화제 캐릭터 -->
+  <!-- 이번 주 화제 캐릭터 (Google Trends) -->
   <div class="section-title">
     <span class="badge badge-trend">TRENDING</span>
-    이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 + 인스타 언급량</span>
+    이번 주 화제 캐릭터 <span style="font-size:14px;color:var(--sub);font-weight:400;">— Google Trends 급상승 연관어</span>
   </div>
   {trend_section}
+
+  <!-- 유튜브 급상승 캐릭터 영상 -->
+  <div class="section-title">
+    <span class="badge badge-yt">YOUTUBE</span>
+    유튜브 급상승 캐릭터 영상 <span style="font-size:14px;color:var(--sub);font-weight:400;">— 이번 주 한국 급상승</span>
+  </div>
+  {youtube_section}
 
 </main>
 <footer>자동 생성 리포트 · 수집 일시: {now.strftime("%Y-%m-%d %H:%M:%S")} · emoticon-report</footer>
@@ -315,6 +348,44 @@ def _build_trend_section(chars: list[dict]) -> str:
         </div>""")
 
     return f'<div class="trend-grid">{"".join(cards)}</div>'
+
+
+def _build_youtube_section(videos: list[dict]) -> str:
+    if not videos:
+        return '<p class="empty-msg">이번 주 유튜브 급상승 중 캐릭터 관련 영상을 찾지 못했습니다.</p>'
+
+    cards = []
+    for v in videos:
+        thumb = (
+            f'<img src="{v["thumbnail"]}" alt="{v["title"]}" loading="lazy">'
+            if v.get("thumbnail") else
+            '<div class="yt-thumb-placeholder">📺</div>'
+        )
+        kw_html = "".join(
+            f'<span class="yt-kw">#{kw}</span>'
+            for kw in v.get("matched_keywords", [])
+        )
+        views_str = v.get("views_str") or (format_views(v.get("views", 0)) if v.get("views") else "")
+
+        cards.append(f"""
+        <div class="yt-card">
+          <a href="{v['url']}" target="_blank">
+            <div class="yt-thumb-wrap">
+              {thumb}
+              <span class="yt-play">▶ YouTube</span>
+            </div>
+            <div class="yt-info">
+              <div class="yt-title">{v['title']}</div>
+              <div class="yt-meta">
+                <span class="yt-channel">{v.get('channel','')}</span>
+                <span class="yt-views">👁 {views_str}</span>
+              </div>
+              <div class="yt-keywords">{kw_html}</div>
+            </div>
+          </a>
+        </div>""")
+
+    return f'<div class="yt-grid">{"".join(cards)}</div>'
 
 
 # github_publisher에서 호출
