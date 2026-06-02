@@ -44,14 +44,14 @@ def send_report_notification(report_url: str, kakao_count: int, youtube_count: i
                             "is_short": True,
                             "text": {
                                 "tag": "lark_md",
-                                "content": f"**카카오 순위**\n{kakao_count}개"
+                                "content": f"**카카오 인기순위**\n{kakao_count}개"
                             }
                         },
                         {
                             "is_short": True,
                             "text": {
                                 "tag": "lark_md",
-                                "content": f"**유튜브 화제 캐릭터**\n{youtube_count}개"
+                                "content": "**갱신 주기**\n매주 월요일 오전 10시"
                             }
                         }
                     ]
