@@ -30,6 +30,7 @@ jobs:
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          KAKAO_KAU: ${{ secrets.KAKAO_KAU }}
         run: python main.py --no-browser --no-lark
 
       - name: 변경사항 커밋 & 푸시

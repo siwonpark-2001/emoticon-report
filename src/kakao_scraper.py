@@ -7,10 +7,14 @@ import requests
 from datetime import datetime
 from pathlib import Path
 
+import os
+
+_kau = os.environ.get("KAKAO_KAU", "")
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Referer": "https://e.kakao.com/",
     "Accept-Language": "ko-KR,ko;q=0.9",
+    **({"Cookie": f"_kau={_kau}"} if _kau else {}),
 }
 
 HISTORY_FILE          = Path(__file__).parent.parent / "data" / "ranking_history.json"
