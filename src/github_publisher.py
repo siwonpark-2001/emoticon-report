@@ -118,24 +118,28 @@ def _write_index(repo: Path, reports_dir: Path):
     # 정리 후 다시 로드
     report_files = sorted(reports_dir.glob("emoticon_trend_*.html"), reverse=True)
 
-    # 아카이브 링크 — 최신 제외 최대 12주치
-    old_files = report_files[1:13]
-    archive_links = "\n".join(
-        f'<li><a href="reports/{f.name}">'
-        f'{_parse_date_from_filename(f.name)}</a></li>'
+    # 아카이브 링크 — 이번 주 포함 최대 12주치
+    # 이번 주는 "/" (index.html), 이전 주는 reports/파일명으로 링크
+    old_files = report_files[1:12]
+
+    current_label = "📍 " + _parse_date_from_filename(report_files[0].name) + " (이번 주)"
+    archive_items = [f'<li><a href="/" style="font-weight:700;color:#c8a800;">{current_label}</a></li>']
+    archive_items += [
+        f'<li><a href="reports/{f.name}">{_parse_date_from_filename(f.name)}</a></li>'
         for f in old_files
-    )
+    ]
+    archive_links = "\n".join(archive_items)
 
     archive_block = f"""
 <div style="position:fixed;bottom:24px;right:24px;background:white;border-radius:12px;
   padding:16px 20px;box-shadow:0 4px 20px rgba(0,0,0,.15);font-family:sans-serif;
   max-width:260px;z-index:999;">
-  <strong style="font-size:13px;color:#333;">📁 이전 리포트</strong>
-  <ul style="margin:8px 0 0;padding-left:16px;font-size:12px;color:#555;">
-    {archive_links if archive_links else '<li>이전 리포트 없음</li>'}
+  <strong style="font-size:13px;color:#333;">📁 리포트 기록</strong>
+  <ul style="margin:8px 0 0;padding-left:16px;font-size:12px;color:#555;line-height:1.8;">
+    {archive_links}
   </ul>
 </div>
-""" if archive_links else ""
+"""
 
     # </body> 직전에 아카이브 블록 삽입 (최신 리포트 = index.html)
     output_html = latest_html.replace("</body>", archive_block + "\n</body>")

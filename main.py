@@ -16,7 +16,7 @@ from github_publisher import _write_index as write_index
 from lark_notifier import send_report_notification
 
 
-def main(open_browser: bool = True):
+def main(open_browser: bool = True, notify_lark: bool = True):
     print(f"\n{'='*50}")
     print(f"  캐릭터 트렌드 리포트 생성기")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -44,13 +44,16 @@ def main(open_browser: bool = True):
     write_index(BASE_DIR, reports_dir)
     print("📑 index.html 갱신 완료\n")
 
-    # 4. Lark 알림
-    print("💬 Lark 알림 발송 중...")
-    send_report_notification(
-        report_url="https://emoticon-report.vercel.app",
-        kakao_count=len(kakao_data),
-        youtube_count=0,
-    )
+    # 4. Lark 알림 (--no-lark 플래그가 없을 때만)
+    if notify_lark:
+        print("💬 Lark 알림 발송 중...")
+        send_report_notification(
+            report_url="https://emoticon-report.vercel.app",
+            kakao_count=len(kakao_data),
+            youtube_count=0,
+        )
+    else:
+        print("💬 Lark 알림 생략 (--no-lark)")
 
     if open_browser:
         webbrowser.open(f"file:///{str(BASE_DIR / 'index.html').replace(os.sep, '/')}")
@@ -61,5 +64,6 @@ def main(open_browser: bool = True):
 
 
 if __name__ == "__main__":
-    auto_open = "--no-browser" not in sys.argv
-    main(open_browser=auto_open)
+    auto_open  = "--no-browser" not in sys.argv
+    send_lark  = "--no-lark"    not in sys.argv
+    main(open_browser=auto_open, notify_lark=send_lark)
