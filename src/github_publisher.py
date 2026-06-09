@@ -119,10 +119,11 @@ def _write_index(repo: Path, reports_dir: Path):
     report_files = sorted(reports_dir.glob("emoticon_trend_*.html"), reverse=True)
 
     # 아카이브 링크 — 최신 제외 최대 12주치
+    old_files = report_files[1:13]
     archive_links = "\n".join(
         f'<li><a href="reports/{f.name}">'
         f'{_parse_date_from_filename(f.name)}</a></li>'
-        for f in report_files[1:13]
+        for f in old_files
     )
 
     archive_block = f"""
@@ -136,8 +137,30 @@ def _write_index(repo: Path, reports_dir: Path):
 </div>
 """ if archive_links else ""
 
-    # </body> 직전에 아카이브 블록 삽입
+    # </body> 직전에 아카이브 블록 삽입 (최신 리포트 = index.html)
     output_html = latest_html.replace("</body>", archive_block + "\n</body>")
+
+    # ── 이전 리포트에 "← 이번 주 리포트" 버튼 주입 ──
+    back_btn = """
+<div style="position:fixed;top:16px;left:16px;z-index:9999;">
+  <a href="/" style="display:inline-flex;align-items:center;gap:6px;
+    background:white;border-radius:999px;padding:8px 18px;
+    box-shadow:0 2px 12px rgba(0,0,0,.15);font-family:sans-serif;
+    font-size:13px;font-weight:700;color:#333;text-decoration:none;">
+    ← 이번 주 리포트
+  </a>
+</div>"""
+    for old_f in old_files:
+        try:
+            with open(old_f, "r", encoding="utf-8") as f:
+                old_html = f.read()
+            # 이미 주입된 경우 스킵
+            if "이번 주 리포트" not in old_html:
+                old_html = old_html.replace("</body>", back_btn + "\n</body>")
+                with open(old_f, "w", encoding="utf-8") as f:
+                    f.write(old_html)
+        except Exception:
+            pass
 
     with open(repo / "index.html", "w", encoding="utf-8") as f:
         f.write(output_html)
