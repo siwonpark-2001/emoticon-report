@@ -2,6 +2,17 @@
   "2026-W23": [
     {
       "rank": 1,
+      "title": "어머! 나 싸모님이야!!",
+      "artist": "ⓒhansigan",
+      "thumbnail": "https://item.kakaocdn.net/do/f77483ce287ed9d3615716d6df9e1a31617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "oh-my-im-the-madam",
+      "url": "https://e.kakao.com/t/oh-my-im-the-madam",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
       "title": "벅뚜벅뚜 학생 나나",
       "artist": "킨무",
       "thumbnail": "https://item.kakaocdn.net/do/52033afc31ba92f56941878619d2ee7d617ea012db208c18f6e83b1a90a7baa7",
@@ -12,7 +23,7 @@
       ]
     },
     {
-      "rank": 2,
+      "rank": 3,
       "title": "꼬꼬마 또롱이의 다정한 톡",
       "artist": "라라로로",
       "thumbnail": "https://item.kakaocdn.net/do/278d3bee14552a59f5071f6bd85bc790617ea012db208c18f6e83b1a90a7baa7",
@@ -23,7 +34,7 @@
       ]
     },
     {
-      "rank": 3,
+      "rank": 4,
       "title": "삐뚤빼뚤 엉망 놀자곰 2",
       "artist": "메밀",
       "thumbnail": "https://item.kakaocdn.net/do/3aa619bc82900e1815be6f7bc800e06c617ea012db208c18f6e83b1a90a7baa7",
@@ -34,7 +45,7 @@
       ]
     },
     {
-      "rank": 4,
+      "rank": 5,
       "title": "삐뚤빼뚤 꽁쥐쓰 6",
       "artist": "KMJ",
       "thumbnail": "https://item.kakaocdn.net/do/628c16e479c9c87eefdc56c6147f6b4a617ea012db208c18f6e83b1a90a7baa7",
@@ -45,18 +56,16 @@
       ]
     },
     {
-      "rank": 5,
+      "rank": 6,
       "title": "나애미 남편 나매편 5탄 뚜둥~",
       "artist": "주주스",
       "thumbnail": "https://item.kakaocdn.net/do/dfb1699251a496ee515928ad12139231617ea012db208c18f6e83b1a90a7baa7",
       "slug": "namephyun-ver-5",
       "url": "https://e.kakao.com/t/namephyun-ver-5",
-      "badges": [
-        "NEW"
-      ]
+      "badges": []
     },
     {
-      "rank": 6,
+      "rank": 7,
       "title": "오늘도 기분 좋아지는 톡 9",
       "artist": "ⓒcmaker",
       "thumbnail": "https://item.kakaocdn.net/do/be8db0dbf51317abedc3027e9bfe7bc3617ea012db208c18f6e83b1a90a7baa7",
@@ -65,7 +74,7 @@
       "badges": []
     },
     {
-      "rank": 7,
+      "rank": 8,
       "title": "대충봐도 휘혈",
       "artist": "휘혈",
       "thumbnail": "https://item.kakaocdn.net/do/a4f2a65b5c11ea59877a81707f7fb552617ea012db208c18f6e83b1a90a7baa7",
@@ -74,7 +83,7 @@
       "badges": []
     },
     {
-      "rank": 8,
+      "rank": 9,
       "title": "꼬질이 아기 피키 2",
       "artist": "피키",
       "thumbnail": "https://item.kakaocdn.net/do/24c3924157fb9711c469645f9b8898db617ea012db208c18f6e83b1a90a7baa7",
@@ -83,7 +92,7 @@
       "badges": []
     },
     {
-      "rank": 9,
+      "rank": 10,
       "title": "봄날의 뚠뚠이 피그",
       "artist": "주피터",
       "thumbnail": "https://item.kakaocdn.net/do/a89f07b2108a06d791532de2329c7749617ea012db208c18f6e83b1a90a7baa7",
@@ -92,7 +101,7 @@
       "badges": []
     },
     {
-      "rank": 10,
+      "rank": 11,
       "title": "오리는 꽥꽥 15",
       "artist": "치즈펍",
       "thumbnail": "https://item.kakaocdn.net/do/16c592efca48460028e09831b2a891a1617ea012db208c18f6e83b1a90a7baa7",
@@ -101,7 +110,7 @@
       "badges": []
     },
     {
-      "rank": 11,
+      "rank": 12,
       "title": "방구빵빵과 스트레스를 이기는 하루",
       "artist": "방구빵빵",
       "thumbnail": "https://item.kakaocdn.net/do/3ff9c79074495fb375dbdc54e1342e3f617ea012db208c18f6e83b1a90a7baa7",
@@ -110,7 +119,7 @@
       "badges": []
     },
     {
-      "rank": 12,
+      "rank": 13,
       "title": "시묘는 강아지 7",
       "artist": "시묘일",
       "thumbnail": "https://item.kakaocdn.net/do/8928c306e8847ab2658c9f5f63a024f6617ea012db208c18f6e83b1a90a7baa7",
@@ -119,7 +128,7 @@
       "badges": []
     },
     {
-      "rank": 13,
+      "rank": 14,
       "title": "퐁신퐁신 늑대 타로로",
       "artist": "모롱",
       "thumbnail": "https://item.kakaocdn.net/do/0d1ba258366c3332920f8f54b0034b1a617ea012db208c18f6e83b1a90a7baa7",
