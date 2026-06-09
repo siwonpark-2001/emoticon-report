@@ -26,7 +26,9 @@ def main(open_browser: bool = True):
     print("📦 카카오 이모티콘 수집 중...")
     kakao_data     = fetch_kakao_ranking(limit=30)
     kakao_trending = fetch_kakao_trending()
-    print(f"   → 인기순위 {len(kakao_data)}개 / 요즘뜨는 {len(kakao_trending)}개\n")
+    current_count  = len(kakao_trending.get("current", []))
+    last_count     = len(kakao_trending.get("last_week", []))
+    print(f"   → 인기순위 {len(kakao_data)}개 / 요즘뜨는(이번주) {current_count}개 / 요즘뜨는(지난주) {last_count}개\n")
 
     # 2. HTML 리포트 생성
     reports_dir = BASE_DIR / "reports"

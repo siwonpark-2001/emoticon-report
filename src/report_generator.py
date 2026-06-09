@@ -254,9 +254,16 @@ def _build_html(kakao_data: list[dict], kakao_trending: list[dict], now: datetim
 
 # ── 카카오 탭 래퍼 ──────────────────────────────────────────────
 
-def _build_kakao_tabbed(ranking: list[dict], hot: list[dict]) -> str:
+def _build_kakao_tabbed(ranking: list[dict], hot: dict) -> str:
     ranking_html = _build_kakao_section(ranking)
-    hot_html = _build_hot_section(hot)
+    # hot 은 {"current": [...], "last_week": [...]} 형태
+    if isinstance(hot, dict):
+        current_items   = hot.get("current", [])
+        last_week_items = hot.get("last_week", [])
+    else:
+        current_items   = hot  # 이전 버전 호환
+        last_week_items = []
+    hot_html = _build_hot_section(current_items, last_week_items)
     return f"""
 <div class="tab-wrap">
   <div class="tab-bar">
@@ -268,11 +275,10 @@ def _build_kakao_tabbed(ranking: list[dict], hot: list[dict]) -> str:
 </div>"""
 
 
-def _build_hot_section(data: list[dict]) -> str:
-    """요즘 뜨는 핫템 - 썸네일 카드 그리드"""
+def _build_hot_card_grid(data: list[dict]) -> str:
+    """요즘뜨는 카드 그리드 (이번 주 / 지난주 공용)"""
     if not data:
-        return '<p class="empty-msg">핫템 데이터를 수집하지 못했습니다.</p>'
-
+        return '<p class="empty-msg" style="padding:32px;text-align:center;color:var(--sub);">데이터가 없습니다.</p>'
     cards = []
     for item in data:
         badge_html = "".join(f'<span class="item-badge">{b}</span>' for b in item.get("badges", []))
@@ -293,13 +299,56 @@ def _build_hot_section(data: list[dict]) -> str:
           </div>
           <a class="ext-link" href="{item['url']}" target="_blank" style="flex-shrink:0;">↗</a>
         </div>""")
-
-    # 2열 그리드
     return f"""
-    <div style="background:var(--kakao);border-radius:0 var(--radius) var(--radius) var(--radius);
-                padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
       {"".join(cards)}
     </div>"""
+
+
+def _build_hot_section(current: list[dict], last_week: list[dict]) -> str:
+    """요즘 뜨는 — 이번 주 / 지난주 토글"""
+    has_last = bool(last_week)
+    toggle_html = ""
+    if has_last:
+        toggle_html = """
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="hot-btn-now" onclick="hotToggle('now')"
+        style="padding:6px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;
+               cursor:pointer;background:var(--kakao-dark);color:var(--kakao);">이번 주</button>
+      <button id="hot-btn-last" onclick="hotToggle('last')"
+        style="padding:6px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;
+               cursor:pointer;background:#e0e0e0;color:#555;">지난주</button>
+    </div>"""
+
+    current_grid   = _build_hot_card_grid(current)
+    last_week_grid = _build_hot_card_grid(last_week) if has_last else ""
+
+    script_html = ""
+    if has_last:
+        script_html = """
+<script>
+function hotToggle(which) {
+  document.getElementById('hot-grid-now').style.display  = which==='now'  ? 'block' : 'none';
+  document.getElementById('hot-grid-last').style.display = which==='last' ? 'block' : 'none';
+  document.getElementById('hot-btn-now').style.background  = which==='now'  ? 'var(--kakao-dark)' : '#e0e0e0';
+  document.getElementById('hot-btn-now').style.color        = which==='now'  ? 'var(--kakao)'      : '#555';
+  document.getElementById('hot-btn-last').style.background = which==='last' ? 'var(--kakao-dark)' : '#e0e0e0';
+  document.getElementById('hot-btn-last').style.color       = which==='last' ? 'var(--kakao)'      : '#555';
+}
+</script>"""
+
+    last_block = (
+        f'<div id="hot-grid-last" style="display:none;">{last_week_grid}</div>'
+        if has_last else ""
+    )
+
+    return f"""
+    <div style="background:var(--kakao);border-radius:0 var(--radius) var(--radius) var(--radius);padding:20px;">
+      {toggle_html}
+      <div id="hot-grid-now">{current_grid}</div>
+      {last_block}
+    </div>
+    {script_html}"""
 
 
 # ── 카카오 순위 테이블 ──────────────────────────────────────────

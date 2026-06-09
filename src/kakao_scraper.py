@@ -13,7 +13,8 @@ HEADERS = {
     "Accept-Language": "ko-KR,ko;q=0.9",
 }
 
-HISTORY_FILE = Path(__file__).parent.parent / "data" / "ranking_history.json"
+HISTORY_FILE          = Path(__file__).parent.parent / "data" / "ranking_history.json"
+TRENDING_HISTORY_FILE = Path(__file__).parent.parent / "data" / "trending_history.json"
 
 
 def fetch_kakao_ranking(limit: int = 30) -> list[dict]:
@@ -138,11 +139,16 @@ def _attach_rank_history(results: list[dict], history: dict) -> list[dict]:
     return results
 
 
-def fetch_kakao_trending(limit: int = 50) -> list[dict]:
+def fetch_kakao_trending(limit: int = 50) -> dict:
     """
     카카오 '요즘 뜨는' — group/002
-    https://e.kakao.com/api/groups/item/002
+    반환: {"current": [...], "last_week": [...]}
     """
+    # ── 지난주 데이터 먼저 로드 ──
+    t_history = _load_trending_history()
+    past_keys  = sorted(t_history.keys())
+    last_week_items = t_history[past_keys[-1]] if past_keys else []
+
     try:
         resp = requests.get(
             "https://e.kakao.com/api/groups/item/002",
@@ -152,13 +158,12 @@ def fetch_kakao_trending(limit: int = 50) -> list[dict]:
         resp.raise_for_status()
         data = resp.json()
 
-        # 응답이 배열이거나 items 키를 가진 객체일 수 있음
         if isinstance(data, list):
             items = data
         else:
             items = data.get("items") or data.get("data") or []
 
-        results = []
+        current = []
         for rank, item in enumerate(items[:limit], 1):
             slug = item.get("slug", "")
             badges = []
@@ -167,7 +172,7 @@ def fetch_kakao_trending(limit: int = 50) -> list[dict]:
             if item.get("isMini"):   badges.append("미니")
             if item.get("isNew"):    badges.append("NEW")
 
-            results.append({
+            current.append({
                 "rank": rank,
                 "title": item.get("title", ""),
                 "artist": item.get("creatorName", ""),
@@ -176,11 +181,48 @@ def fetch_kakao_trending(limit: int = 50) -> list[dict]:
                 "url": f"https://e.kakao.com/t/{slug}" if slug else "https://e.kakao.com/",
                 "badges": badges,
             })
-        return results
+
+        # ── 이번 주 데이터 저장 ──
+        _save_trending_history(current)
+
+        return {"current": current, "last_week": last_week_items}
 
     except Exception as e:
         print(f"   [Kakao 요즘뜨는] 수집 실패: {e}")
-        return []
+        return {"current": [], "last_week": last_week_items}
+
+
+# ── 요즘뜨는 히스토리 ────────────────────────────────────────────
+
+def _load_trending_history() -> dict:
+    if TRENDING_HISTORY_FILE.exists():
+        with open(TRENDING_HISTORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def _save_trending_history(items: list[dict]):
+    """이번 주 요즘뜨는 목록 저장 (최대 8주 보관)"""
+    TRENDING_HISTORY_FILE.parent.mkdir(exist_ok=True)
+    history  = _load_trending_history()
+    week_key = datetime.now().strftime("%Y-W%W")
+    history[week_key] = [
+        {
+            "rank": item["rank"],
+            "title": item["title"],
+            "artist": item.get("artist", ""),
+            "thumbnail": item.get("thumbnail", ""),
+            "slug": item["slug"],
+            "url": item["url"],
+            "badges": item.get("badges", []),
+        }
+        for item in items
+    ]
+    if len(history) > 8:
+        oldest = sorted(history.keys())[0]
+        del history[oldest]
+    with open(TRENDING_HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
 
 
 def format_interest(n: int) -> str:
