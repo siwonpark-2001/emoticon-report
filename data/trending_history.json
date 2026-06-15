@@ -136,5 +136,85 @@
       "url": "https://e.kakao.com/t/taroro-the-fuzzy-wolf",
       "badges": []
     }
+  ],
+  "2026-W24": [
+    {
+      "rank": 1,
+      "title": "부들부들 아가롯삐",
+      "artist": "솜꼬리",
+      "thumbnail": "https://item.kakaocdn.net/do/f0baaa5a2461417d82cdae0d3b8c55d5617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "squishy-baby-roppi",
+      "url": "https://e.kakao.com/t/squishy-baby-roppi",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "귀욤뽀짝 예쁜 말 토린이 10",
+      "artist": "ⓒcmaker",
+      "thumbnail": "https://item.kakaocdn.net/do/2bb16f4c2dda152227f1ece52bca8e2f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "thorin-only-says-pretty-words-10",
+      "url": "https://e.kakao.com/t/thorin-only-says-pretty-words-10",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "어머! 나 싸모님이야!!",
+      "artist": "ⓒhansigan",
+      "thumbnail": "https://item.kakaocdn.net/do/f77483ce287ed9d3615716d6df9e1a31617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "oh-my-im-the-madam",
+      "url": "https://e.kakao.com/t/oh-my-im-the-madam",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "벅뚜벅뚜 학생 나나",
+      "artist": "킨무",
+      "thumbnail": "https://item.kakaocdn.net/do/52033afc31ba92f56941878619d2ee7d617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "student-nana",
+      "url": "https://e.kakao.com/t/student-nana",
+      "badges": []
+    },
+    {
+      "rank": 5,
+      "title": "꼬꼬마 또롱이의 다정한 톡",
+      "artist": "라라로로",
+      "thumbnail": "https://item.kakaocdn.net/do/278d3bee14552a59f5071f6bd85bc790617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "little-torong-sweet-talk",
+      "url": "https://e.kakao.com/t/little-torong-sweet-talk",
+      "badges": []
+    },
+    {
+      "rank": 6,
+      "title": "삐뚤빼뚤 엉망 놀자곰 2",
+      "artist": "메밀",
+      "thumbnail": "https://item.kakaocdn.net/do/3aa619bc82900e1815be6f7bc800e06c617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "crooked-nolzagom-2",
+      "url": "https://e.kakao.com/t/crooked-nolzagom-2",
+      "badges": []
+    },
+    {
+      "rank": 7,
+      "title": "삐뚤빼뚤 꽁쥐쓰 6",
+      "artist": "KMJ",
+      "thumbnail": "https://item.kakaocdn.net/do/628c16e479c9c87eefdc56c6147f6b4a617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "kkongji-says-who-cares-6",
+      "url": "https://e.kakao.com/t/kkongji-says-who-cares-6",
+      "badges": []
+    },
+    {
+      "rank": 8,
+      "title": "나애미 남편 나매편 5탄 뚜둥~",
+      "artist": "주주스",
+      "thumbnail": "https://item.kakaocdn.net/do/dfb1699251a496ee515928ad12139231617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "namephyun-ver-5",
+      "url": "https://e.kakao.com/t/namephyun-ver-5",
+      "badges": []
+    }
   ]
 }
