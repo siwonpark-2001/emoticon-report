@@ -216,5 +216,78 @@
       "url": "https://e.kakao.com/t/namephyun-ver-5",
       "badges": []
     }
+  ],
+  "2026-W25": [
+    {
+      "rank": 1,
+      "title": "안농! 나 주황댕댕이 주댕이3",
+      "artist": "파댕이",
+      "thumbnail": "https://item.kakaocdn.net/do/a3d884294eb4e45bf799623e2d6274e5617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "the-orange-doggie-ver-3",
+      "url": "https://e.kakao.com/t/the-orange-doggie-ver-3",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "급하개 바쁘개 낙서했다개",
+      "artist": "ⓒfunppy",
+      "thumbnail": "https://item.kakaocdn.net/do/94cdff28969abf3f3fb6725cbf1cdb6a617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "hurrybow-busywow-are-doodle-dogs",
+      "url": "https://e.kakao.com/t/hurrybow-busywow-are-doodle-dogs",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "강아지 확대 4",
+      "artist": "아지",
+      "thumbnail": "https://item.kakaocdn.net/do/3f9968086b38bacc064105e8db307a7d617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "enlargement-of-the-puppy-4",
+      "url": "https://e.kakao.com/t/enlargement-of-the-puppy-4",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "알록달록 짱냥이",
+      "artist": "데코보코",
+      "thumbnail": "https://item.kakaocdn.net/do/6e0286304a8d72333bf6d76410b8c3c7617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "colorful-jjangnyangi",
+      "url": "https://e.kakao.com/t/colorful-jjangnyangi",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "부들부들 아가롯삐",
+      "artist": "솜꼬리",
+      "thumbnail": "https://item.kakaocdn.net/do/f0baaa5a2461417d82cdae0d3b8c55d5617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "squishy-baby-roppi",
+      "url": "https://e.kakao.com/t/squishy-baby-roppi",
+      "badges": []
+    },
+    {
+      "rank": 6,
+      "title": "귀욤뽀짝 예쁜 말 토린이 10",
+      "artist": "ⓒcmaker",
+      "thumbnail": "https://item.kakaocdn.net/do/2bb16f4c2dda152227f1ece52bca8e2f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "thorin-only-says-pretty-words-10",
+      "url": "https://e.kakao.com/t/thorin-only-says-pretty-words-10",
+      "badges": []
+    },
+    {
+      "rank": 7,
+      "title": "어머! 나 싸모님이야!!",
+      "artist": "ⓒhansigan",
+      "thumbnail": "https://item.kakaocdn.net/do/f77483ce287ed9d3615716d6df9e1a31617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "oh-my-im-the-madam",
+      "url": "https://e.kakao.com/t/oh-my-im-the-madam",
+      "badges": []
+    }
   ]
 }
