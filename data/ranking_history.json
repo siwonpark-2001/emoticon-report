@@ -458,153 +458,153 @@
   "2026-W25": [
     {
       "rank": 1,
+      "title": "듀.. 가나디 7",
+      "slug": "dyu-ganadi-7"
+    },
+    {
+      "rank": 2,
       "title": "우다다 우땅이",
       "slug": "dashing-utang"
     },
     {
-      "rank": 2,
-      "title": "하여튼 누렁이 2",
-      "slug": "noorung-anyway-2"
-    },
-    {
       "rank": 3,
-      "title": "커플 망그러진 곰 3",
-      "slug": "broken-bear-couple-ver-3"
+      "title": "뽀짝뽀짝 소듕해 (곰돌찡 ver.)",
+      "slug": "smol-precious-bearzzing-ver"
     },
     {
       "rank": 4,
-      "title": "세숑 삐졌숑!",
-      "slug": "sechon-is-sulking"
+      "title": "표정이... 열심히 살아야 되는 고양이",
+      "slug": "that-face-try-hard-cat"
     },
     {
       "rank": 5,
-      "title": "삐딱선 타고 온 햄스터",
-      "slug": "rogue-hamster"
+      "title": "뽀짝뽀짝 소듕해 (토끼찡 ver.)",
+      "slug": "smol-precious-rabbitzzing-ver"
     },
     {
       "rank": 6,
-      "title": "듀.. 가나디 6",
-      "slug": "dyu-ganadi-6"
-    },
-    {
-      "rank": 7,
-      "title": "오늘의 짤 #짤먹고 다니냐",
-      "slug": "todays-meme-eating-well"
-    },
-    {
-      "rank": 8,
-      "title": "그때 그 시절 감스트 짤 모음",
-      "slug": "gamst-gif-collection"
-    },
-    {
-      "rank": 9,
-      "title": "이랬다뤂 저랬다뤂",
-      "slug": "flip-flop-zanmang-loopy"
-    },
-    {
-      "rank": 10,
-      "title": "기니휘기 출똥 3",
-      "slug": "guinnie-hwiggy-rolls-out-3"
-    },
-    {
-      "rank": 11,
-      "title": "슈야는 데이트 중!",
-      "slug": "shuya-on-a-date"
-    },
-    {
-      "rank": 12,
-      "title": "사이좋은 부실감자들 2",
-      "slug": "friendly-frazzled-potatoes-2"
-    },
-    {
-      "rank": 13,
-      "title": "늬에시의 일상 8",
-      "slug": "eunuchs-daily-life-8"
-    },
-    {
-      "rank": 14,
-      "title": "꼬꼬마 또롱이의 다정한 톡",
-      "slug": "little-torong-sweet-talk"
-    },
-    {
-      "rank": 15,
-      "title": "듀.. 가나디",
-      "slug": "dyu-ganadi"
-    },
-    {
-      "rank": 16,
-      "title": "마루의 끄적끄적 그림일기",
-      "slug": "marus-doodle-diary"
-    },
-    {
-      "rank": 17,
-      "title": "어쩔햄스터",
-      "slug": "whatever-hamster_2"
-    },
-    {
-      "rank": 18,
-      "title": "똥깨발랄 똥개",
-      "slug": "cute-mutt-dog"
-    },
-    {
-      "rank": 19,
-      "title": "금금티콘 대학생활 에디션",
-      "slug": "goldgold-college-edition"
-    },
-    {
-      "rank": 20,
-      "title": "멈무커플 댕댕라이프(리트리버)",
-      "slug": "mummu-couples-puppy-liferetriever"
-    },
-    {
-      "rank": 21,
-      "title": "강아지 확대 4",
-      "slug": "enlargement-of-the-puppy-4"
-    },
-    {
-      "rank": 22,
-      "title": "토야는 데이트 중!",
-      "slug": "toya-on-a-date"
-    },
-    {
-      "rank": 23,
-      "title": "듀.. 가나디 5",
-      "slug": "dyu-ganadi-5"
-    },
-    {
-      "rank": 24,
-      "title": "웅냥냥냐 2",
-      "slug": "the-cat-meow-meow-meow-2"
-    },
-    {
-      "rank": 25,
-      "title": "바들바들 거대 동물콘",
-      "slug": "shaky-giant-animals"
-    },
-    {
-      "rank": 26,
-      "title": "꽉꽉꽉! 대환장 파티 곽철이!",
-      "slug": "quack-quack-big-party-qwak-cheol"
-    },
-    {
-      "rank": 27,
       "title": "이 바보 몽숭이야! 4",
       "slug": "silly-monkie-4"
     },
     {
+      "rank": 7,
+      "title": "삐딱선 타고 온 햄스터",
+      "slug": "rogue-hamster"
+    },
+    {
+      "rank": 8,
+      "title": "광기 묻은 오리",
+      "slug": "crazy-duck"
+    },
+    {
+      "rank": 9,
+      "title": "커플 망그러진 곰 3",
+      "slug": "broken-bear-couple-ver-3"
+    },
+    {
+      "rank": 10,
+      "title": "이랬다뤂 저랬다뤂",
+      "slug": "flip-flop-zanmang-loopy"
+    },
+    {
+      "rank": 11,
+      "title": "GO라니 일상편 2",
+      "slug": "go-deers-daily-life-2"
+    },
+    {
+      "rank": 12,
+      "title": "오늘의 짤 #짤먹고 다니냐",
+      "slug": "todays-meme-eating-well"
+    },
+    {
+      "rank": 13,
+      "title": "샤니의 행복한 하루 톡",
+      "slug": "shanys-happy-daily-talk"
+    },
+    {
+      "rank": 14,
+      "title": "양아지의 일상 with 양모노",
+      "slug": "daily-life-of-yangazi-with-yangmono"
+    },
+    {
+      "rank": 15,
+      "title": "듀.. 가나디 6",
+      "slug": "dyu-ganadi-6"
+    },
+    {
+      "rank": 16,
+      "title": "요하와 함께 해피 톡톡톡",
+      "slug": "yoha-ver-59"
+    },
+    {
+      "rank": 17,
+      "title": "뽀야와 즐거운 하루하루 톡",
+      "slug": "happy-day-talk-with-ppoya"
+    },
+    {
+      "rank": 18,
+      "title": "늬에시의 일상 8",
+      "slug": "eunuchs-daily-life-8"
+    },
+    {
+      "rank": 19,
+      "title": "Who’s there? BBNEXDO! 2",
+      "slug": "whos-there-bbnexdo-2"
+    },
+    {
+      "rank": 20,
+      "title": "기니휘기 출똥 3",
+      "slug": "guinnie-hwiggy-rolls-out-3"
+    },
+    {
+      "rank": 21,
+      "title": "옹졸입 병아리 2",
+      "slug": "a-tiny-beaked-chick-2"
+    },
+    {
+      "rank": 22,
+      "title": "하여튼 누렁이 2",
+      "slug": "noorung-anyway-2"
+    },
+    {
+      "rank": 23,
+      "title": "난 꽃으로 때려",
+      "slug": "i-hit-with-flowers"
+    },
+    {
+      "rank": 24,
+      "title": "조구만 똥개 도룽이 4",
+      "slug": "small-mutt-dog-dorung-4"
+    },
+    {
+      "rank": 25,
+      "title": "우리는 눈누난나 (미니.ver)",
+      "slug": "were-la-di-da-miniver"
+    },
+    {
+      "rank": 26,
+      "title": "깨득이 10",
+      "slug": "kkaedeuki-10_2"
+    },
+    {
+      "rank": 27,
+      "title": "그때 그 시절 감스트 짤 모음",
+      "slug": "gamst-gif-collection"
+    },
+    {
       "rank": 28,
-      "title": "멈무커플 댕댕라이프(몰티즈)",
-      "slug": "mummu-couples-puppy-life-maltese"
+      "title": "듀.. 가나디",
+      "slug": "dyu-ganadi"
     },
     {
       "rank": 29,
-      "title": "찰싹! 붙어있는 부빗토끼",
-      "slug": "snuggle-bunny"
+      "title": "어쩔햄스터",
+      "slug": "whatever-hamster_2"
     },
     {
       "rank": 30,
-      "title": "듀.. 가나디 2",
-      "slug": "dyu-ganadi-2"
+      "title": "그늘진 예민감자",
+      "slug": "shady-potato"
     }
   ]
 }
