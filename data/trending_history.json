@@ -1,84 +1,4 @@
 {
-  "2026-W24": [
-    {
-      "rank": 1,
-      "title": "부들부들 아가롯삐",
-      "artist": "솜꼬리",
-      "thumbnail": "https://item.kakaocdn.net/do/f0baaa5a2461417d82cdae0d3b8c55d5617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "squishy-baby-roppi",
-      "url": "https://e.kakao.com/t/squishy-baby-roppi",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 2,
-      "title": "귀욤뽀짝 예쁜 말 토린이 10",
-      "artist": "ⓒcmaker",
-      "thumbnail": "https://item.kakaocdn.net/do/2bb16f4c2dda152227f1ece52bca8e2f617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "thorin-only-says-pretty-words-10",
-      "url": "https://e.kakao.com/t/thorin-only-says-pretty-words-10",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 3,
-      "title": "어머! 나 싸모님이야!!",
-      "artist": "ⓒhansigan",
-      "thumbnail": "https://item.kakaocdn.net/do/f77483ce287ed9d3615716d6df9e1a31617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "oh-my-im-the-madam",
-      "url": "https://e.kakao.com/t/oh-my-im-the-madam",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 4,
-      "title": "벅뚜벅뚜 학생 나나",
-      "artist": "킨무",
-      "thumbnail": "https://item.kakaocdn.net/do/52033afc31ba92f56941878619d2ee7d617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "student-nana",
-      "url": "https://e.kakao.com/t/student-nana",
-      "badges": []
-    },
-    {
-      "rank": 5,
-      "title": "꼬꼬마 또롱이의 다정한 톡",
-      "artist": "라라로로",
-      "thumbnail": "https://item.kakaocdn.net/do/278d3bee14552a59f5071f6bd85bc790617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "little-torong-sweet-talk",
-      "url": "https://e.kakao.com/t/little-torong-sweet-talk",
-      "badges": []
-    },
-    {
-      "rank": 6,
-      "title": "삐뚤빼뚤 엉망 놀자곰 2",
-      "artist": "메밀",
-      "thumbnail": "https://item.kakaocdn.net/do/3aa619bc82900e1815be6f7bc800e06c617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "crooked-nolzagom-2",
-      "url": "https://e.kakao.com/t/crooked-nolzagom-2",
-      "badges": []
-    },
-    {
-      "rank": 7,
-      "title": "삐뚤빼뚤 꽁쥐쓰 6",
-      "artist": "KMJ",
-      "thumbnail": "https://item.kakaocdn.net/do/628c16e479c9c87eefdc56c6147f6b4a617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "kkongji-says-who-cares-6",
-      "url": "https://e.kakao.com/t/kkongji-says-who-cares-6",
-      "badges": []
-    },
-    {
-      "rank": 8,
-      "title": "나애미 남편 나매편 5탄 뚜둥~",
-      "artist": "주주스",
-      "thumbnail": "https://item.kakaocdn.net/do/dfb1699251a496ee515928ad12139231617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "namephyun-ver-5",
-      "url": "https://e.kakao.com/t/namephyun-ver-5",
-      "badges": []
-    }
-  ],
   "2026-W25": [
     {
       "rank": 1,
@@ -1000,6 +920,150 @@
       "thumbnail": "https://item.kakaocdn.net/do/60f72894cb04ad00b0c63eb01931622b617ea012db208c18f6e83b1a90a7baa7",
       "slug": "this-beggar-and-thats-beggar3",
       "url": "https://e.kakao.com/t/this-beggar-and-thats-beggar3",
+      "badges": []
+    }
+  ],
+  "2026-W32": [
+    {
+      "rank": 1,
+      "title": "떡토끼 무뇽이 키우기 ver.2",
+      "artist": "은작가",
+      "thumbnail": "https://item.kakaocdn.net/do/b4d92cdabe41033202250d1e94e60181617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "rice-cake-rabbit-munyong-maker-ver2",
+      "url": "https://e.kakao.com/t/rice-cake-rabbit-munyong-maker-ver2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "돌고래는 지능이 높다 5",
+      "artist": "카린",
+      "thumbnail": "https://item.kakaocdn.net/do/3e0d6a6b775e22a90e8566caba9a266f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "dolphins-are-intelligent-5",
+      "url": "https://e.kakao.com/t/dolphins-are-intelligent-5",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "어푸푸푸 모찌찌찌",
+      "artist": "ⓒfunppy",
+      "thumbnail": "https://item.kakaocdn.net/do/00150e24ebe1b0448b502740c0f52def617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "uhpupupu-mozzizzizzi",
+      "url": "https://e.kakao.com/t/uhpupupu-mozzizzizzi",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "여름방학 파댕이와 친구들!",
+      "artist": "파댕이",
+      "thumbnail": "https://item.kakaocdn.net/do/400e7a04885f2459b229ddafc3174926617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "blue-doggie-crew-summer",
+      "url": "https://e.kakao.com/t/blue-doggie-crew-summer",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "광끼곰과 평화로운 연애",
+      "artist": "신빵구",
+      "thumbnail": "https://item.kakaocdn.net/do/8fcf3392d9f3a8f6ab33b9d9f0a2e094617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "peaceful-dating-with-maaad-bear",
+      "url": "https://e.kakao.com/t/peaceful-dating-with-maaad-bear",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 6,
+      "title": "자비없고 잔인한 브라키오의 3단 분노 2",
+      "artist": "조구만",
+      "thumbnail": "https://item.kakaocdn.net/do/5d486bf19f76901b0e24ddd0f044df01617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "rage-of-unforgiving-brutal-brachio-2",
+      "url": "https://e.kakao.com/t/rage-of-unforgiving-brutal-brachio-2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 7,
+      "title": "아이고 어쩌다가...",
+      "artist": "똑띠",
+      "thumbnail": "https://item.kakaocdn.net/do/9862b044dc9859aa7d2e71436b8b6d21617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "thats-so-unfortunate",
+      "url": "https://e.kakao.com/t/thats-so-unfortunate",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 8,
+      "title": "모찌롱의 여름나기",
+      "artist": "퓨므퓨",
+      "thumbnail": "https://item.kakaocdn.net/do/31c1388af6e162d6369a3ef0d888400f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "mojjilongs-summer",
+      "url": "https://e.kakao.com/t/mojjilongs-summer",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 9,
+      "title": "자주쓰는 일상톡 5",
+      "artist": "무릎이 임선경",
+      "thumbnail": "https://item.kakaocdn.net/do/64fb2f82bdccb43585027207b0ab59f5617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "made-for-daily-talks-5",
+      "url": "https://e.kakao.com/t/made-for-daily-talks-5",
+      "badges": []
+    },
+    {
+      "rank": 10,
+      "title": "어쩔꽁쥐 5",
+      "artist": "KMJ",
+      "thumbnail": "https://item.kakaocdn.net/do/366b977db1f615bdb0712c6df19f9ae0617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "kkongji-says-so-what-5",
+      "url": "https://e.kakao.com/t/kkongji-says-so-what-5",
+      "badges": []
+    },
+    {
+      "rank": 11,
+      "title": "또롱이의 일상톡",
+      "artist": "라라로로",
+      "thumbnail": "https://item.kakaocdn.net/do/a4f25c5ff7040b00ad28f7551adbbcf7617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "torong-daily-talk",
+      "url": "https://e.kakao.com/t/torong-daily-talk",
+      "badges": []
+    },
+    {
+      "rank": 12,
+      "title": "하찮아용 4",
+      "artist": "구준희",
+      "thumbnail": "https://item.kakaocdn.net/do/a412b2ab7dcef9881d3dfe3475d5af4a617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "tiny-dragon-4",
+      "url": "https://e.kakao.com/t/tiny-dragon-4",
+      "badges": []
+    },
+    {
+      "rank": 13,
+      "title": "이 바보 몽숭이야! 5",
+      "artist": "편살",
+      "thumbnail": "https://item.kakaocdn.net/do/5b189ba8ef9a41edce7226f3de03dc1b617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "silly-monkie-5",
+      "url": "https://e.kakao.com/t/silly-monkie-5",
+      "badges": []
+    },
+    {
+      "rank": 14,
+      "title": "시끄러운 파충류들 6",
+      "artist": "옥튜디오",
+      "thumbnail": "https://item.kakaocdn.net/do/574613e0df1bd2abb7d001ea80a4007d617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "noisy-reptiles-6",
+      "url": "https://e.kakao.com/t/noisy-reptiles-6",
       "badges": []
     }
   ]
