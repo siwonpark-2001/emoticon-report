@@ -1,156 +1,4 @@
 {
-  "2026-W22": [
-    {
-      "rank": 1,
-      "title": "괴짜고양 방, 구 2탄!",
-      "slug": "ordinary-cats-ban-gu-v2"
-    },
-    {
-      "rank": 2,
-      "title": "오늘도 믹스피 1",
-      "slug": "mixxffys-playful-day-1"
-    },
-    {
-      "rank": 3,
-      "title": "삐딱선 타고 온 햄스터",
-      "slug": "rogue-hamster"
-    },
-    {
-      "rank": 4,
-      "title": "망충대장 치즈덕 9",
-      "slug": "dimwit-cheeseduck-9"
-    },
-    {
-      "rank": 5,
-      "title": "일하는 빈티지 고양이",
-      "slug": "vintage-cat-at-work"
-    },
-    {
-      "rank": 6,
-      "title": "복심이도 프렌즈",
-      "slug": "bokshimi-and-friends"
-    },
-    {
-      "rank": 7,
-      "title": "듀.. 가나디 6",
-      "slug": "dyu-ganadi-6"
-    },
-    {
-      "rank": 8,
-      "title": "이랬다뤂 저랬다뤂",
-      "slug": "flip-flop-zanmang-loopy"
-    },
-    {
-      "rank": 9,
-      "title": "쪼꼬만 토시미, 쪼시미 3",
-      "slug": "tiny-toshimee-choshimee-3"
-    },
-    {
-      "rank": 10,
-      "title": "오늘도 기분 좋아지는 톡 9",
-      "slug": "feel-good-messages-9"
-    },
-    {
-      "rank": 11,
-      "title": "진짜 ‘똥’강아지 2",
-      "slug": "pooppy-2"
-    },
-    {
-      "rank": 12,
-      "title": "쟉고 복슬복슬한 토땅 곰땅",
-      "slug": "little-toddang-gomddang"
-    },
-    {
-      "rank": 13,
-      "title": "쮸글 낙서 창고콘!",
-      "slug": "jjuggles-doodle-store-con"
-    },
-    {
-      "rank": 14,
-      "title": "짝은..북 . .ㅇ ㅣ. .",
-      "slug": "lil-tur-tle-"
-    },
-    {
-      "rank": 15,
-      "title": "깜자라고해 6",
-      "slug": "im-ggamja-6"
-    },
-    {
-      "rank": 16,
-      "title": "눕방하는 눕멍이",
-      "slug": "professional-lounger-puppy"
-    },
-    {
-      "rank": 17,
-      "title": "뽀야와 띠용 띠용 톡",
-      "slug": "amazing-talk-with-ppoya"
-    },
-    {
-      "rank": 18,
-      "title": "힘내라고 희동",
-      "slug": "cheer-up-heedong"
-    },
-    {
-      "rank": 19,
-      "title": "리액션 필수템",
-      "slug": "must-have-reaction-item"
-    },
-    {
-      "rank": 20,
-      "title": "단발이 회춘하다",
-      "slug": "bob-hair-ladies-gentlemen-mini-ver"
-    },
-    {
-      "rank": 21,
-      "title": "어쩔햄스터",
-      "slug": "whatever-hamster_2"
-    },
-    {
-      "rank": 22,
-      "title": "얘들아 나 멜로우!",
-      "slug": "hey-everyone-its-mellow"
-    },
-    {
-      "rank": 23,
-      "title": "우르롹끼사우르스",
-      "slug": "ururakkisaurus"
-    },
-    {
-      "rank": 24,
-      "title": "안녕하세요 갱아지입니다",
-      "slug": "hello-im-puppy"
-    },
-    {
-      "rank": 25,
-      "title": "듀.. 가나디 5",
-      "slug": "dyu-ganadi-5"
-    },
-    {
-      "rank": 26,
-      "title": "건망증 옥철이",
-      "slug": "my-goldfish-memory"
-    },
-    {
-      "rank": 27,
-      "title": "이 바보 몽숭이야! 4",
-      "slug": "silly-monkie-4"
-    },
-    {
-      "rank": 28,
-      "title": "이목구비만큼 자유분방한 룡공이 2",
-      "slug": "free-spirited-ryonggong-2"
-    },
-    {
-      "rank": 29,
-      "title": "사랑 애 도룽이",
-      "slug": "love-dorung"
-    },
-    {
-      "rank": 30,
-      "title": "듀.. 가나디",
-      "slug": "dyu-ganadi"
-    }
-  ],
   "2026-W23": [
     {
       "rank": 1,
@@ -1821,6 +1669,158 @@
       "rank": 30,
       "title": "이 바보 몽숭이야! 4",
       "slug": "silly-monkie-4"
+    }
+  ],
+  "2026-W34": [
+    {
+      "rank": 1,
+      "title": "리센느 X 안원잘부 시즌1",
+      "slug": "helloiamwoninicetomeetyou-s1"
+    },
+    {
+      "rank": 2,
+      "title": "우다다 우땅이",
+      "slug": "dashing-utang"
+    },
+    {
+      "rank": 3,
+      "title": "듀.. 가나디 7",
+      "slug": "dyu-ganadi-7"
+    },
+    {
+      "rank": 4,
+      "title": "먹고 살기 힘들다뤂..",
+      "slug": "zanmang-loopy-adulting-is-hard"
+    },
+    {
+      "rank": 5,
+      "title": "오여사의 고급진 인생",
+      "slug": "oh-my-madame-ver-59"
+    },
+    {
+      "rank": 6,
+      "title": "기니휘기 출똥! 4",
+      "slug": "guinnie-hwiggy-rolls-out-4"
+    },
+    {
+      "rank": 7,
+      "title": "고장난 뚝딱감자 2",
+      "slug": "glitchy-tuktakpotato-2"
+    },
+    {
+      "rank": 8,
+      "title": "턱시도 고영희 나나! 2",
+      "slug": "tuxedo-cat-nana-2_2"
+    },
+    {
+      "rank": 9,
+      "title": "딱 붙어있을래! 토끼찡",
+      "slug": "glued-to-you-rabbitzzing"
+    },
+    {
+      "rank": 10,
+      "title": "쫀냐미와 친구들",
+      "slug": "zzonnyami-and-friends"
+    },
+    {
+      "rank": 11,
+      "title": "딱 붙어있을래! 곰돌찡",
+      "slug": "glued-to-you-bearzzing"
+    },
+    {
+      "rank": 12,
+      "title": "으른의 삶 늬에시 8",
+      "slug": "eunuch-is-a-good-adult-8"
+    },
+    {
+      "rank": 13,
+      "title": "찌글찌글 눈멍냥이 3",
+      "slug": "crinkly-nunmeong-nyangi-3"
+    },
+    {
+      "rank": 14,
+      "title": "먼작귀6탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "-small-cute-chiikawa-6"
+    },
+    {
+      "rank": 15,
+      "title": "햄스터 확대 7",
+      "slug": "close-up-of-hamster-7"
+    },
+    {
+      "rank": 16,
+      "title": "토뭉이는 둥기둥기",
+      "slug": "cuddle-with-tomoong"
+    },
+    {
+      "rank": 17,
+      "title": "그때 그 시절 감스트 짤 모음",
+      "slug": "gamst-gif-collection"
+    },
+    {
+      "rank": 18,
+      "title": "나랑결혼해! 애기 뽀짝커플 (남친꺼)",
+      "slug": "marry-me-adorable-couple-bf"
+    },
+    {
+      "rank": 19,
+      "title": "업티콘 존댓말로 업업업! 7",
+      "slug": "i-feel-great-today-ver-62"
+    },
+    {
+      "rank": 20,
+      "title": "공손하게 말해용 3",
+      "slug": "lets-speak-politely-3"
+    },
+    {
+      "rank": 21,
+      "title": "삐딱선 타고 온 햄스터",
+      "slug": "rogue-hamster"
+    },
+    {
+      "rank": 22,
+      "title": "듀.. 가나디",
+      "slug": "dyu-ganadi"
+    },
+    {
+      "rank": 23,
+      "title": "안녕하세요. 김바덕 입니다. 28",
+      "slug": "hello-baduck-kim-ver-28"
+    },
+    {
+      "rank": 24,
+      "title": "햄확이의 찰떡 리액션",
+      "slug": "hamhwakis-perfect-reactions"
+    },
+    {
+      "rank": 25,
+      "title": "참새는 참세다",
+      "slug": "the-sparrow-is-very-strong"
+    },
+    {
+      "rank": 26,
+      "title": "듀.. 가나디 5",
+      "slug": "dyu-ganadi-5"
+    },
+    {
+      "rank": 27,
+      "title": "깜자라고해 7",
+      "slug": "im-ggamja-7"
+    },
+    {
+      "rank": 28,
+      "title": "듀.. 가나디 6",
+      "slug": "dyu-ganadi-6"
+    },
+    {
+      "rank": 29,
+      "title": "보여줄게 완전히 오니기리",
+      "slug": "ill-show-you-a-completely-onigiri"
+    },
+    {
+      "rank": 30,
+      "title": "작은 회색 고양이 6",
+      "slug": "the-little-gray-cat-ver-6"
     }
   ]
 }
