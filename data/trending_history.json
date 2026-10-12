@@ -1,177 +1,4 @@
 {
-  "2026-W33": [
-    {
-      "rank": 1,
-      "title": "턱시도 고영희 나나! 2",
-      "artist": "킨무",
-      "thumbnail": "https://item.kakaocdn.net/do/59d73bd363f519fe8d15328c0bf1e420617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "tuxedo-cat-nana-2_2",
-      "url": "https://e.kakao.com/t/tuxedo-cat-nana-2_2",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 2,
-      "title": "사랑하는 그대에게 Ver. 21",
-      "artist": "무릎이 임선경",
-      "thumbnail": "https://item.kakaocdn.net/do/a805488fd6ee1cce35392d6479b06cf9617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "to-whom-i-love-ver-21",
-      "url": "https://e.kakao.com/t/to-whom-i-love-ver-21",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 3,
-      "title": "쮸글 낙서 개미소녀콘!",
-      "artist": "낡은창고",
-      "thumbnail": "https://item.kakaocdn.net/do/3d606f2948329e719d097f6dbbeed007617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "jjuggles-doodle-ant-con",
-      "url": "https://e.kakao.com/t/jjuggles-doodle-ant-con",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 4,
-      "title": "만찢남 어따 비벼",
-      "artist": "Gihoon",
-      "thumbnail": "https://item.kakaocdn.net/do/1e05b083c784d17e512033666c1930b8617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "man-who-popped-out-a-cartoon-ver23",
-      "url": "https://e.kakao.com/t/man-who-popped-out-a-cartoon-ver23",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 5,
-      "title": "작아요 고먕이 6",
-      "artist": "꼼지",
-      "thumbnail": "https://item.kakaocdn.net/do/9b735ef73b9ceca9a415cf6d3a965ddd617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "gomyaangi-is-small-6",
-      "url": "https://e.kakao.com/t/gomyaangi-is-small-6",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 6,
-      "title": "아기 포실포실 햄스터",
-      "artist": "포시러브",
-      "thumbnail": "https://item.kakaocdn.net/do/4f447cef3fa2bde23a9cd7bf712c14f5617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "baby-chubby-chubby-hamster",
-      "url": "https://e.kakao.com/t/baby-chubby-chubby-hamster",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 7,
-      "title": "알랑방구 멍멍이 6",
-      "artist": "와다다",
-      "thumbnail": "https://item.kakaocdn.net/do/746686c6b41dac6a1fbac26e2423e2a0617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "flatter-dog-6",
-      "url": "https://e.kakao.com/t/flatter-dog-6",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 8,
-      "title": "꽃카의 오락가락 사회생활",
-      "artist": "영이의 숲",
-      "thumbnail": "https://item.kakaocdn.net/do/289209706cf339fa44cb361eed28ac95617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "kkotkas-rollercoaster-work-life",
-      "url": "https://e.kakao.com/t/kkotkas-rollercoaster-work-life",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 9,
-      "title": "등껍질 없어 슬픈 꺼북 6",
-      "artist": "느적",
-      "thumbnail": "https://item.kakaocdn.net/do/d80a1432223d39a85e3ec0980689d411617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "a-sad-turtle-without-a-shell-6",
-      "url": "https://e.kakao.com/t/a-sad-turtle-without-a-shell-6",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 10,
-      "title": "떡토끼 무뇽이 키우기 ver.2",
-      "artist": "은작가",
-      "thumbnail": "https://item.kakaocdn.net/do/b4d92cdabe41033202250d1e94e60181617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "rice-cake-rabbit-munyong-maker-ver2",
-      "url": "https://e.kakao.com/t/rice-cake-rabbit-munyong-maker-ver2",
-      "badges": []
-    },
-    {
-      "rank": 11,
-      "title": "돌고래는 지능이 높다 5",
-      "artist": "카린",
-      "thumbnail": "https://item.kakaocdn.net/do/3e0d6a6b775e22a90e8566caba9a266f617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "dolphins-are-intelligent-5",
-      "url": "https://e.kakao.com/t/dolphins-are-intelligent-5",
-      "badges": []
-    },
-    {
-      "rank": 12,
-      "title": "어푸푸푸 모찌찌찌",
-      "artist": "ⓒfunppy",
-      "thumbnail": "https://item.kakaocdn.net/do/00150e24ebe1b0448b502740c0f52def617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "uhpupupu-mozzizzizzi",
-      "url": "https://e.kakao.com/t/uhpupupu-mozzizzizzi",
-      "badges": []
-    },
-    {
-      "rank": 13,
-      "title": "여름방학 파댕이와 친구들!",
-      "artist": "파댕이",
-      "thumbnail": "https://item.kakaocdn.net/do/400e7a04885f2459b229ddafc3174926617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "blue-doggie-crew-summer",
-      "url": "https://e.kakao.com/t/blue-doggie-crew-summer",
-      "badges": []
-    },
-    {
-      "rank": 14,
-      "title": "광끼곰과 평화로운 연애",
-      "artist": "신빵구",
-      "thumbnail": "https://item.kakaocdn.net/do/8fcf3392d9f3a8f6ab33b9d9f0a2e094617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "peaceful-dating-with-maaad-bear",
-      "url": "https://e.kakao.com/t/peaceful-dating-with-maaad-bear",
-      "badges": []
-    },
-    {
-      "rank": 15,
-      "title": "자비없고 잔인한 브라키오의 3단 분노 2",
-      "artist": "조구만",
-      "thumbnail": "https://item.kakaocdn.net/do/5d486bf19f76901b0e24ddd0f044df01617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "rage-of-unforgiving-brutal-brachio-2",
-      "url": "https://e.kakao.com/t/rage-of-unforgiving-brutal-brachio-2",
-      "badges": []
-    },
-    {
-      "rank": 16,
-      "title": "아이고 어쩌다가...",
-      "artist": "똑띠",
-      "thumbnail": "https://item.kakaocdn.net/do/9862b044dc9859aa7d2e71436b8b6d21617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "thats-so-unfortunate",
-      "url": "https://e.kakao.com/t/thats-so-unfortunate",
-      "badges": []
-    },
-    {
-      "rank": 17,
-      "title": "모찌롱의 여름나기",
-      "artist": "퓨므퓨",
-      "thumbnail": "https://item.kakaocdn.net/do/31c1388af6e162d6369a3ef0d888400f617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "mojjilongs-summer",
-      "url": "https://e.kakao.com/t/mojjilongs-summer",
-      "badges": []
-    }
-  ],
   "2026-W34": [
     {
       "rank": 1,
@@ -1022,6 +849,132 @@
       "thumbnail": "https://item.kakaocdn.net/do/26dab2205131b58e1157009c7d1c9202617ea012db208c18f6e83b1a90a7baa7",
       "slug": "not-so-peaceful-parenting",
       "url": "https://e.kakao.com/t/not-so-peaceful-parenting",
+      "badges": []
+    }
+  ],
+  "2026-W41": [
+    {
+      "rank": 1,
+      "title": "햄스터 확대 8",
+      "artist": "아지",
+      "thumbnail": "https://item.kakaocdn.net/do/bf86ab4ba5988e49c9a8f2af2ed269a8617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "close-up-of-hamster-8",
+      "url": "https://e.kakao.com/t/close-up-of-hamster-8",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "베이비 쪼롱이 2",
+      "artist": "수짱",
+      "thumbnail": "https://item.kakaocdn.net/do/edee3efb1730b1d271ea8af5b47a76c2617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "baby-zzorong-2",
+      "url": "https://e.kakao.com/t/baby-zzorong-2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "베이비 햄랑이 2",
+      "artist": "수짱",
+      "thumbnail": "https://item.kakaocdn.net/do/a6b0016c9635eee118ebede02cb89f4e617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "baby-hamrang-2",
+      "url": "https://e.kakao.com/t/baby-hamrang-2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "사랑스런 일상 인사톡 4",
+      "artist": "무릎이 임선경",
+      "thumbnail": "https://item.kakaocdn.net/do/7fef19af4731c40882ee08381523c3c1617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "lovely-daily-greeting-talk-4",
+      "url": "https://e.kakao.com/t/lovely-daily-greeting-talk-4",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "작아요 고먕이 7",
+      "artist": "꼼지",
+      "thumbnail": "https://item.kakaocdn.net/do/9ea9238a92c2f864ac834141b432dc9f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "gomyaangi-is-small-7",
+      "url": "https://e.kakao.com/t/gomyaangi-is-small-7",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 6,
+      "title": "꼬질꼬질 김지웅 3",
+      "artist": "푸루무",
+      "thumbnail": "https://item.kakaocdn.net/do/547deac80e49900c15258f7a8c819f26617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "grubby-kim-jiung-3",
+      "url": "https://e.kakao.com/t/grubby-kim-jiung-3",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 7,
+      "title": "꼬질꼬질 강웅지 3",
+      "artist": "푸루무",
+      "thumbnail": "https://item.kakaocdn.net/do/75f6d73ea59c2ab22077b45eaf389ac5617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "grubby-kang-ungji-3",
+      "url": "https://e.kakao.com/t/grubby-kang-ungji-3",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 8,
+      "title": "잡종 만돌이 2",
+      "artist": "개복치",
+      "thumbnail": "https://item.kakaocdn.net/do/7868aad4fc379b5d526a2c6d3237cd9f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "mutt-dog-mandol-2",
+      "url": "https://e.kakao.com/t/mutt-dog-mandol-2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 9,
+      "title": "싸모님! 그래, 이 맛이야!",
+      "artist": "ⓒhansigan",
+      "thumbnail": "https://item.kakaocdn.net/do/9865d1acdc95901aaa08e45101cafd7f617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "madam-thats-the-taste",
+      "url": "https://e.kakao.com/t/madam-thats-the-taste",
+      "badges": []
+    },
+    {
+      "rank": 10,
+      "title": "회사다니는 나나",
+      "artist": "킨무",
+      "thumbnail": "https://item.kakaocdn.net/do/fcf3dca34c223029a434612f87c5c8ee617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "office-cat-nana",
+      "url": "https://e.kakao.com/t/office-cat-nana",
+      "badges": []
+    },
+    {
+      "rank": 11,
+      "title": "삐뚤빼뚤 엉망 놀자곰 4",
+      "artist": "메밀",
+      "thumbnail": "https://item.kakaocdn.net/do/44d118a457a130948a0563d83c19c795617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "crooked-nolzagom-4",
+      "url": "https://e.kakao.com/t/crooked-nolzagom-4",
+      "badges": []
+    },
+    {
+      "rank": 12,
+      "title": "뚝딱뚝딱 이빨공뇽 5",
+      "artist": "쥐냥",
+      "thumbnail": "https://item.kakaocdn.net/do/0a67f4bc33f0aecc5be49e4f91145074617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "cute-toothy-dinosaur-5",
+      "url": "https://e.kakao.com/t/cute-toothy-dinosaur-5",
       "badges": []
     }
   ]
