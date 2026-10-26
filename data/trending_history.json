@@ -1,166 +1,4 @@
 {
-  "2026-W35": [
-    {
-      "rank": 1,
-      "title": "달콤 까칠 낙서 고구마소녀!",
-      "artist": "낡은창고",
-      "thumbnail": "https://item.kakaocdn.net/do/b84503407057bbf7ab0e091833148aff617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "sweet-sassy-doodle-yam",
-      "url": "https://e.kakao.com/t/sweet-sassy-doodle-yam",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 2,
-      "title": "해피해피 황토강아디",
-      "artist": "감순",
-      "thumbnail": "https://item.kakaocdn.net/do/b6763f957a812164108c87714abb17a0617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "happy-happy-scruffy-tan-puppy",
-      "url": "https://e.kakao.com/t/happy-happy-scruffy-tan-puppy",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 3,
-      "title": "오늘도 기분 좋아지는 톡 10",
-      "artist": "ⓒcmaker",
-      "thumbnail": "https://item.kakaocdn.net/do/14c29c60463b6c616d50e6ecaa4c8cf8617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "feel-good-messages-10",
-      "url": "https://e.kakao.com/t/feel-good-messages-10",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 4,
-      "title": "유난히 자유분방했던 아기 룡공이..",
-      "artist": "신빵구",
-      "thumbnail": "https://item.kakaocdn.net/do/2ad71125e57fc43269c612d71a3df53f617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "free-spirited-baby-ryonggong",
-      "url": "https://e.kakao.com/t/free-spirited-baby-ryonggong",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 5,
-      "title": "어딜봐도 개구리 깨꾹! 8",
-      "artist": "라부",
-      "thumbnail": "https://item.kakaocdn.net/do/7486c8429fae75389e4c6331b0d6e805617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "the-obvious-frog-rribbitt-ver-8",
-      "url": "https://e.kakao.com/t/the-obvious-frog-rribbitt-ver-8",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 6,
-      "title": "아기 ‘똥’강아지",
-      "artist": "곰깡",
-      "thumbnail": "https://item.kakaocdn.net/do/e8ecb2e07d006d3ca9207d72379949b0617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "baby-pooppy",
-      "url": "https://e.kakao.com/t/baby-pooppy",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 7,
-      "title": "수상한 공룡들 6",
-      "artist": "복슝",
-      "thumbnail": "https://item.kakaocdn.net/do/0ed02f98318eded45791a38c32fc0958617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "suspicious-dinosaurs-6",
-      "url": "https://e.kakao.com/t/suspicious-dinosaurs-6",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 8,
-      "title": "강아지 확대 5",
-      "artist": "아지",
-      "thumbnail": "https://item.kakaocdn.net/do/46b0c841dfa7c6f48506d8bc67b3395d617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "enlargement-of-the-puppy-5",
-      "url": "https://e.kakao.com/t/enlargement-of-the-puppy-5",
-      "badges": [
-        "NEW"
-      ]
-    },
-    {
-      "rank": 9,
-      "title": "와플곰이 나타나따! 6",
-      "artist": "마리차",
-      "thumbnail": "https://item.kakaocdn.net/do/866644001bfd776172063ab05d13ebbf617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "here-comes-the-waffle-bear-6",
-      "url": "https://e.kakao.com/t/here-comes-the-waffle-bear-6",
-      "badges": []
-    },
-    {
-      "rank": 10,
-      "title": "꾀죄죄 고영희 2",
-      "artist": "감순",
-      "thumbnail": "https://item.kakaocdn.net/do/07a8b0b491ac37944f81a452df1ee803617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "scruffy-goyounghee-2",
-      "url": "https://e.kakao.com/t/scruffy-goyounghee-2",
-      "badges": []
-    },
-    {
-      "rank": 11,
-      "title": "옹졸입 병아리 3",
-      "artist": "위얼드캣덕",
-      "thumbnail": "https://item.kakaocdn.net/do/0230c89467b813c415384119590228a3617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "a-tiny-beaked-chick-3",
-      "url": "https://e.kakao.com/t/a-tiny-beaked-chick-3",
-      "badges": []
-    },
-    {
-      "rank": 12,
-      "title": "게임하는 놀자곰",
-      "artist": "메밀",
-      "thumbnail": "https://item.kakaocdn.net/do/ab478652598312995d30fbc5add63b4d617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "gamer-nolzagom",
-      "url": "https://e.kakao.com/t/gamer-nolzagom",
-      "badges": []
-    },
-    {
-      "rank": 13,
-      "title": "꼬물이 똥강아지 커플 2!(아릉이ver)",
-      "artist": "자홍",
-      "thumbnail": "https://item.kakaocdn.net/do/3ea65d248b5a586a63f94fbbbec03c79617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "little-pup-couple-2aroongi-ver",
-      "url": "https://e.kakao.com/t/little-pup-couple-2aroongi-ver",
-      "badges": []
-    },
-    {
-      "rank": 14,
-      "title": "꼬물이 똥강아지 커플 2!(누릉이ver)",
-      "artist": "자홍",
-      "thumbnail": "https://item.kakaocdn.net/do/c80061eaa7ac9235e53a9057198bce35617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "little-pup-couple-2nooroongi-ver",
-      "url": "https://e.kakao.com/t/little-pup-couple-2nooroongi-ver",
-      "badges": []
-    },
-    {
-      "rank": 15,
-      "title": "오늘도 느리고 바쁜 베니",
-      "artist": "베니",
-      "thumbnail": "https://item.kakaocdn.net/do/e59ac172c1167728da9fcdb9889a96dd617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "bennys-slow-and-busy-day",
-      "url": "https://e.kakao.com/t/bennys-slow-and-busy-day",
-      "badges": []
-    },
-    {
-      "rank": 16,
-      "title": "눌어붙은 누덩이 7",
-      "artist": "메루",
-      "thumbnail": "https://item.kakaocdn.net/do/6952232bb667bdf9020f99c25e477c6c617ea012db208c18f6e83b1a90a7baa7",
-      "slug": "nudeong-e-the-nurungji-7",
-      "url": "https://e.kakao.com/t/nudeong-e-the-nurungji-7",
-      "badges": []
-    }
-  ],
   "2026-W36": [
     {
       "rank": 1,
@@ -911,6 +749,101 @@
       "thumbnail": "https://item.kakaocdn.net/do/75f6d73ea59c2ab22077b45eaf389ac5617ea012db208c18f6e83b1a90a7baa7",
       "slug": "grubby-kang-ungji-3",
       "url": "https://e.kakao.com/t/grubby-kang-ungji-3",
+      "badges": []
+    }
+  ],
+  "2026-W43": [
+    {
+      "rank": 1,
+      "title": "꾀죄죄죄 모찌찌찌",
+      "artist": "ⓒfunppy",
+      "thumbnail": "https://item.kakaocdn.net/do/201b4ef074d2257d4d77fb26dd1d9cc0617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "fluffy-messy-mozzizzizzi",
+      "url": "https://e.kakao.com/t/fluffy-messy-mozzizzizzi",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "사랑도둑 햄슷터",
+      "artist": "핑킹",
+      "thumbnail": "https://item.kakaocdn.net/do/ae28639585f628d5a86c3cd0b84e3158617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "love-thief-hamster",
+      "url": "https://e.kakao.com/t/love-thief-hamster",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "이 바보 몽숭이야! 6",
+      "artist": "편살",
+      "thumbnail": "https://item.kakaocdn.net/do/9213c7b461753af8202e6bf18fb5fbdf617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "silly-monkie-6",
+      "url": "https://e.kakao.com/t/silly-monkie-6",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "똘망똘망 다람이 2",
+      "artist": "재수",
+      "thumbnail": "https://item.kakaocdn.net/do/5010a35eb7997e51788e1a3cf79640e3617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "daram-with-twinkling-eyes-2",
+      "url": "https://e.kakao.com/t/daram-with-twinkling-eyes-2",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 5,
+      "title": "똔망진창 직장생활 똔가나지",
+      "artist": "김참나",
+      "thumbnail": "https://item.kakaocdn.net/do/54f11794c46b251236fbd1e0c64334cd617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "messy-work-life-cheerful-poop-puppy",
+      "url": "https://e.kakao.com/t/messy-work-life-cheerful-poop-puppy",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 6,
+      "title": "시묘는 강아지 9",
+      "artist": "시묘일",
+      "thumbnail": "https://item.kakaocdn.net/do/c4862d57998242f2559111d4abd0d4bc617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "simyo-is-dog-9",
+      "url": "https://e.kakao.com/t/simyo-is-dog-9",
+      "badges": [
+        "NEW"
+      ]
+    },
+    {
+      "rank": 7,
+      "title": "자주쓰는 일상톡 6",
+      "artist": "무릎이 임선경",
+      "thumbnail": "https://item.kakaocdn.net/do/b4ed320d7f83c443f61ea1a9badb572a617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "made-for-daily-talks-6",
+      "url": "https://e.kakao.com/t/made-for-daily-talks-6",
+      "badges": []
+    },
+    {
+      "rank": 8,
+      "title": "탱고의 생존 직장생활",
+      "artist": "남씨",
+      "thumbnail": "https://item.kakaocdn.net/do/0a61b5158a4aef8b7f7542dd484fe5c7617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "tango-office-survival",
+      "url": "https://e.kakao.com/t/tango-office-survival",
+      "badges": []
+    },
+    {
+      "rank": 9,
+      "title": "멍충해요 황토강아디 2",
+      "artist": "감순",
+      "thumbnail": "https://item.kakaocdn.net/do/9259af4331385b8d221e343cb313b233617ea012db208c18f6e83b1a90a7baa7",
+      "slug": "goofy-scruffy-tan-puppy-2",
+      "url": "https://e.kakao.com/t/goofy-scruffy-tan-puppy-2",
       "badges": []
     }
   ]

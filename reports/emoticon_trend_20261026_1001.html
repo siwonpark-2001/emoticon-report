@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캐릭터 트렌드 리포트 — 2026년 10월 26일</title>
+<style>
+  :root {
+    --kakao:#FEE500; --kakao-dark:#3C1E1E;
+    --trend:#6200ea; --trend-light:#ede7f6;
+    --up:#00b341; --down:#ff3b30;
+    --bg:#f5f5f7; --card:#ffffff; --text:#1d1d1f; --sub:#6e6e73;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+        background:var(--bg);color:var(--text);}
+
+  header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+          color:white;padding:48px 32px;text-align:center;}
+  header .week{font-size:14px;letter-spacing:3px;opacity:.6;margin-bottom:8px;text-transform:uppercase;}
+  header h1{font-size:36px;font-weight:700;margin-bottom:8px;}
+  header .date{font-size:16px;opacity:.7;}
+
+  main{max-width:1200px;margin:0 auto;padding:40px 20px;}
+
+  .section-title{display:flex;align-items:center;gap:12px;
+                  font-size:22px;font-weight:700;margin:48px 0 24px;}
+  .badge{display:inline-block;padding:4px 12px;border-radius:999px;
+          font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+  .badge-kakao{background:var(--kakao);color:var(--kakao-dark);}
+  .badge-trend{background:var(--trend);color:white;}
+
+  /* ── 카카오 테이블 ── */
+  .kakao-table{width:100%;border-collapse:collapse;background:var(--card);
+               border-radius:var(--radius);overflow:hidden;
+               box-shadow:0 2px 20px rgba(0,0,0,.08);}
+  .kakao-table thead{background:var(--kakao);}
+  .kakao-table thead th{padding:14px 16px;text-align:left;font-size:13px;
+                         font-weight:700;color:var(--kakao-dark);}
+  .kakao-table tbody tr{border-bottom:1px solid #f0f0f0;transition:background .15s;}
+  .kakao-table tbody tr:last-child{border-bottom:none;}
+  .kakao-table tbody tr:hover{background:#fffde7;}
+  .kakao-table td{padding:12px 16px;font-size:14px;vertical-align:middle;}
+  .rank-num{font-size:20px;font-weight:800;color:#bbb;width:44px;text-align:center;}
+  .rank-1 .rank-num{color:#FFD700;}
+  .rank-2 .rank-num{color:#C0C0C0;}
+  .rank-3 .rank-num{color:#CD7F32;}
+  .thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;background:#f0f0f0;}
+  .thumb-ph{width:56px;height:56px;border-radius:8px;background:#f0f0f0;
+             display:flex;align-items:center;justify-content:center;font-size:26px;}
+  .item-title{font-weight:600;font-size:15px;}
+  .item-artist{font-size:12px;color:var(--sub);margin-top:2px;}
+  .item-badge{background:#f0f0f0;border-radius:4px;padding:2px 6px;
+               font-size:11px;margin-left:4px;}
+  .interest{display:flex;align-items:center;gap:4px;font-size:14px;
+             font-weight:600;color:#e91e63;white-space:nowrap;}
+  .change{font-size:14px;font-weight:700;white-space:nowrap;}
+  .change.up{color:var(--up);} .change.down{color:var(--down);}
+  .change.same{color:var(--sub);} .change.new-entry{color:var(--trend);font-size:12px;}
+  .mini-chart{display:flex;align-items:flex-end;gap:4px;height:40px;}
+  .mini-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .mini-bar{width:16px;background:var(--kakao);border-radius:3px 3px 0 0;min-height:3px;}
+  .mini-bar.missing{background:#eee;}
+  .mini-label{font-size:9px;color:var(--sub);}
+  .ext-link{color:#0066cc;text-decoration:none;font-size:12px;}
+  .ext-link:hover{text-decoration:underline;}
+
+  /* ── 탭 ── */
+  .tab-wrap{margin-bottom:0;}
+  .tab-bar{display:flex;gap:4px;margin-bottom:-1px;position:relative;z-index:1;}
+  .tab-btn{
+    padding:10px 24px;border:none;border-radius:12px 12px 0 0;
+    font-size:14px;font-weight:700;cursor:pointer;
+    background:#e8e8e8;color:var(--sub);transition:all .15s;
+  }
+  .tab-btn.active{background:var(--kakao);color:var(--kakao-dark);}
+  .tab-btn:hover:not(.active){background:#d8d8d8;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* ── 툴팁 ── */
+  .tooltip-wrap{position:relative;display:inline-flex;align-items:center;gap:4px;cursor:default;}
+  .tooltip-wrap .tooltip-box{
+    display:none;position:fixed;background:#333;color:#fff;
+    font-size:11px;font-weight:400;white-space:nowrap;
+    padding:5px 10px;border-radius:6px;pointer-events:none;z-index:9999;margin-top:6px;}
+  .tooltip-wrap:hover .tooltip-box{display:block;}
+  .tooltip-icon{width:14px;height:14px;border-radius:50%;background:var(--kakao-dark);
+    color:var(--kakao);font-size:10px;font-weight:700;
+    display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+  /* ── 화제 캐릭터 카드 ── */
+  .trend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .trend-card{
+    background:var(--card);border-radius:var(--radius);padding:20px 24px;
+    box-shadow:0 2px 12px rgba(0,0,0,.07);
+    border-left:4px solid var(--trend);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .trend-card.in-kakao{border-left-color:var(--kakao);}
+  .trend-card-top{display:flex;align-items:center;justify-content:space-between;}
+  .trend-rank-badge{
+    font-size:12px;font-weight:800;color:var(--trend);
+    background:var(--trend-light);padding:2px 8px;border-radius:999px;
+  }
+  .trend-card.in-kakao .trend-rank-badge{color:var(--kakao-dark);background:#fff9c4;}
+  .kakao-tag{font-size:11px;background:#fff9c4;color:var(--kakao-dark);
+              border-radius:4px;padding:2px 6px;font-weight:600;}
+  .trend-keyword{font-size:20px;font-weight:800;margin:2px 0;}
+  .trend-source{font-size:11px;color:var(--sub);}
+  .trend-stats{display:flex;gap:16px;margin-top:4px;}
+  .trend-stat{display:flex;flex-direction:column;gap:2px;}
+  .trend-stat-val{font-size:18px;font-weight:700;}
+  .trend-stat-label{font-size:11px;color:var(--sub);}
+  .rise-bar-bg{background:#f0f0f0;border-radius:4px;height:6px;margin-top:4px;overflow:hidden;}
+  .rise-bar-fill{background:var(--trend);border-radius:4px;height:6px;transition:width .3s;}
+  .trend-card.in-kakao .rise-bar-fill{background:var(--kakao-dark);}
+  .no-data{color:#ccc;font-size:13px;}
+
+  /* ── 네이버 ── */
+  .badge-naver{background:#03C75A;color:white;}
+  .naver-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .naver-card{background:var(--card);border-radius:12px;padding:16px 18px;
+    box-shadow:0 1px 8px rgba(0,0,0,.06);border-left:4px solid #03C75A;}
+  .naver-rank{font-size:11px;font-weight:700;color:#03C75A;margin-bottom:4px;}
+  .naver-keyword{font-size:18px;font-weight:800;margin-bottom:8px;}
+  .naver-category{font-size:11px;color:var(--sub);margin-bottom:8px;}
+  .naver-stats{display:flex;gap:16px;}
+  .naver-stat{display:flex;flex-direction:column;gap:2px;}
+  .naver-stat-val{font-size:16px;font-weight:700;color:#03C75A;}
+  .naver-stat-label{font-size:10px;color:var(--sub);}
+  .naver-bar-bg{background:#f0f0f0;border-radius:4px;height:5px;margin-top:8px;overflow:hidden;}
+  .naver-bar-fill{background:#03C75A;border-radius:4px;height:5px;}
+
+  /* ── 인스타그램 ── */
+  .badge-insta{background:linear-gradient(90deg,#833AB4,#F77737);color:white;}
+  .insta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  .insta-card{background:var(--card);border-radius:12px;padding:16px 18px;
+    box-shadow:0 1px 8px rgba(0,0,0,.06);
+    border-top:3px solid transparent;
+    border-image:linear-gradient(90deg,#833AB4,#F77737) 1;}
+  .insta-tag{font-size:17px;font-weight:800;margin-bottom:8px;}
+  .insta-count{font-size:22px;font-weight:800;background:linear-gradient(90deg,#833AB4,#F77737);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .insta-label{font-size:11px;color:var(--sub);margin-top:2px;}
+  .insta-growth{font-size:13px;font-weight:700;margin-top:6px;}
+  .insta-growth.up{color:var(--up);} .insta-growth.down{color:var(--down);}
+  .insta-growth.new{color:var(--sub);}
+
+  /* ── 유튜브 영상 카드 ── */
+  .badge-yt{background:#FF0000;color:white;}
+  .yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .yt-card{background:var(--card);border-radius:var(--radius);overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .15s;}
+  .yt-card:hover{transform:translateY(-2px);}
+  .yt-card a{text-decoration:none;color:inherit;display:block;}
+  .yt-thumb-wrap{position:relative;padding-top:56.25%;background:#111;overflow:hidden;}
+  .yt-thumb-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
+  .yt-thumb-ph{position:absolute;top:0;left:0;width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;font-size:36px;background:#1a1a1a;}
+  .yt-play{position:absolute;bottom:8px;right:8px;background:rgba(255,0,0,.9);
+    color:white;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;}
+  .yt-info{padding:12px 14px;}
+  .yt-title{font-weight:600;font-size:14px;line-height:1.4;margin-bottom:6px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .yt-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .yt-channel{font-size:12px;color:var(--sub);}
+  .yt-views{font-size:12px;font-weight:600;color:#FF0000;}
+  .yt-published{font-size:11px;color:var(--sub);}
+  .yt-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .yt-tag{font-size:11px;background:#fff0f0;color:#c62828;
+    border-radius:4px;padding:2px 6px;}
+
+  .empty-msg{padding:40px;text-align:center;color:var(--sub);font-size:15px;}
+  footer{text-align:center;padding:40px 20px;color:var(--sub);font-size:13px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="week">Weekly Report</div>
+  <h1>📊 캐릭터 트렌드 리포트</h1>
+  <div class="date">2026년 10월 26일 기준</div>
+  <div style="font-size:13px;opacity:.5;margin-top:8px;">매주 월요일 오전 10시 자동 갱신</div>
+</header>
+<main>
+
+  <!-- 카카오 이모티콘 -->
+  <div class="section-title">
+    <span class="badge badge-kakao">KAKAO</span>
+    카카오 이모티콘샵
+  </div>
+  
+<div class="tab-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="tab-ranking">🏆 인기 순위</button>
+    <button class="tab-btn" data-tab="tab-hot">🔥 요즘 뜨는</button>
+  </div>
+  <div id="tab-ranking" class="tab-panel active">
+    <table class="kakao-table">
+      <thead><tr>
+        <th>순위</th><th>썸네일</th><th>이모티콘</th>
+        <th><span class="tooltip-wrap">작가 관심수 <span class="tooltip-icon">i</span><span class="tooltip-box">해당 작가의 전체 이모티콘 관심수 합계</span></span></th><th>변동</th><th>4주 추이</th><th>링크</th>
+      </tr></thead>
+      <tbody>
+        <tr class="rank-1">
+          <td class="rank-num">#1</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/aca8c8ebd85b474a1e47be49ebfcdb7a617ea012db208c18f6e83b1a90a7baa7" alt="우다다 우땅이 2" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">우다다 우땅이 2</div>
+            <div class="item-artist">소콘소콘</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>4.5만</div></td>
+          <td><span class="change up">▲2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:28px;" title="39주: 1위"></div><div class="mini-label">1위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:28px;" title="40주: 1위"></div><div class="mini-label">1위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:9px;" title="41주: 3위"></div><div class="mini-label">3위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:9px;" title="42주: 3위"></div><div class="mini-label">3위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/dashing-utang-2" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="rank-2">
+          <td class="rank-num">#2</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/d48f113e7e58798bd53efa449174c790617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀 스티커 4탄" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀 스티커 4탄</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 8위"></div><div class="mini-label">8위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="40주: 7위"></div><div class="mini-label">7위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="41주: 5위"></div><div class="mini-label">5위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:24px;" title="42주: 2위"></div><div class="mini-label">2위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-stickers-4" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="rank-3">
+          <td class="rank-num">#3</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/5b5ff126911e50c2794bba04d1503ae0617ea012db208c18f6e83b1a90a7baa7" alt="리센느 X 안원잘부 2" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">리센느 X 안원잘부 2</div>
+            <div class="item-artist">리센느 X 안원잘부</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>8.8만</div></td>
+          <td><span class="change down">▼2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:28px;" title="41주: 1위"></div><div class="mini-label">1위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:28px;" title="42주: 1위"></div><div class="mini-label">1위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/helloiamwoninicetomeetyou-2" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#4</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/efacdd069ca97b2e124de7c51251eff6617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀7탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀7탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="39주: 3위"></div><div class="mini-label">3위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="40주: 3위"></div><div class="mini-label">3위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="41주: 4위"></div><div class="mini-label">4위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="42주: 4위"></div><div class="mini-label">4위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-7" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#5</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/7f1c2a490fa3b1cb1923e3933b2ed96a617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀 스티커 3탄" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀 스티커 3탄</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 16위"></div><div class="mini-label">16위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:12px;" title="40주: 10위"></div><div class="mini-label">10위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:17px;" title="41주: 7위"></div><div class="mini-label">7위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:21px;" title="42주: 5위"></div><div class="mini-label">5위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-stickers-3" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#6</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/0c2c793a43a9a1d58756353e8b82f0ad617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀3탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀3탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 12위"></div><div class="mini-label">12위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:11px;" title="40주: 8위"></div><div class="mini-label">8위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:11px;" title="41주: 8위"></div><div class="mini-label">8위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:16px;" title="42주: 6위"></div><div class="mini-label">6위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-3" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#7</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/39bda7edf9776323e7464615ab7c4193617ea012db208c18f6e83b1a90a7baa7" alt="오늘도 이리저리 치이는 중입니다" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">오늘도 이리저리 치이는 중입니다<span class="item-badge">NEW</span></div>
+            <div class="item-artist">이터널 리턴</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>1.5만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/eternal-daily-struggle-returns" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#8</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/e32e4559f10dc40be00b31725d0544fe617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀4탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀4탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change up">▲1</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 18위"></div><div class="mini-label">18위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="40주: 14위"></div><div class="mini-label">14위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:10px;" title="41주: 12위"></div><div class="mini-label">12위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:15px;" title="42주: 9위"></div><div class="mini-label">9위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-4" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#9</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/65f65d2cf2ae8b77219e96c690ab9af1617ea012db208c18f6e83b1a90a7baa7" alt="리센느 X 안원잘부 시즌1" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">리센느 X 안원잘부 시즌1</div>
+            <div class="item-artist">리센느 X 안원잘부</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>8.8만</div></td>
+          <td><span class="change down">▼2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:15px;" title="39주: 5위"></div><div class="mini-label">5위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="40주: 9위"></div><div class="mini-label">9위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:24px;" title="41주: 2위"></div><div class="mini-label">2위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:9px;" title="42주: 7위"></div><div class="mini-label">7위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/helloiamwoninicetomeetyou-s1" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#10</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/fda20a37673e93d17046bfcab42e1831617ea012db208c18f6e83b1a90a7baa7" alt="우다다 우땅이" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">우다다 우땅이</div>
+            <div class="item-artist">소콘소콘</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>4.5만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:19px;" title="39주: 4위"></div><div class="mini-label">4위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:19px;" title="40주: 4위"></div><div class="mini-label">4위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="41주: 10위"></div><div class="mini-label">10위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 10위"></div><div class="mini-label">10위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/dashing-utang" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#11</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/5254b549d1920fd5c5e5214fec9c9a80617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀6탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀6탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change down">▼3</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 14위"></div><div class="mini-label">14위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:6px;" title="40주: 12위"></div><div class="mini-label">12위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:8px;" title="41주: 11위"></div><div class="mini-label">11위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="42주: 8위"></div><div class="mini-label">8위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/-small-cute-chiikawa-6" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#12</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/96878d8748f16c558703a62836c9d4b0617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀 스티커" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀 스티커</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change up">▲1</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 28위"></div><div class="mini-label">28위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="40주: 22위"></div><div class="mini-label">22위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:10px;" title="41주: 19위"></div><div class="mini-label">19위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:16px;" title="42주: 13위"></div><div class="mini-label">13위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-stickers" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#13</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/ffecb3605bc71647e7d3c79cc2c316af617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀 스티커 5탄" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀 스티커 5탄</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change down">▼2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 20위"></div><div class="mini-label">20위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:8px;" title="40주: 15위"></div><div class="mini-label">15위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:11px;" title="41주: 13위"></div><div class="mini-label">13위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="42주: 11위"></div><div class="mini-label">11위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-stickers-5" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#14</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/af7fb1ce0b64dd50825172ed0fbaca58617ea012db208c18f6e83b1a90a7baa7" alt="춘식이는 뭬옹" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">춘식이는 뭬옹<span class="item-badge">NEW</span></div>
+            <div class="item-artist">카카오</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>67.1만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/choonsik-goes-mmeow" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#15</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/022df8f5339d77f43ae3f78108cd566a617ea012db208c18f6e83b1a90a7baa7" alt="듀.. 가나디 8" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">듀.. 가나디 8</div>
+            <div class="item-artist">짤쓸사람</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>21.2만</div></td>
+          <td><span class="change down">▼3</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:26px;" title="39주: 2위"></div><div class="mini-label">2위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:18px;" title="40주: 6위"></div><div class="mini-label">6위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="41주: 14위"></div><div class="mini-label">14위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:6px;" title="42주: 12위"></div><div class="mini-label">12위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/dyu-ganadi-8" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#16</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/7cc675630e76c7b080c59cf17814ee55617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀5탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀5탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change down">▼2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 27위"></div><div class="mini-label">27위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:11px;" title="40주: 17위"></div><div class="mini-label">17위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:13px;" title="41주: 15위"></div><div class="mini-label">15위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:14px;" title="42주: 14위"></div><div class="mini-label">14위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-5" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#17</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/fd1b2445edc2903494228dcdd0c6bc2b617ea012db208c18f6e83b1a90a7baa7" alt="아기 망그러진 곰 4" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">아기 망그러진 곰 4</div>
+            <div class="item-artist">유랑</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>14.9만</div></td>
+          <td><span class="change down">▼2</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:13px;" title="41주: 9위"></div><div class="mini-label">9위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 15위"></div><div class="mini-label">15위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/baby-broken-bear-4" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#18</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/02195dbb7db5bde186eda6a9df9ed33c617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀 스티커 2탄" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀 스티커 2탄</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change same">—</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 26위"></div><div class="mini-label">26위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="40주: 20위"></div><div class="mini-label">20위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:10px;" title="41주: 17위"></div><div class="mini-label">17위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:9px;" title="42주: 18위"></div><div class="mini-label">18위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-stickers-2" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#19</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/9213c7b461753af8202e6bf18fb5fbdf617ea012db208c18f6e83b1a90a7baa7" alt="이 바보 몽숭이야! 6" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">이 바보 몽숭이야! 6<span class="item-badge">NEW</span></div>
+            <div class="item-artist">편살</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>3.1만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/silly-monkie-6" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#20</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/a96dcca204ed136a66f24e26fb6c627c617ea012db208c18f6e83b1a90a7baa7" alt="햄스터 확대 7" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">햄스터 확대 7</div>
+            <div class="item-artist">아지</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>6.9만</div></td>
+          <td><span class="change up">▲7</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="39주: 25위"></div><div class="mini-label">25위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:6px;" title="40주: 23위"></div><div class="mini-label">23위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="41주: 28위"></div><div class="mini-label">28위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 27위"></div><div class="mini-label">27위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/close-up-of-hamster-7" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#21</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/57779bf2154ce0746bc15958f766b9cb617ea012db208c18f6e83b1a90a7baa7" alt="두근두근 미니 헬로키티와 디어다니엘" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">두근두근 미니 헬로키티와 디어다니엘<span class="item-badge">미니</span><span class="item-badge">NEW</span></div>
+            <div class="item-artist">산리오</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>7.8만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/sweet-moments-with-mini-hello-kitty" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#22</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/a221de4be57f39d509255bd716c2ac82617ea012db208c18f6e83b1a90a7baa7" alt="나애미와 쨈나는 톡" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">나애미와 쨈나는 톡<span class="item-badge">NEW</span></div>
+            <div class="item-artist">주주스</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>14.4만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/naemi-ver-54" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#23</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/7662a4b7c89fe5ff2a6dfccb064200ab617ea012db208c18f6e83b1a90a7baa7" alt="업티콘 모두가 업업업!" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">업티콘 모두가 업업업!<span class="item-badge">NEW</span></div>
+            <div class="item-artist">terry</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>13.8만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/i-feel-great-today-ver-64" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#24</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/bf86ab4ba5988e49c9a8f2af2ed269a8617ea012db208c18f6e83b1a90a7baa7" alt="햄스터 확대 8" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">햄스터 확대 8</div>
+            <div class="item-artist">아지</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>6.9만</div></td>
+          <td><span class="change down">▼7</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 17위"></div><div class="mini-label">17위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/close-up-of-hamster-8" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#25</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/82ca57cb7d033f68f7a4c4ebfad9c927617ea012db208c18f6e83b1a90a7baa7" alt="먼작귀2탄~먼가작고귀여운녀석~(치이카와)" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">먼작귀2탄~먼가작고귀여운녀석~(치이카와)</div>
+            <div class="item-artist">나가노</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.2만</div></td>
+          <td><span class="change down">▼6</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="40주: 25위"></div><div class="mini-label">25위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="41주: 23위"></div><div class="mini-label">23위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:7px;" title="42주: 19위"></div><div class="mini-label">19위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/small-cute-chiikawa-2" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#26</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/21d8951fab0c0b01f9c2a6c6e56e811d617ea012db208c18f6e83b1a90a7baa7" alt="찰떡리액션코코 2" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">찰떡리액션코코 2<span class="item-badge">NEW</span></div>
+            <div class="item-artist">쉬캣</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>3.7만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/best-reaction-coco-2" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#27</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/44c2992266bb35f307b7aa4a331c60dc617ea012db208c18f6e83b1a90a7baa7" alt="토심이는 칭얼칭얼" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">토심이는 칭얼칭얼</div>
+            <div class="item-artist">토심이</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>19.0만</div></td>
+          <td><span class="change down">▼11</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 16위"></div><div class="mini-label">16위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/toshimee-is-whining" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#28</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/f88da15beba5d9a103d064107c77db63617ea012db208c18f6e83b1a90a7baa7" alt="부담 100배 오니기리" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">부담 100배 오니기리</div>
+            <div class="item-artist">오니기리</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>11.4만</div></td>
+          <td><span class="change down">▼3</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:11px;" title="41주: 16위"></div><div class="mini-label">16위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 25위"></div><div class="mini-label">25위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/onigiri-100x-pressure" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#29</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/f63f882a328056f8debddd2421f4dc2d617ea012db208c18f6e83b1a90a7baa7" alt="우리는 세트라꾸" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">우리는 세트라꾸<span class="item-badge">NEW</span></div>
+            <div class="item-artist">귤제리</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>2.0만</div></td>
+          <td><span class="change new-entry">신규</span></td>
+          <td><span class="no-data">—</span></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/bearkku-kkucakku-we-are-a-set" target="_blank">이모티콘샵 ↗</a></td>
+        </tr>
+        <tr class="">
+          <td class="rank-num">#30</td>
+          <td><img class="thumb" src="https://item.kakaocdn.net/do/a3b99f485b14292276b9338d31ea78c4617ea012db208c18f6e83b1a90a7baa7" alt="꼬마 엉숭이" onerror="this.style.display='none'"></td>
+          <td>
+            <div class="item-title">꼬마 엉숭이</div>
+            <div class="item-artist">위얼드캣덕</div>
+          </td>
+          <td><div class="interest"><svg width="13" height="13" viewBox="0 0 24 24" fill="#e91e63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>1.1만</div></td>
+          <td><span class="change down">▼4</span></td>
+          <td><div class="mini-chart"><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar missing" style="height:4px;"></div><div class="mini-label">-</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:22px;" title="41주: 6위"></div><div class="mini-label">6위</div></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:4px;" title="42주: 26위"></div><div class="mini-label">26위</div></div></div></td>
+          <td><a class="ext-link" href="https://e.kakao.com/t/little-eongsoongi" target="_blank">이모티콘샵 ↗</a></td>
+        </tr></tbody>
+    </table></div>
+  <div id="tab-hot"     class="tab-panel">
+    <div style="background:var(--kakao);border-radius:0 var(--radius) var(--radius) var(--radius);padding:20px;">
+      
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="hot-btn-now" onclick="hotToggle('now')"
+        style="padding:6px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;
+               cursor:pointer;background:var(--kakao-dark);color:var(--kakao);">이번 주</button>
+      <button id="hot-btn-last" onclick="hotToggle('last')"
+        style="padding:6px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;
+               cursor:pointer;background:#e0e0e0;color:#555;">지난주</button>
+    </div>
+      <div id="hot-grid-now">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+      
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/201b4ef074d2257d4d77fb26dd1d9cc0617ea012db208c18f6e83b1a90a7baa7" alt="꾀죄죄죄 모찌찌찌" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              꾀죄죄죄 모찌찌찌<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">ⓒfunppy</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/fluffy-messy-mozzizzizzi" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/ae28639585f628d5a86c3cd0b84e3158617ea012db208c18f6e83b1a90a7baa7" alt="사랑도둑 햄슷터" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              사랑도둑 햄슷터<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">핑킹</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/love-thief-hamster" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/9213c7b461753af8202e6bf18fb5fbdf617ea012db208c18f6e83b1a90a7baa7" alt="이 바보 몽숭이야! 6" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              이 바보 몽숭이야! 6<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">편살</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/silly-monkie-6" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/5010a35eb7997e51788e1a3cf79640e3617ea012db208c18f6e83b1a90a7baa7" alt="똘망똘망 다람이 2" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              똘망똘망 다람이 2<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">재수</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/daram-with-twinkling-eyes-2" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/54f11794c46b251236fbd1e0c64334cd617ea012db208c18f6e83b1a90a7baa7" alt="똔망진창 직장생활 똔가나지" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              똔망진창 직장생활 똔가나지<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">김참나</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/messy-work-life-cheerful-poop-puppy" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/c4862d57998242f2559111d4abd0d4bc617ea012db208c18f6e83b1a90a7baa7" alt="시묘는 강아지 9" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              시묘는 강아지 9<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">시묘일</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/simyo-is-dog-9" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/b4ed320d7f83c443f61ea1a9badb572a617ea012db208c18f6e83b1a90a7baa7" alt="자주쓰는 일상톡 6" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              자주쓰는 일상톡 6
+            </div>
+            <div class="item-artist">무릎이 임선경</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/made-for-daily-talks-6" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/0a61b5158a4aef8b7f7542dd484fe5c7617ea012db208c18f6e83b1a90a7baa7" alt="탱고의 생존 직장생활" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              탱고의 생존 직장생활
+            </div>
+            <div class="item-artist">남씨</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/tango-office-survival" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/9259af4331385b8d221e343cb313b233617ea012db208c18f6e83b1a90a7baa7" alt="멍충해요 황토강아디 2" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              멍충해요 황토강아디 2
+            </div>
+            <div class="item-artist">감순</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/goofy-scruffy-tan-puppy-2" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+    </div></div>
+      <div id="hot-grid-last" style="display:none;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+      
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/c4862d57998242f2559111d4abd0d4bc617ea012db208c18f6e83b1a90a7baa7" alt="시묘는 강아지 9" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              시묘는 강아지 9<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">시묘일</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/simyo-is-dog-9" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/b4ed320d7f83c443f61ea1a9badb572a617ea012db208c18f6e83b1a90a7baa7" alt="자주쓰는 일상톡 6" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              자주쓰는 일상톡 6<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">무릎이 임선경</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/made-for-daily-talks-6" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/0a61b5158a4aef8b7f7542dd484fe5c7617ea012db208c18f6e83b1a90a7baa7" alt="탱고의 생존 직장생활" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              탱고의 생존 직장생활<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">남씨</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/tango-office-survival" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/9259af4331385b8d221e343cb313b233617ea012db208c18f6e83b1a90a7baa7" alt="멍충해요 황토강아디 2" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              멍충해요 황토강아디 2<span class="item-badge">NEW</span>
+            </div>
+            <div class="item-artist">감순</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/goofy-scruffy-tan-puppy-2" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/bf86ab4ba5988e49c9a8f2af2ed269a8617ea012db208c18f6e83b1a90a7baa7" alt="햄스터 확대 8" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              햄스터 확대 8
+            </div>
+            <div class="item-artist">아지</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/close-up-of-hamster-8" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/edee3efb1730b1d271ea8af5b47a76c2617ea012db208c18f6e83b1a90a7baa7" alt="베이비 쪼롱이 2" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              베이비 쪼롱이 2
+            </div>
+            <div class="item-artist">수짱</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/baby-zzorong-2" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/a6b0016c9635eee118ebede02cb89f4e617ea012db208c18f6e83b1a90a7baa7" alt="베이비 햄랑이 2" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              베이비 햄랑이 2
+            </div>
+            <div class="item-artist">수짱</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/baby-hamrang-2" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/7fef19af4731c40882ee08381523c3c1617ea012db208c18f6e83b1a90a7baa7" alt="사랑스런 일상 인사톡 4" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              사랑스런 일상 인사톡 4
+            </div>
+            <div class="item-artist">무릎이 임선경</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/lovely-daily-greeting-talk-4" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/9ea9238a92c2f864ac834141b432dc9f617ea012db208c18f6e83b1a90a7baa7" alt="작아요 고먕이 7" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              작아요 고먕이 7
+            </div>
+            <div class="item-artist">꼼지</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/gomyaangi-is-small-7" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/547deac80e49900c15258f7a8c819f26617ea012db208c18f6e83b1a90a7baa7" alt="꼬질꼬질 김지웅 3" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              꼬질꼬질 김지웅 3
+            </div>
+            <div class="item-artist">푸루무</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/grubby-kim-jiung-3" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+        <div style="background:var(--card);border-radius:12px;padding:14px;
+                    box-shadow:0 1px 8px rgba(0,0,0,.06);display:flex;gap:12px;align-items:center;">
+          <img class="thumb" src="https://item.kakaocdn.net/do/75f6d73ea59c2ab22077b45eaf389ac5617ea012db208c18f6e83b1a90a7baa7" alt="꼬질꼬질 강웅지 3" onerror="this.style.display='none'">
+          <div style="flex:1;min-width:0;">
+            <div class="item-title" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              꼬질꼬질 강웅지 3
+            </div>
+            <div class="item-artist">푸루무</div>
+          </div>
+          <a class="ext-link" href="https://e.kakao.com/t/grubby-kang-ungji-3" target="_blank" style="flex-shrink:0;">↗</a>
+        </div>
+    </div></div>
+    </div>
+    
+<script>
+function hotToggle(which) {
+  document.getElementById('hot-grid-now').style.display  = which==='now'  ? 'block' : 'none';
+  document.getElementById('hot-grid-last').style.display = which==='last' ? 'block' : 'none';
+  document.getElementById('hot-btn-now').style.background  = which==='now'  ? 'var(--kakao-dark)' : '#e0e0e0';
+  document.getElementById('hot-btn-now').style.color        = which==='now'  ? 'var(--kakao)'      : '#555';
+  document.getElementById('hot-btn-last').style.background = which==='last' ? 'var(--kakao-dark)' : '#e0e0e0';
+  document.getElementById('hot-btn-last').style.color       = which==='last' ? 'var(--kakao)'      : '#555';
+}
+</script></div>
+</div>
+
+
+</main>
+<footer>자동 생성 리포트 · 수집 일시: 2026-10-26 10:01:33 · emoticon-report</footer>
+<script>
+  // 툴팁
+  document.querySelectorAll('.tooltip-wrap').forEach(el => {
+    const box = el.querySelector('.tooltip-box');
+    el.addEventListener('mousemove', e => {
+      box.style.left = e.clientX + 12 + 'px';
+      box.style.top  = e.clientY + 12 + 'px';
+    });
+  });
+  // 탭 전환
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.tab-wrap');
+      group.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      group.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      group.querySelector('#' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
