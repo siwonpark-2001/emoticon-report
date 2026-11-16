@@ -1,156 +1,4 @@
 {
-  "2026-W34": [
-    {
-      "rank": 1,
-      "title": "리센느 X 안원잘부 시즌1",
-      "slug": "helloiamwoninicetomeetyou-s1"
-    },
-    {
-      "rank": 2,
-      "title": "우다다 우땅이",
-      "slug": "dashing-utang"
-    },
-    {
-      "rank": 3,
-      "title": "듀.. 가나디 7",
-      "slug": "dyu-ganadi-7"
-    },
-    {
-      "rank": 4,
-      "title": "먹고 살기 힘들다뤂..",
-      "slug": "zanmang-loopy-adulting-is-hard"
-    },
-    {
-      "rank": 5,
-      "title": "오여사의 고급진 인생",
-      "slug": "oh-my-madame-ver-59"
-    },
-    {
-      "rank": 6,
-      "title": "기니휘기 출똥! 4",
-      "slug": "guinnie-hwiggy-rolls-out-4"
-    },
-    {
-      "rank": 7,
-      "title": "고장난 뚝딱감자 2",
-      "slug": "glitchy-tuktakpotato-2"
-    },
-    {
-      "rank": 8,
-      "title": "턱시도 고영희 나나! 2",
-      "slug": "tuxedo-cat-nana-2_2"
-    },
-    {
-      "rank": 9,
-      "title": "딱 붙어있을래! 토끼찡",
-      "slug": "glued-to-you-rabbitzzing"
-    },
-    {
-      "rank": 10,
-      "title": "쫀냐미와 친구들",
-      "slug": "zzonnyami-and-friends"
-    },
-    {
-      "rank": 11,
-      "title": "딱 붙어있을래! 곰돌찡",
-      "slug": "glued-to-you-bearzzing"
-    },
-    {
-      "rank": 12,
-      "title": "으른의 삶 늬에시 8",
-      "slug": "eunuch-is-a-good-adult-8"
-    },
-    {
-      "rank": 13,
-      "title": "찌글찌글 눈멍냥이 3",
-      "slug": "crinkly-nunmeong-nyangi-3"
-    },
-    {
-      "rank": 14,
-      "title": "먼작귀6탄~먼가작고귀여운녀석~(치이카와)",
-      "slug": "-small-cute-chiikawa-6"
-    },
-    {
-      "rank": 15,
-      "title": "햄스터 확대 7",
-      "slug": "close-up-of-hamster-7"
-    },
-    {
-      "rank": 16,
-      "title": "토뭉이는 둥기둥기",
-      "slug": "cuddle-with-tomoong"
-    },
-    {
-      "rank": 17,
-      "title": "그때 그 시절 감스트 짤 모음",
-      "slug": "gamst-gif-collection"
-    },
-    {
-      "rank": 18,
-      "title": "나랑결혼해! 애기 뽀짝커플 (남친꺼)",
-      "slug": "marry-me-adorable-couple-bf"
-    },
-    {
-      "rank": 19,
-      "title": "업티콘 존댓말로 업업업! 7",
-      "slug": "i-feel-great-today-ver-62"
-    },
-    {
-      "rank": 20,
-      "title": "공손하게 말해용 3",
-      "slug": "lets-speak-politely-3"
-    },
-    {
-      "rank": 21,
-      "title": "삐딱선 타고 온 햄스터",
-      "slug": "rogue-hamster"
-    },
-    {
-      "rank": 22,
-      "title": "듀.. 가나디",
-      "slug": "dyu-ganadi"
-    },
-    {
-      "rank": 23,
-      "title": "안녕하세요. 김바덕 입니다. 28",
-      "slug": "hello-baduck-kim-ver-28"
-    },
-    {
-      "rank": 24,
-      "title": "햄확이의 찰떡 리액션",
-      "slug": "hamhwakis-perfect-reactions"
-    },
-    {
-      "rank": 25,
-      "title": "참새는 참세다",
-      "slug": "the-sparrow-is-very-strong"
-    },
-    {
-      "rank": 26,
-      "title": "듀.. 가나디 5",
-      "slug": "dyu-ganadi-5"
-    },
-    {
-      "rank": 27,
-      "title": "깜자라고해 7",
-      "slug": "im-ggamja-7"
-    },
-    {
-      "rank": 28,
-      "title": "듀.. 가나디 6",
-      "slug": "dyu-ganadi-6"
-    },
-    {
-      "rank": 29,
-      "title": "보여줄게 완전히 오니기리",
-      "slug": "ill-show-you-a-completely-onigiri"
-    },
-    {
-      "rank": 30,
-      "title": "작은 회색 고양이 6",
-      "slug": "the-little-gray-cat-ver-6"
-    }
-  ],
   "2026-W35": [
     {
       "rank": 1,
@@ -1821,6 +1669,158 @@
       "rank": 30,
       "title": "아기 망그러진 곰 4",
       "slug": "baby-broken-bear-4"
+    }
+  ],
+  "2026-W46": [
+    {
+      "rank": 1,
+      "title": "몬치치랑 함께!",
+      "slug": "with-monchhichi"
+    },
+    {
+      "rank": 2,
+      "title": "우다다 우땅이 2",
+      "slug": "dashing-utang-2"
+    },
+    {
+      "rank": 3,
+      "title": "먼작귀7탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "small-cute-chiikawa-7"
+    },
+    {
+      "rank": 4,
+      "title": "오늘의 짤 #현짤",
+      "slug": "todays-meme-ah"
+    },
+    {
+      "rank": 5,
+      "title": "먼작귀 스티커 4탄",
+      "slug": "small-cute-chiikawa-stickers-4"
+    },
+    {
+      "rank": 6,
+      "title": "먼작귀3탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "small-cute-chiikawa-3"
+    },
+    {
+      "rank": 7,
+      "title": "우다다 우땅이",
+      "slug": "dashing-utang"
+    },
+    {
+      "rank": 8,
+      "title": "먼작귀 스티커 3탄",
+      "slug": "small-cute-chiikawa-stickers-3"
+    },
+    {
+      "rank": 9,
+      "title": "옴팡지게 건방져 옴팡이",
+      "slug": "cheekiness-that-will-blow-your-mind"
+    },
+    {
+      "rank": 10,
+      "title": "듀.. 가나디 8",
+      "slug": "dyu-ganadi-8"
+    },
+    {
+      "rank": 11,
+      "title": "존댓말 톡 17",
+      "slug": "speaking-honorifics-17"
+    },
+    {
+      "rank": 12,
+      "title": "야옹했음이",
+      "slug": "i-am-meow-it"
+    },
+    {
+      "rank": 13,
+      "title": "와다다곰은 신나",
+      "slug": "wadadabear-is-excited"
+    },
+    {
+      "rank": 14,
+      "title": "먼작귀6탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "-small-cute-chiikawa-6"
+    },
+    {
+      "rank": 15,
+      "title": "리센느 X 안원잘부 2",
+      "slug": "helloiamwoninicetomeetyou-2"
+    },
+    {
+      "rank": 16,
+      "title": "짱 가까운 우리 사이(슈야 ver.)",
+      "slug": "super-close-you-and-me-shuya-ver"
+    },
+    {
+      "rank": 17,
+      "title": "먼작귀4탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "small-cute-chiikawa-4"
+    },
+    {
+      "rank": 18,
+      "title": "사회생활 만렙 오니기리",
+      "slug": "onigiri-a-master-of-office"
+    },
+    {
+      "rank": 19,
+      "title": "묘냥이와 멍구3",
+      "slug": "myonyang-and-meonggu3"
+    },
+    {
+      "rank": 20,
+      "title": "먼작귀 스티커 5탄",
+      "slug": "small-cute-chiikawa-stickers-5"
+    },
+    {
+      "rank": 21,
+      "title": "톡톡 라바",
+      "slug": "talk-talk-larva"
+    },
+    {
+      "rank": 22,
+      "title": "쪼꼬만 토시미, 쪼시미 4",
+      "slug": "tiny-toshimee-choshimee-4"
+    },
+    {
+      "rank": 23,
+      "title": "먼작귀 스티커",
+      "slug": "small-cute-chiikawa-stickers"
+    },
+    {
+      "rank": 24,
+      "title": "먼작귀5탄~먼가작고귀여운녀석~(치이카와)",
+      "slug": "small-cute-chiikawa-5"
+    },
+    {
+      "rank": 25,
+      "title": "우리는 연애 중 14 (남친.ver)",
+      "slug": "were-in-a-relationshipboy-ver14"
+    },
+    {
+      "rank": 26,
+      "title": "햄스터 확대 7",
+      "slug": "close-up-of-hamster-7"
+    },
+    {
+      "rank": 27,
+      "title": "꽁냥꽁냥 감자떡",
+      "slug": "lovey-soft-brown-potato-cake-puppy"
+    },
+    {
+      "rank": 28,
+      "title": "짱 가까운 우리 사이(토야 ver.)",
+      "slug": "super-close-you-and-me-toya-ver"
+    },
+    {
+      "rank": 29,
+      "title": "꼬마 엉숭이",
+      "slug": "little-eongsoongi"
+    },
+    {
+      "rank": 30,
+      "title": "우리는 연애 중 14 (여친.ver)",
+      "slug": "were-in-a-relationshipgirl-ver14"
     }
   ]
 }
